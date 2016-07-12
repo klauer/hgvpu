@@ -1,0 +1,10 @@
+file xxUndulatorDispAlarmSum.template{
+  pattern { motor  }
+          { CM1 }
+          { CM2 }
+          { CM3 }
+          { CM4 }
+          { CM5 }
+          { TM1 }
+          { TM2 }
+}

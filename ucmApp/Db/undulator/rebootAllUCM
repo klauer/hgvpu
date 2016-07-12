@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for i in `seq 1  9`
+do
+   caput CRAT:UND1:UC0"$i":HARDRESET 1
+done
+
+for i in `seq 10  33`
+do
+   caput CRAT:UND1:UC"$i":HARDRESET 1
+done

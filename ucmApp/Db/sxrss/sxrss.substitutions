@@ -1,0 +1,61 @@
+#
+#########################################################################
+#
+#  SXRSS SmartMotors M2 and M3 - controlled via U9 VME hardware
+#
+##################################################################
+file pots.template
+{
+pattern
+{              dev, card, sig, potpower }
+{ GRAT:UND1:934:X ,  ai2,   1, USEG:UND1:$(seg)50:POTVOLTAGE }
+}
+
+file potpower.template
+{
+pattern
+{  dev }
+{ USEG:UND1:$(seg)50:POTVOLTAGE }
+}
+
+file animatics-asyn-motor.template 
+{
+pattern 
+  {          device, attribute,   desc, dir, velo, vbas, vmax, urip, prec, egu, dhlm, dllm , rres, PORT, ADDR,  rdbd, twv,  asg, srev,     urev,     off ,        omsl, dol}
+  { MIRR:UND1:964:X,     MOTOR, "M2 X", Pos,  0.5,  0.1, 3.67,   No,    4,  mm,  13 , -0.6 ,    1,   S5,    0, 0.001,  0.1,  "", 4000, 0.099796, -11.4929, supervisory,  ""}
+  { MIRR:UND1:966:X,     MOTOR, "M3 X", Pos,  0.5,  0.1, 3.67,   No,    4,  mm, 0.6 , -30.5,    1,   S6 ,   0, 0.001,  0.1,  "", 4000, 0.197678,  27.4386, supervisory,  ""}
+}
+
+file smart_extra.db
+{
+pattern
+  { P, M, PORT, ADDR }
+  { MIRR:UND1:,964:X,S5,0 }
+  { MIRR:UND1:,966:X,S6,0 }
+}
+
+file alias.template {
+ pattern {                    old, new }
+         { USEG:UND1:$(seg)50:LP4POSCALC, MIRR:UND1:964:X:POTPOSITIONACT}
+         { USEG:UND1:$(seg)50:LP4ADCM, MIRR:UND1:964:X:POTRAW }
+         { USEG:UND1:$(seg)50:LP4NORMCALC, MIRR:UND1:964:X:POTNORMALIZED }
+         { USEG:UND1:$(seg)50:LP4OFFSETC, MIRR:UND1:964:X:POTOFFSET }
+         { USEG:UND1:$(seg)50:LP4GAINC, MIRR:UND1:964:X:POTGAIN }
+
+         { USEG:UND1:$(seg)50:LP8POSCALC, MIRR:UND1:966:X:POTPOSITIONACT}
+         { USEG:UND1:$(seg)50:LP8ADCM, MIRR:UND1:966:X:POTRAW }
+         { USEG:UND1:$(seg)50:LP8NORMCALC, MIRR:UND1:966:X:POTNORMALIZED }
+         { USEG:UND1:$(seg)50:LP8OFFSETC, MIRR:UND1:966:X:POTOFFSET }
+         { USEG:UND1:$(seg)50:LP8GAINC, MIRR:UND1:966:X:POTGAIN }
+
+         { USEG:UND1:$(seg)50:ASYNTRA1  , MIRR:UND1:964:X:MOTOR_ASYN }
+         { USEG:UND1:$(seg)50:ASYNTRA2  , MIRR:UND1:966:X:MOTOR_ASYN }
+}
+
+file motor-sim.template 
+{
+pattern 
+  {          device, attribute,   desc, dir, velo, vbas, vmax, urip, prec, egu, dhlm,  dllm, rres, port, chan, rdbd, twv,      asg, srev,   urev,    off,    omsl, dol}
+  { USEG:UND1:$(seg)50,  TM1MOTOR, "Translation Motor", Neg,  0.5,  0.1, 3.67,   No,   4,  mm, 5.51, -84.5, 1,  motorSim1,   0, 0.001,  0.1, "", 2000, 0.1016,  0, supervisory, USEG:UND1:$(seg)50:TMXPOSC}
+  { USEG:UND1:$(seg)50,  TM2MOTOR, "Translation Motor", Neg,  0.5,  0.1, 3.67,   No,   4,  mm, 5.51, -84.5, 1,  motorSim1,   1, 0.001,  0.1, "", 2000, 0.1016, 0, supervisory, USEG:UND1:$(seg)50:TMXPOSC}
+}

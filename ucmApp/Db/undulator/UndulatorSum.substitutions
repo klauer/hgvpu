@@ -1,0 +1,8 @@
+file UndulatorSum.template{
+  pattern {       sum,       input, desc  }
+          {BPMXCORSUM, BPMXCORSTAT, "BPMX correction status sum"}
+          {BPMYCORSUM, BPMYCORSTAT, "BPMY correction status sum"}
+          {XCORCORSUM, XCORCORSTAT, "XCOR correction status sum"}
+          {YCORCORSUM, YCORCORSTAT, "YCOR correction status sum"}
+          {  ESTOPSUM, ESTOPSTATUSM, "ESTOP und hall summary" }
+}

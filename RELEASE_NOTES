@@ -1,0 +1,399 @@
+#==============================================================
+#
+#  Name: RELEASE_NOTES
+#
+#  Rem:  This files describes release notes for 
+#        the Undulator System IOC Application.        
+#
+#  Auth: 04-Jan-2008, A. Alarcon         (ALARCON)
+#  Rev:  dd-mmm-yyyy, Reviewer's Name    (USERNAME)
+#--------------------------------------------------------------
+#  Mod:
+#        03-Mar-2015, Mitch D'Ewart      (MDEWART)
+#           Release Undulator-R3-0-8
+#        03-Mar-2015, Ziga Oven          (ZOVEN)
+#           Release Undulator-R3-0-7
+#        10-Feb-2015, Ziga Oven          (ZOVEN)
+#           Release Undulator-R3-0-6
+#        11-Sept-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R3-0-2
+#        09-Sept-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R3-0-1
+#        27-August-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R3-0-0
+#        25-June-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R2-79-1
+#        08-April-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R2-78-1
+#        08-April-2014, ,Mitch D'Ewart     (MDEWART):
+#          Release Undulator-R2-77-1
+#        12-Mar-2014, Arturo Alarcon,Mitch D'Ewart     (ALARCON, MDEWART):
+#          Release Undulator-R2-76-1
+#        19-Feb-2014, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-75-1
+#        22-Jan-2014, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-74-1
+#        22-Jan-2014, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-73-1
+#        12-Dec-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-72-1
+#        13-Nov-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-71-1
+#        13-Nov-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-70-1
+#        31-Oct-2013, Arturo Alarcon, DFairley     (ALARCON, DFAIRLEY):
+#          Release Undulator-R2-69-1
+#        09-Oct-2013, Arturo Alarcon, DFairley     (ALARCON, DFAIRLEY):
+#          Release Undulator-R2-68-1
+#        18-Jun-2013, Arturo Alarcon, DFairley     (ALARCON, DFAIRLEY):
+#          Release Undulator-R2-67-1
+#        18-Jun-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-66-1
+#        08-May-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-65-1
+#        24-Apr-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-64-1
+#        27-Mar-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-63-1
+#        06-Mar-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-62-1
+#        20-Feb-2013, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-61-1
+#        06-Feb-2013,                    (ALARCON):
+#          Release Undulator-R2-60-1
+#        23-Jan-2013,                    (ALARCON):
+#          Release Undulator-R2-59-1
+#        10-Oct-2012,                    (ALARCON):
+#          Release Undulator-R2-58-1
+#        11-Sep-2012,                    (ALARCON):
+#          Release Undulator-R2-57-1
+#        02-Aug-2012,                    (ALARCON):
+#          Release Undulator-R2-56-1
+#        18-Jul-2012,                    (ALARCON):
+#          Release Undulator-R2-55-1
+#        13-Jun-2012,                    (ALARCON):
+#          Release Undulator-R2-54-1
+#        16-May-2012,                    (ALARCON):
+#          Release Undulator-R2-53-1
+#        25-Apr-2012,                    (ALARCON):
+#          Release Undulator-R2-52-1
+#        21-Mar-2012,                    (ALARCON):
+#          Release Undulator-R2-51-1
+#        25-Jan-2012,                    (ALARCON):
+#          Release Undulator-R2-50-1
+#        25-Jan-2012,                    (ALARCON):
+#          Release Undulator-R2-49-1
+#        06-Jan-2012,                    (ALARCON):
+#          Release Undulator-R2-48-1
+#        16-Nov-2011,                    (ALARCON):
+#          Release Undulator-R2-47-0
+#        04-Nov-2011,                    (ALARCON):
+#          Release Undulator-R2-46-0
+#        04-Nov-2011,                    (ALARCON):
+#          Release Undulator-R2-45-0
+#        04-Nov-2011,                    (ALARCON):
+#          Release Undulator-R2-44-0
+#        24-Aug-2011,                    (ALARCON):
+#          Release Undulator-R2-43-0
+#        10-Aug-2011,                    (ALARCON):
+#          Release Undulator-R2-42-0
+#        13-Jul-2011,                    (ALARCON):
+#          Release Undulator-R2-41-0
+#        14-Jun-2011,                    (ALARCON):
+#          Release Undulator-R2-40-0
+#        24-May-2011,                    (ALARCON):
+#          Release Undulator-R2-39-0
+#        12-May-2011,                    (ALARCON):
+#          Release Undulator-R2-38-0
+#        22-Feb-2011,                    (ALARCON):
+#          Release Undulator-R2-37-0
+#        19-Jan-2011,                    (ALARCON):
+#          Release Undulator-R2-36-0
+#        01-Dec-2010,                    (ALARCON):
+#          Release Undulator-R2-35-0
+#        29-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-34-0
+#        29-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-33-0
+#        29-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-32-0
+#        24-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-31-0
+#        07-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-30-0
+#        01-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-29-0
+#        01-Sep-2010,                    (ALARCON):
+#          Release Undulator-R2-28-0
+#        10-Aug-2010,                    (ALARCON):
+#          Release Undulator-R2-27-0
+#        21-Jul-2010,                    (ALARCON):
+#          Release Undulator-R2-26-0
+#        05-May-2010,                    (ALARCON):
+#          Release Undulator-R2-25-0
+#        28-Apr-2010,                    (ALARCON):
+#          Release Undulator-R2-24
+#        09-Apr-2010,                    (ALARCON):
+#          Release Undulator-R2-23
+#        06-Apr-2010,                    (ALARCON):
+#          Release Undulator-R2-22
+#        30-Mar-2010,                    (ALARCON):
+#          Release Undulator-R2-21
+#        15-Dec-2009,                    (ALARCON):
+#          Release Undulator-R2-20
+#        09-Dec-2009,                    (ALARCON):
+#          Release Undulator-R2-19
+#        09-Dec-2009,                    (ALARCON):
+#          Release Undulator-R2-18
+#        02-Dec-2009,                    (ALARCON):
+#          Release Undulator-R2-17
+#        11-Nov-2009,                    (ALARCON):
+#          Release Undulator-R2-16
+#        04-Nov-2009,                    (ALARCON):
+#          Release Undulator-R2-15
+#        07-Oct-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-14
+#        07-Oct-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-13
+#        30-Sep-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-12
+#        09-Sep-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-11
+#        19-Aug-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-10
+#        12-Aug-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-9
+#        12-Aug-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-8
+#        22-Jul-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-7
+#        03-Jun-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-6
+#        27-May-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-5
+#        13-May-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-4
+#        13-May-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-3
+#        22-Apr-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-2
+#        03-Apr-2009, Arturo Alarcon     (ALARCON):
+#          Release Undulator-R2-1
+#
+#==============================================================
+#
+Undulator-R3-0-8:  Updated motor version, adds error and status PVs for animatics motors
+Undulator-R3-0-7:  Update resolution for M2X, updated offsets and softlimits for M2X and M3X
+Undulator-R3-0-6:  Update resolution of the M3X motor (Class 5)
+Undulator-R3-0-1:  Fixed xxTranslationAsynMotor.db and xxCamAsynMotor.db
+Undulator-R3-0-1:  New polynomials for 26, 32, 33
+Undulator-R3-0-0:  Added cram support, release with cram
+Undulator-R2-79-1: New polynomials for 1, 26, 32
+Undulator-R2-78-1: New polynomials for 1, 26, 32
+Undulator-R2-77-1: New polynomials for 2, 3, 4, 5
+Undulator-R2-76-1: New polynomials for 4, 6, 7, 8
+                   Added XINEXT pv - not working as expected
+		   Restored previously lost autosave fields
+
+Undulator-R2-75-1: New polynomials for 6, 7, 8 and 10
+                   Fixed TEMPAJUST restore issue
+                   Added reference pvs for motors
+
+Undulator-R2-74-1: Fixed koffset for 9 and 10
+
+Undulator-R2-73-1: Updated polynomials for 8, 10, 11, 12, 13, and zero for 9
+                   Addind corrections summaries under sioc
+
+Undulator-R2-72-1: Turned off access security at st.cmd's
+                   Updated polynomials for 11, 13, 14, 15
+
+Undulator-R2-71-1: Fixed autosave setup in st.template
+
+Undulator-R2-70-1: Updating polynomials for segments 14, 15, 17, and 18
+                   Adding translation stage installation status to soft IOC
+                   Moved maintenance pv to soft IOC
+
+Undulator-R2-69-1:  Updates for SXRSS at segment 9
+                    Updating access security to common configuration
+                    added aliases for LP4 and LP8 pots
+                    updated naming convention for SXRSS pots
+
+Undulator-R2-68-1:  Testing updates to sxrss, U9 translation ai for translation stages.
+                    Updated polynomials for 17-20, and 23
+                    Updated modules, ipUnidig database
+
+Undulator-R2-67-1:  new DB/sxrss directory
+                    added aliases for U9 Translation motors to SXRSS M2 & M3 motors
+                    also aliased U9 translation linear pots
+                    new sxrss db loaded in ioc-und1-uc09 st-unique.cmd
+
+undulator-R2-66-1:  Updated polynomials for 12
+                    New file structure under Db
+
+Undulator-R2-65-1:  Updated polynomials for 12
+
+Undulator-R2-64-1:  Updated polynomials for 21 and 22
+
+Undulator-R2-63-1:  Updated polynomials for 21 through 24
+
+Undulator-R2-62-1:  Updated polynomials for 23, 24 25, and 26
+
+Undulator-R2-61-1:  Updated polynomials for 25, 26, 27 and 28
+
+Undulator-R2-60-1:  Updated polynomials for 27 and 29
+
+Undulator-R2-59-1:  Updated polynomials for 28 and 29
+
+Undulator-R2-58-1:  Fixed beam based polynomials processing bug and offset bug
+
+Undulator-R2-57-1:  Fixed bug on motorMon.st
+                    Updated autosave and iocAdmin modules
+                    Updated to rtems-4.9.4
+
+Undulator-R2-56-1:  Updated temperature call alarm to add mode pvs, bypass/active, so that the
+                     alarm will be active when rtds or iocs are down/bypassed
+
+Undulator-R2-55-1:  Updated polynomials for segments 17
+
+Undulator-R2-54-1:  Updated polynomials for segments 3 and 17
+
+Undulator-R2-53-1:  Updated polynomials for segments 30 and 31
+
+Undulator-R2-52-1:  Updated polynomials for segments 1 and 3
+                    Removed homing of lens controls after startup
+
+Undulator-R2-51-1:  Updated polynomials, added XINMIN, XINMAX PVs, added kmax macro
+                    Updated access security with more workstations
+
+Undulator-R2-50-1:  Fixed restore bug for polynomial database
+
+Undulator-R2-49-1:  New polynomials for undulators 30 and 31
+
+Undulator-R2-48-1:  Added HXRSS lens controls for segment 16
+                    Upgraded to base R3-14-12
+
+Undulator-R2-47-0:  Updated polynomials for segments 2 and 6
+
+Undulator-R2-46-0:  Removed broken flink
+
+Undulator-R2-45-0:  Moved IOC-version-list to $IOC_DATA/sioc-und1-uc01/iocInfo
+
+Undulator-R2-44-0:  Updated to work with eco
+                    Updates for HXRSS
+                    Added IOC version pvs in softIOC
+                    Updated polynomials for 26-29, 16
+                    Added autogeneration of startup.cmd's under poly-script using IOC-version-list file
+
+Undulator-R2-43-0:  Updated polynomials for segments 26, 27, and 28
+
+Undulator-R2-42-0:  Updated polynomials for segments 16 and 6
+
+Undulator-R2-41-0:  Updated polynomials for segments 16 and 18
+
+Undulator-R2-40-0:  Updated polynomials for segments 26, 27 and 28
+
+Undulator-R2-39-0:  Updated acf to include new opis
+
+Undulator-R2-38-0:  Updated polynomials for segments U18, U20, U26, U27, and U28
+                    Fixed xxUndulatorDispAlarmSum typo/bug
+                    Added startup-script to genearate startup files
+
+Undulator-R2-37-0:  Updated polynomials for segments 20 and 22
+
+Undulator-R2-36-0:  Updated polynomials for segments 9 and 22
+
+Undulator-R2-35-0:  Updated polynomials for segments 9 and 5
+
+Undulator-R2-34-0:  Updated polynomials for segments 1 and 5
+
+Undulator-R2-33-0:  Added KEQ (k equivalent pvs)
+                    RFBU00 corrections
+                    Last BBA pv
+                    Dummy k->x calculation pvs
+
+Undulator-R2-32-0:  Updated polynomials for segment 1
+
+Undulator-R2-31-0:  Added save_restoreSet_NFSHost(getenv("NFS_FILE_SYSTEM"), iocData, "/data") line to st.cmds
+
+Undulator-R2-30-0:  Updated autosave, added MDEL ADEL for COR/BPM correction pvs, delay for ICTL processing.
+
+Undulator-R2-29-0:  Eliminated DMOV=MOVN alarm
+
+Undulator-R2-28-0:  New alarms, new DESC fields
+
+Undulator-R2-27-0:  BPM and corrector corrections online
+
+Undulator-R2-26-0:  BPM and corrector correction offsets calculations online, not being implemented
+
+Undulator-R2-25-0:  Updated polynomials for 29 and 30
+
+Undulator-R2-24: Release sioc-und1-uc01, move SELECT pvs, undulator call alarm dbs, and ESTOP sum into this new soft ioc
+
+Undulator-R2-23: Add XOFF correction to translation stage positions for K calculations
+
+Undulator-R2-22: Turn off access security
+
+Undulator-R2-21: Updated polynomials for 31,32
+
+Undulator-R2-20: Turned on temp alarm db, and changed KDES limits
+
+Undulator-R2-19: Added KOFFSET pv, updated polynomials for useg 33
+
+Undulator-R2-18: Updated polys for usegs 17,33
+
+Undulator-R2-17: Added pv for undulator type
+
+Undulator-R2-16: Updated mmf temps, polynomials for segments 17 and 4
+
+Undulator-R2-15: Updated mmf temps, polynomials for segments 32 and 4
+
+Undulator-R2-14: Updated polynomials for useg32
+
+Undulator-R2-13: Updated ucmApp/DB makefile.
+                 Added skew level2 recovering pv
+                 Fixed skew level2 alarm sum pv severity
+                 Fixed smartmon seq bug
+
+Undulator-R2-12: Eliminate obsolete rtd offsets, add TMX recovery message pvs, change MMF temp coefficient.
+
+Undulator-R2-11: Add l1, l2, estop summary
+
+Undulator-R2-10: Fix db problem with level1 skew stop interlock 
+
+Undulator-R2-9:  Put tx motors back to supervisory
+       !!!!!!!!!!!!!!!!!DO NOT USE version Undulator-R2-8, all stop doesn't work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Undulator-R2-8:  Updated Level 1 skew to put tx motors to stop
+                 Updated motorMon to put both tx motors to stop 
+                   when there is a fault
+
+Undulator-R2-7:  Changed RTD conversions, updated undulator polynomials 1-3
+                 Added pvs for automated displays
+                 Added soft ioc object
+                 Updated iocAdmin module
+
+Undulator-R2-6:  Added function select pv, beam based I1X, I1Y polynomials
+                 Updated MMF polynomial for 4 and 5
+
+Undulator-R2-5:  Added XOUT offsets, record to update BFW OUTPOS and INPOS
+
+Undulator-R2-4:  BFW in status is now coming from MPS
+
+Undulator-R2-3:  Updated undulator polynomials for 6-8
+
+Undulator-R2-2:  Updated undulator polynomials
+                 Autosave req area updated to IOC_DATA area
+                 poly-script also generates st.cmd files now
+
+Undulator-R2-1:  Added undulator K controls, switched to RTESM 4.9.1 
+                 EPICS 3.14.10 release, motor 6-4-2
+
+Undulator-R2-0:  PV name changes to fit LCLS standards
+
+## This is version 1-0 of Undulator Motion control software:
+# CVS module:  Undulator
+cvs tag:  ===> Undulator-R1-0
+modified to use LCLS environment.
+Note: All external modules have been built against
+development snapshots for EPICS BASE R3.14.10
+

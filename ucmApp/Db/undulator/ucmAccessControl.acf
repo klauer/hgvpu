@@ -1,0 +1,12 @@
+UAG(ucm) {physics, iocegr, acclegr, eoicdesk, alarcon, dfairley}
+HAG(lcls) {lcls-dev2, lcls-prod01, lcls-prod02, lcls-builder, lcls-srv01, lcls-srv02, lcls-srv03, lcls-srv04, lcls-srv05, lcls-srv06, lcls-srv07, lcls-srv08, lcls-srv09, lcls-opi01, lcls-opi02, lcls-opi03, lcls-opi04, lcls-opi05, lcls-opi06, lcls-opi07, lcls-opi08, lcls-opi09, lcls-opi10, lcls-opi11, lcls-opi12, lcls-opi13, lcls-opi14, lcls-opi15, lcls-opi16, lcls-opi17, lcls-opi18, lcls-opi19, lcls-opi20, lcls-opi21, lcls-opi22, lcls-opi23, lcls-opi24, lcls-opi25, lcls-opi26, lcls-opi27, lcls-opi28, lcls-opi29, lcls-opi30, lcls-opi31, lcls-opi32, lcls-opi33, lcls-opi34, lcls-opi35, lcls-opi36, lcls-opi37, lcls-opi38, lcls-opi39, lcls-opi40 }
+
+ASG(DEFAULT) 
+	{
+	   RULE(1,READ)
+	   RULE(1,WRITE,TRAPWRITE)  {
+             UAG(ucm)
+             HAG(lcls)
+           }
+	}
+

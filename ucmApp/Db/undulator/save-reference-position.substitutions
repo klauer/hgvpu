@@ -1,0 +1,9 @@
+file save-reference-position.template {
+  pattern {      dev, egu }
+          {  TMXPOSC, mm }
+          { CM1MOTOR, "CAM Degrees" }
+          { CM2MOTOR, "CAM Degrees" }
+          { CM3MOTOR, "CAM Degrees" }
+          { CM4MOTOR, "CAM Degrees" }
+          { CM5MOTOR, "CAM Degrees" }
+}

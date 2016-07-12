@@ -1,0 +1,36 @@
+file undulatorSoft.template{
+  pattern {  U           }
+          {USEG:UND1:150 }
+          {USEG:UND1:250 }
+          {USEG:UND1:350 }
+          {USEG:UND1:450 }
+          {USEG:UND1:550 }
+          {USEG:UND1:650 }
+          {USEG:UND1:750 }
+          {USEG:UND1:850 }
+          {USEG:UND1:950 }
+          {USEG:UND1:1050 }
+          {USEG:UND1:1150 }
+          {USEG:UND1:1250 }
+          {USEG:UND1:1350 }
+          {USEG:UND1:1450 }
+          {USEG:UND1:1550 }
+          {USEG:UND1:1650 }
+          {USEG:UND1:1750 }
+          {USEG:UND1:1850 }
+          {USEG:UND1:1950 }
+          {USEG:UND1:2050 }
+          {USEG:UND1:2150 }
+          {USEG:UND1:2250 }
+          {USEG:UND1:2350 }
+          {USEG:UND1:2450 }
+          {USEG:UND1:2550 }
+          {USEG:UND1:2650 }
+          {USEG:UND1:2750 }
+          {USEG:UND1:2850 }
+          {USEG:UND1:2950 }
+          {USEG:UND1:3050 }
+          {USEG:UND1:3150 }
+          {USEG:UND1:3250 }
+          {USEG:UND1:3350 }
+}

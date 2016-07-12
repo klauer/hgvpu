@@ -1,0 +1,65 @@
+#RELEASE Location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+
+# ==========================================================
+# We will include some variables to indicate where 
+# our epics, base, modules, iocTop live.
+# We also include a variable for the version of EPICS BASE
+# =========================================================
+include $(TOP)/RELEASE_SITE
+# =========================================================
+
+TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
+
+# =============================================================
+# If you don't want to install into $(TOP) then
+# define INSTALL_LOCATION_APP here
+#INSTALL_LOCATION_APP=<fullpathname>
+
+
+# =============================================================
+# Define location of module tree with respect to
+# EPICS_SITE_TOP
+# =============================================================
+EPICS_MODULES=$(MODULES_SITE_TOP)
+
+# =============================================================
+# Define the version of modules needed by
+# IOC apps or other Support apps
+# =============================================================
+ASYN_MODULE_VERSION=asyn-R4-21_1-0
+AUTOSAVE_MODULE_VERSION=autosave-R4-8-lcls3
+GENSUB_MODULE_VERSION=genSub-R1-6-lcls6
+IP330_MODULE_VERSION=ip330-asyn-R2-7_1-0
+IPUNIDIG_MODULE_VERSION=ipUnidig-R2-9_1-0
+IPAC_MODULE_VERSION=ipac-R2-11_1-0
+MOTOR_MODULE_VERSION=motor-R6-8-RC1_1-12
+SNCSEQ_MODULE_VERSION=seq-R2-1-6_1-0
+IOCADMIN_MODULE_VERSION=iocAdmin-R3-1-9_1-0
+CAPUTLOG_MODULE_VERSION=caPutLog-R3-3-0
+GENPOLYSUB_MODULE_VERSION=genPolySub-R1-2-1
+a16vme_MODULE_VERSION=a16vme-R1-0-0
+
+ASYN=$(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
+AUTOSAVE=$(EPICS_MODULES)/autosave/$(AUTOSAVE_MODULE_VERSION)
+GENSUB=$(EPICS_MODULES)/genSub/$(GENSUB_MODULE_VERSION)
+IP330=$(EPICS_MODULES)/ip330-asyn/$(IP330_MODULE_VERSION)
+IPUNIDIG=$(EPICS_MODULES)/ipUnidig/$(IPUNIDIG_MODULE_VERSION)
+IPAC=$(EPICS_MODULES)/ipac/$(IPAC_MODULE_VERSION)
+MOTOR=$(EPICS_MODULES)/motor/$(MOTOR_MODULE_VERSION)
+SNCSEQ=$(EPICS_MODULES)/seq/$(SNCSEQ_MODULE_VERSION)
+IOCADMIN=$(EPICS_MODULES)/iocAdmin/$(IOCADMIN_MODULE_VERSION)
+CAPUTLOG=$(EPICS_MODULES)/caPutLog/$(CAPUTLOG_MODULE_VERSION)
+GENPOLYSUB=$(EPICS_MODULES)/genPolySub/$(GENPOLYSUB_MODULE_VERSION)
+a16vme=$(EPICS_MODULES)/a16vme/$(a16vme_MODULE_VERSION)
+
+# =============================================================================
+
+# =================================================================
+# Define EPICS_BASE
+# EPICS_BASE usually appears last so other apps can override stuff:
+# =================================================================
+EPICS_BASE=$(BASE_SITE_TOP)/$(EPICS_BASE_VER)
+
+# End of script

@@ -1,0 +1,85 @@
+#==============================================================
+#
+#  Abs:  Makefile to build EPICS Database components
+#
+#  Name: RULES.Db
+#
+#  Rem: Place this file in your $TOP/configure directory.
+#       Include this file after $(TOP)/configure/RULES in
+#       your *App/Db Makefile.
+#
+#       This file does two things:.
+#
+#       1. Provides for the extraction of request files and 
+#          archive request files from templates.
+#
+#       2. Intalls access security files (.acf) from *App/Db to db
+#
+#  Facility: LCLS 
+#
+#  Auth: 05-Jun-2007, Author's Name   (USERNAME)
+#  Rev:  dd-mmm-yyyy, First Lastname  (USERNAME)
+#--------------------------------------------------------------
+#  Mod:
+#        05-Jun-2007, Kristi Luchini  (LUCHINI):
+#          copied from another application $EPICS/site/micro/configure
+#          and removed items not needed.
+#
+#==============================================================
+
+#================ Extract archive request files ===============
+# I am going to STEAL RELEASE_DBDFLAGS because a dbd dir will be found
+# everywhere we need files from a db dir anyway. (99% of the time)
+#
+vpath %.template $(patsubst %/dbd,%/db, $(filter %/dbd, $(RELEASE_DBDFLAGS)))
+vpath %.db $(patsubst %/dbd,%/db, $(filter %/dbd, $(RELEASE_DBDFLAGS)))
+RELEASE_DBFLAGS+=$(patsubst %/dbd,%/db, $(RELEASE_DBDFLAGS))
+RELEASE_DBFLAGS+=-I $(TOP)/db
+
+
+# extract a auto save restore file from a completed db file
+$(INSTALL_DB)/%.req: $(COMMON_DIR)/%.req
+	cp $< $@
+$(COMMON_DIR)/%.req: $(COMMON_DIR)/%.db$(RAW)
+	@ echo "Extracting $@ from $<"
+	@ grep "@req" $< | sed ' s/# *@req *// ' > $@
+
+$(COMMON_DIR)/%.req: %.db
+	@ echo "Extracting $@ from $<"
+	@ grep "@req" $< | sed ' s/# *@req *// ' > $@
+
+$(COMMON_DIR)/%.req: %.template
+	@ echo "Extracting $@ from $<"
+	@ grep "@req" $< | sed ' s/# *@req *// ' > $@
+
+$(INSTALL_DB)/%.arReq: $(COMMON_DIR)/%.arReq
+	cp $< $@
+$(COMMON_DIR)/%.arReq: $(COMMON_DIR)/%.db$(RAW)
+	@ echo "Extracting $@ from $<"
+	@ grep "@arReq" $< | sed ' s/# *@arReq *// ' > $@
+$(COMMON_DIR)/%.arReq: %.db
+	@ echo "Extracting $@ from $<"
+	@ grep "@arReq" $< | sed ' s/# *@arReq *// ' > $@
+$(COMMON_DIR)/%.arReq: %.template
+	@ echo "Extracting $@ from $<"
+	@ grep "@arReq" $< | sed ' s/# *@arReq *// ' > $@
+
+#================ CA security stuff=======================
+$(INSTALL_DB)/%.acf: %.acf
+	@echo "Installing $@"
+	@$(INSTALL) -d -m 644 $(@F) $(@D)
+
+%.acf: ../%.acf
+	@$(CP) $< $@
+
+%.acf: %.acs
+	gcc -E -x c -undef -nostdinc $(ACFLAGS) $(EPICS_DBFLAGS) -o$@ -c $<
+	ascheck -S"P=$(IOCNAME)" <$@
+
+$(INSTALL_DB)/%.acs: %.acs
+	@echo "Installing $@"
+	@$(INSTALL) -d -m 644 $(@F) $(@D)
+
+%.acs: ../%.acs
+	@$(CP) $< $@
+#=============================================================

@@ -1,0 +1,27 @@
+#
+#########################################################################
+#
+#  DELTA Phase shifter motor - controlled via U33 VME hardware
+#
+##################################################################
+
+file basic_asyn_motor.template 
+{
+pattern 
+  {          P,              M,            DESC, DIR, VELO, VBAS, VMAX, ACCL, URIP, PREC, EGU, DHLM,  DLLM, RRES, PORT, ADDR,  RDBD,  TWV,  ASG, MRES,    OFF,        OMSL, DOL}
+  { PHAS:UND1:3340:,     MOTR, "Phase Shifter", Pos,  0.2,  0.1, 0.4,  1, Yes,    4,  mm,  100, 11,    0.001,   S5,   0,  1,  0.1,   "", 0.00003175, 0, supervisory,  ""}
+}
+
+file smart_extra.db{
+pattern
+ {        P,      M, PORT, ADDR}
+ {PHAS:UND1:, 3340,   S5,    0}
+}
+
+file motor-sim.template 
+{
+pattern 
+  {          device, attribute,   desc, dir, velo, vbas, vmax, urip, prec, egu, dhlm,  dllm, rres, port, chan, rdbd, twv,      asg, srev,   urev,    off,    omsl, dol}
+  { USEG:UND1:$(seg)50,  TM1MOTOR, "Translation Motor", Neg,  0.5,  0.1, 3.67,   No,   4,  mm, 5.51, -84.5, 1,  motorSim1,   0, 0.001,  0.1, "", 2000, 0.1016,  0, supervisory, USEG:UND1:$(seg)50:TMXPOSC}
+  { USEG:UND1:$(seg)50,  TM2MOTOR, "Translation Motor", Neg,  0.5,  0.1, 3.67,   No,   4,  mm, 5.51, -84.5, 1,  motorSim1,   1, 0.001,  0.1, "", 2000, 0.1016, 0, supervisory, USEG:UND1:$(seg)50:TMXPOSC}
+}

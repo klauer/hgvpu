@@ -1,0 +1,113 @@
+TOP=../..
+
+include $(TOP)/configure/CONFIG
+#----------------------------------------
+#  ADD MACRO DEFINITIONS AFTER THIS LINE
+#=============================
+# build an ioc application
+PROD_IOC_RTEMS = ucmIoc
+PROD_HOST      = ucmSoft
+
+# ucmSoft.dbd will be made up from these files:
+DBD          = ucmSoft.dbd
+ucmSoft_DBD += base.dbd
+ucmSoft_DBD += iocAdmin.dbd
+ucmSoft_DBD += autosaveSupport.dbd
+ucmSoft_DBD += caPutLog.dbd
+ucmSoft_DBD += genSubRecord.dbd
+
+
+# ucmIoc.dbd will be made up from these files:
+#
+ifeq ($(OS_CLASS),RTEMS)
+DBD += ucmIoc.dbd
+ucmIoc_DBD += ucmSoft.dbd
+ucmIoc_DBD += motorSupport.dbd
+ucmIoc_DBD += drvAsynSerialPort.dbd
+ucmIoc_DBD += motorRecord.dbd
+ucmIoc_DBD += drvAsynIPPort.dbd
+ucmIoc_DBD += devSmartMotorMotor.dbd
+ucmIoc_DBD += devSmartMotorAsynSupport.dbd
+ucmIoc_DBD += tyGSOctal.dbd
+ucmIoc_DBD += ip330Support.dbd
+ucmIoc_DBD += ipUnidigSupport.dbd
+ucmIoc_DBD += drvIpac.dbd
+ucmIoc_DBD += devSoftMotor.dbd
+ucmIoc_DBD += motorSimSupport.dbd
+ucmIoc_DBD += ucmSupport.dbd
+ucmIoc_DBD += genPolySub.dbd
+ucmIoc_DBD += devA16Vme.dbd
+endif
+
+# <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
+ucmIoc_SRCS  += ucmIoc_registerRecordDeviceDriver.cpp
+ucmSoft_SRCS += ucmSoft_registerRecordDeviceDriver.cpp
+USR_SRCS_DEFAULT += ucmIocMain.cpp
+
+# Add locally compiled object code
+ifeq ($(OS_CLASS),RTEMS)
+ucmIoc_SRCS += camPosCalc.c
+ucmIoc_SRCS += camPosRead.c
+ucmIoc_SRCS += girderRollCalc.c
+ucmIoc_SRCS += quadBfwCalc.c
+ucmIoc_SRCS += polynomial.c
+ucmIoc_SRCS += xyCORrection.c
+endif
+
+# The following will get rid of the
+# Unresolved symbol: rtemsTicksPerSecond_double
+# That occurs at run time.
+ifeq ($(OS_CLASS),RTEMS)
+
+# Next, we will provide on our time provider for genralTime:
+muon_SRCS += ntpProvider.cc
+endif
+
+USR_LIBS  += devIocStats
+USR_LIBS  += autosave
+USR_LIBS  += caPutLog
+USR_LIBS  += genSub
+ 
+# Add in VME drivers.
+ifeq ($(OS_CLASS),RTEMS)
+
+ucmIoc_LIBS += SmartMotor
+ucmIoc_LIBS += SmartMotorAsyn
+ucmIoc_LIBS += softMotor
+ucmIoc_LIBS += motorSimSupport
+ucmIoc_LIBS += motor
+ucmIoc_LIBS += TyGSOctal
+ucmIoc_LIBS += ip330
+ucmIoc_LIBS += ipUnidig
+ucmIoc_LIBS += Ipac
+ucmIoc_LIBS += asyn
+ucmIoc_LIBS += genPolySub
+ucmIoc_LIBS += a16Vme
+endif
+
+# Build SNL programs
+# NOTE: to build SLN programs, SNCSEQ must be defined
+# in the <top>/configure/RELEASE file
+#
+ifneq ($(SNCSEQ),)
+ USR_SNCFLAGS += +r
+ USR SNCFLAGS += -a
+ USR_SNCFLAGS += +c
+ USR_SNCFLAGS += +d
+ USR_SRCS += camCalibrate.st
+ USR_SRCS += motorMon.st
+ USR_SRCS += recovery.st
+ USR_SRCS += bfwMon.st
+ USR_SRCS += autoOff.st
+ USR_LIBS += seq pv
+endif
+
+USR_LIBS += $(EPICS_BASE_IOC_LIBS)
+
+#=============================
+include $(TOP)/configure/RULES
+#----------------------------------------
+#  ADD RULES AFTER THIS LINE
+#========================================
+#
+# End of file

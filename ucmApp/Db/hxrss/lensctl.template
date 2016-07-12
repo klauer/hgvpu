@@ -1,0 +1,368 @@
+#  Zoom section
+
+record(bo, $(dev1):$(area1):$(loca1):ZOOMIN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S0 @0")
+        field(DESC, "Zoom In")
+}
+record(bo, $(dev1):$(area1):$(loca1):ZOOMOUT) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S0 @1")
+        field(DESC, "Zoom Out")
+}
+record(bo, $(dev1):$(area1):$(loca1):ZOOMSPEED) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S0 @2")
+        field(DESC, "Zoom Speed")
+        field(ZNAM, "Fast")
+        field(ONAM, "Slow")
+        info(autosaveFields, "VAL")
+}
+record(bo, $(dev1):$(area1):$(loca1):ZOOMSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S0 @4")
+        field(DESC, "Save Zoom Home")
+}
+record(bo, $(dev1):$(area1):$(loca1):ZOOMTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S0 @5")
+        field(DESC, "Restore Zoom to Home")
+}
+record(longin, $(dev1):$(area1):$(loca1):ZOOMPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S1 @0,12")
+        field(DESC, "Current Zoom Position")
+	}
+record(longin, $(dev1):$(area1):$(loca1):ZOOMHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S2 @0,12")
+        field(DESC, "Stored Zoom Home")
+	}
+
+# Focus section
+
+record(bo, $(dev1):$(area1):$(loca1):FOCUSIN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S3 @0")
+        field(DESC, "Focus In")
+}
+record(bo, $(dev1):$(area1):$(loca1):FOCUSOUT) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S3 @1")
+        field(DESC, "Focus Out")
+}
+record(bo, $(dev1):$(area1):$(loca1):FOCUSSPEED) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S3 @2")
+        field(DESC, "Focus Speed")
+        field(ZNAM, "Fast")
+        field(ONAM, "Slow")
+        info(autosaveFields, "VAL")
+}
+record(bo, $(dev1):$(area1):$(loca1):FOCUSSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S3 @4")
+        field(DESC, "Save Focus Home")
+}
+record(bo, $(dev1):$(area1):$(loca1):FOCUSTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S3 @5")
+        field(DESC, "Restore Focus to Home")
+}
+record(longin, $(dev1):$(area1):$(loca1):FOCUSPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S4 @0,12")
+        field(DESC, "Current Focus Position")
+	}
+record(longin, $(dev1):$(area1):$(loca1):FOCUSHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S5 @0,12")
+        field(DESC, "Stored Focus Home")
+	}
+
+# Iris section
+
+record(bo, $(dev1):$(area1):$(loca1):IRISOPEN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S6 @0")
+        field(DESC, "Open Iris")
+}
+record(bo, $(dev1):$(area1):$(loca1):IRISCLOSE) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S6 @1")
+        field(DESC, "Close Iris")
+}
+record(bo, $(dev1):$(area1):$(loca1):IRISSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S6 @4")
+        field(DESC, "Save Iris Home")
+}
+record(bi, $(dev1):$(area1):$(loca1):IRISLIMITC) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S6 @1")
+        field(DESC, "Iris Close Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_ON_LIMIT")
+        field(ONAM, "ON_LIMIT")
+}
+record(bi, $(dev1):$(area1):$(loca1):IRISLIMITO) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S6 @0")
+        field(DESC, "Iris Open Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_ON_LIMIT")
+        field(ONAM, "ON_LIMIT")
+}
+record(bi, $(dev1):$(area1):$(loca1):IRISMOVING) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S6 @2")
+        field(DESC, "Iris Moving/Internal Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_MOVING")
+        field(ONAM, "MOVING")
+}
+record(bo, $(dev1):$(area1):$(loca1):IRISTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S6 @5")
+        field(DESC, "Restore Iris to Home")
+}
+record(longin, $(dev1):$(area1):$(loca1):IRISPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S7 @0,12")
+        field(DESC, "Iris current Position")
+	}
+record(longin, $(dev1):$(area1):$(loca1):IRISHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S8 @0,12")
+        field(DESC, "Stored Iris Home")
+	}
+record(longout, "$(dev1):$(area1):$(loca1):LED") {
+  field(DESC, "Illumination Control")
+  field(PINI, "YES")
+  field(DTYP, "Generic A16 VME")
+  field(OUT, "#C0 S9 @0,8")
+  field(DRVH, "255")
+  field(DRVL, "0")
+  field(HOPR, "255")
+  field(LOPR, "0")
+  info(autosaveFields_pass0, "VAL")
+}
+record(bo, "$(dev1):$(area1):$(loca1):LAMP_UP") {
+  field(DESC, "Lamp Up Control")
+  field(FLNK, "$(dev1):$(area1):$(loca1):LAMPUPCLC")
+  field(ZNAM, "INACTIVE")
+  field(ONAM, "UP")
+}
+record(bo, "$(dev1):$(area1):$(loca1):LAMP_DOWN") {
+  field(DESC, "Lamp Down Control")
+  field(FLNK, "$(dev1):$(area1):$(loca1):LAMPDNCLC")
+  field(ZNAM, "INACTIVE")
+  field(ONAM, "DOWN")
+}
+record(calcout, "$(dev1):$(area1):$(loca1):LAMPUPCLC") {
+  field(CALC, "A+B")
+  field(INPA, "$(dev1):$(area1):$(loca1):LED")
+  field(INPB, "1")
+  field(OUT, "$(dev1):$(area1):$(loca1):LED PP")
+}
+record(calcout, "$(dev1):$(area1):$(loca1):LAMPDNCLC") {
+  field(CALC, "A-B")
+  field(INPA, "$(dev1):$(area1):$(loca1):LED")
+  field(INPB, "1")
+  field(OUT, "$(dev1):$(area1):$(loca1):LED PP")
+}
+
+############
+# Channel 2
+############
+
+# Zoom section
+
+record(bo, $(dev2):$(area2):$(loca2):ZOOMIN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S10 @0")
+        field(DESC, "Zoom In")
+}
+record(bo, $(dev2):$(area2):$(loca2):ZOOMOUT) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S10 @1")
+        field(DESC, "Zoom Out")
+}
+record(bo, $(dev2):$(area2):$(loca2):ZOOMSPEED) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S10 @2")
+        field(DESC, "Zoom Speed")
+        field(ZNAM, "Fast")
+        field(ONAM, "Slow")
+        info(autosaveFields, "VAL")
+}
+record(bo, $(dev2):$(area2):$(loca2):ZOOMSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S10 @4")
+        field(DESC, "Save Zoom Home")
+}
+record(bo, $(dev2):$(area2):$(loca2):ZOOMTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S10 @5")
+        field(DESC, "Restore Zoom to Home")
+}
+record(longin, $(dev2):$(area2):$(loca2):ZOOMPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S11 @0,12")
+        field(DESC, "Current Zoom Position")
+	}
+record(longin, $(dev2):$(area2):$(loca2):ZOOMHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S12 @0,12")
+        field(DESC, "Stored Zoom Home")
+	}
+
+# Focus section
+
+record(bo, $(dev2):$(area2):$(loca2):FOCUSIN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S13 @0")
+        field(DESC, "Focu In")
+}
+record(bo, $(dev2):$(area2):$(loca2):FOCUSOUT) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S13 @1")
+        field(DESC, "Focus Out")
+}
+record(bo, $(dev2):$(area2):$(loca2):FOCUSSPEED) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S13 @2")
+        field(DESC, "Focus Speed")
+        field(ZNAM, "Fast")
+        field(ONAM, "Slow")
+        info(autosaveFields, "VAL")
+}
+record(bo, $(dev2):$(area2):$(loca2):FOCUSSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S13 @4")
+        field(DESC, "Save Focus Home")
+}
+record(bo, $(dev2):$(area2):$(loca2):FOCUSTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S13 @5")
+        field(DESC, "Restore Focus to Home")
+}
+record(longin, $(dev2):$(area2):$(loca2):FOCUSPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S14 @0,12")
+        field(DESC, "Current Focus Position")
+	}
+record(longin, $(dev2):$(area2):$(loca2):FOCUSHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S15 @0,12")
+        field(DESC, "Stored Focus Home")
+	}
+
+# Iris section
+
+record(bo, $(dev2):$(area2):$(loca2):IRISOPEN) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S16 @0")
+        field(DESC, "Open Iris")
+}
+record(bo, $(dev2):$(area2):$(loca2):IRISCLOSE) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S16 @1")
+        field(DESC, "Close Iris")
+}
+record(bo, $(dev2):$(area2):$(loca2):IRISSAVEHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S16 @4")
+        field(DESC, "Save Iris Home")
+}
+record(bi, $(dev2):$(area2):$(loca2):IRISLIMITC) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S16 @1")
+        field(DESC, "Iris Close Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_ON_LIMIT")
+        field(ONAM, "ON_LIMIT")
+}
+record(bi, $(dev2):$(area2):$(loca2):IRISLIMITO) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S16 @0")
+        field(DESC, "Iris Open Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_ON_LIMIT")
+        field(ONAM, "ON_LIMIT")
+}
+record(bi, $(dev2):$(area2):$(loca2):IRISMOVING) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S16 @2")
+        field(DESC, "Iris Moving/Internal Limit")
+        field(OSV, "MINOR")
+        field(ZNAM, "NOT_MOVING")
+        field(ONAM, "MOVING")
+}
+record(bo, $(dev2):$(area2):$(loca2):IRISTOHOME) {
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S16 @5")
+        field(DESC, "Restore Iris to Home")
+}
+record(longin, $(dev2):$(area2):$(loca2):IRISPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S17 @0,12")
+        field(DESC, "Iris current Position")
+	}
+record(longin, $(dev2):$(area2):$(loca2):IRISHOMEPOS) {
+	field(DTYP, "Generic A16 VME")
+	field(SCAN, "1 second")
+	field(INP, "#C0 S18 @0,12")
+        field(DESC, "Stored Iris Home")
+	}
+record(longout, $(dev2):$(area2):$(loca2):LED) {
+        field(DESC, "Illumination Control")
+	field(DTYP, "Generic A16 VME")
+	field(OUT, "#C0 S19 @0,8")
+  	field(DRVH, "255")
+  	field(DRVL, "0")
+  	field(HOPR, "255")
+  	field(LOPR, "0")
+        info(autosaveFields, "VAL")
+	}
+record(bo, "$(dev2):$(area2):$(loca2):LAMP_UP") {
+  field(DESC, "Lamp Up Control")
+  field(FLNK, "$(dev2):$(area2):$(loca2):LAMPUPCLC")
+  field(ZNAM, "INACTIVE")
+  field(ONAM, "UP")
+}
+record(bo, "$(dev2):$(area2):$(loca2):LAMP_DOWN") {
+  field(DESC, "Lamp Down Control")
+  field(FLNK, "$(dev2):$(area2):$(loca2):LAMPDNCLC")
+  field(ZNAM, "INACTIVE")
+  field(ONAM, "DOWN")
+}
+record(calcout, "$(dev2):$(area2):$(loca2):LAMPUPCLC") {
+  field(CALC, "A+B")
+  field(INPA, "$(dev2):$(area2):$(loca2):LED")
+  field(INPB, "1")
+  field(OUT, "$(dev2):$(area2):$(loca2):LED PP")
+}
+record(calcout, "$(dev2):$(area2):$(loca2):LAMPDNCLC") {
+  field(CALC, "A-B")
+  field(INPA, "$(dev2):$(area2):$(loca2):LED")
+  field(INPB, "1")
+  field(OUT, "$(dev2):$(area2):$(loca2):LED PP")
+}

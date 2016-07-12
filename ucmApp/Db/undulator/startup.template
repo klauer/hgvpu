@@ -1,0 +1,33 @@
+#DO NOT MODIFY
+# Automatically generated
+# To change version, update correct line in $IOC_DATA/sioc-und1-uc01/iocInfo/IOC-vesrion-list and rebuild Undulator app
+#==============================================================
+#
+#  Abs:  EPICS RTEMS Startup Script for UND1 UC$(ioc)
+#
+#  Name: startup.cmd
+#
+#  Facility: LCLS Controls
+#
+#  Auth: 12-Sept-2008, Arturo Alarcon  (alarcon)
+#  Rev:  dd-mmm-yyyy, Reviewer's Name (USERNAME)
+#--------------------------------------------------------------
+#  Mod:
+#       dd-mmm-yyyy, First Lastname   (USERNAME):
+#
+#          $(date), Arturo Alarcon   (ALARCON)
+#
+#==============================================================
+#
+< /boot/lcls/epics/iocCommon/All/Prod/pre_st.cmd
+
+# Turn off error messages from iocLog.
+#eltc(0)
+
+# Load subsystem startup file
+chdir("/boot/lcls/epics/iocTop/Undulator/$(version)/iocBoot/ioc-und1-uc$(ioc)")
+
+< st.cmd
+
+< /boot/lcls/epics/iocCommon/All/Prod/post_st.cmd
+

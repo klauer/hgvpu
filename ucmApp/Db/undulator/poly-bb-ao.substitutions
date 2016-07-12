@@ -1,0 +1,15 @@
+file poly-bb-ao.template{
+  pattern { SEC        , DESC}
+          { POLYI1XBB_A, "Beam based I1X poly coeff A"}
+          { POLYI1XBB_B, "Beam based I1X poly coeff B"}
+          { POLYI1XBB_C, "Beam based I1X poly coeff C"}
+          { POLYI1XBB_D, "Beam based I1X poly coeff D"}
+          { POLYI1XBB_E, "Beam based I1X poly coeff E"}
+          { POLYI1XBB_F, "Beam based I1X poly coeff F"}
+          { POLYI1YBB_A, "Beam based I1Y poly coeff A"}
+          { POLYI1YBB_B, "Beam based I1Y poly coeff B"}
+          { POLYI1YBB_C, "Beam based I1Y poly coeff C"}
+          { POLYI1YBB_D, "Beam based I1Y poly coeff D"}
+          { POLYI1YBB_E, "Beam based I1Y poly coeff E"}
+          { POLYI1YBB_F, "Beam based I1Y poly coeff F"}
+}
