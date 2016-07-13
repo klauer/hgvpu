@@ -4,5 +4,9 @@ O.*/
 RELEASE_SITE
 db/
 dbd/
+cfg/
 iocBoot/*/envPaths
+iocBoot/ioc-und*/st.cmd
+ucmApp/Db/undulator/useg*-poly*
+ucmApp/Db/undulator/temp.substitutions
 *~
