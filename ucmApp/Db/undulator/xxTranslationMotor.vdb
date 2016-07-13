@@ -3,7 +3,6 @@
 #! DBD("/home/phoebus/SHOAF/lcls/ioc/ucm/development/dbd/ucmIoc.dbd")
 #! DBDEND
 
-
 # 2000 steps/rev w 50:1 gear
 record(motor, "$(U):$(M)MOTOR") {
   field(DESC, "$(MDESC)")

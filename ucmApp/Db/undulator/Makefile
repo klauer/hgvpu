@@ -12,6 +12,8 @@ POLY := $(shell ./poly-script $TOP)
 #DB_OPT = YES
 
 # Rules for installing autosave/restore request files:
+# No effort was made for autosave/restore of new PVs for HGVPU
+# at this time ... some PVs should be added though
 CFG +=  CONFIG_SECURITY
 
 #----------------------------------------------------
@@ -83,6 +85,17 @@ DB += useg32-poly.db
 DB += useg33-poly.db
 DB += useg34-poly.db
 DB += smart_extra.db
+
+DB += IDcommon_NewPower.db
+DB += IDmotion.db
+DB += IDerrors.db
+DB += IDLimitSwitches.db
+DB += IDMonitors.db
+DB += HGVPU.db
+DB += HGVPUmotors.db
+DB += tews_LinearSSI.db
+DB += FagorEncoders.db
+
 # ==========================================
 # Install autosave/restore request files
 SECURITY += ucmAccessControl.acf

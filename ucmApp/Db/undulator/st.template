@@ -5,7 +5,8 @@ $(LINE0)
 chdir("../..")
 
 # Load IOC Application
-ld("bin/RTEMS-mvme3100/ucmIoc.obj")
+#ld("bin/RTEMS-mvme3100/ucmIoc.obj")
+ld("bin/RTEMS-beatnik/ucmIoc.obj")
 
 # Register all support components
 dbLoadDatabase( "dbd/ucmIoc.dbd")
@@ -36,12 +37,74 @@ generalTimeReport(2)
 bspExtVerbosity=0
 ipacAddXy9660("0x0,1 A=1,D00000")
 
+# This is used for the Acromag FPGA DIO module IP-EP201
+# It is located on the second IP carrier card
+# Currently the DIO module is in the B slot at base address 0x6000
+# and the SOPC base address is 0x800000 for the FPGA (Marty Smith)
+ipacAddXy9660("0x6000,4 B=1,0x800000")
+
+################# FPGA IP Module ###############################
+# Carrier # (zero based), Slot number (0 - 3),
+#int initIP_EP201(const char *portName, ushort_t carrier, ushort_t slot,
+#                 int msecPoll, int dataDir, int sopcOffset, int sopcVector
+#                 int risingMask, int fallingMask)
+# limits - ID Limit switches and Motor limits (inhibits)
+initIP_EP201("limits",0,1,0,0,0x800000 ,0x80,0,0)
+# monitors - Linear encoder (CLK/DATA), Encoder Math Errors, voltage monitors
+initIP_EP201("monitors",0,1,0,0,0x800010,0x81,0,0)
+# idmon - PS limits, ID taper, and motor stop function
+initIP_EP201("idmon",0,1,0,0,0x800020,0x82,0,0)
+
+# Init all FPGA SOPC PIO single register ports
+#### initIP_EP201SingleRegisterPort(const char *portName,ushort_t carrier,ushort_t slot) #######
+# internalIO - Various monitors (currently only limit lockout)
+initIP_EP201SingleRegisterPort("internalIO",0,1)
+# internalIO1 - Lower 16 bits US wall linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO1",0,1)
+# internalIO2 - Upper 16 bits US wall linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO2",0,1)
+# internalIO3 - Lower 16 bits US aisle linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO3",0,1)
+# internalIO4 - Upper 16 bits US aisle linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO4",0,1)
+# internalIO5 - Lower 16 bits DS wall linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO5",0,1)
+# internalIO6 - Upper 16 bits DS wall linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO6",0,1)
+# internalIO7 - Lower 16 bits DS aisle linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO7",0,1)
+# internalIO8 - Upper 16 bits DS aisle linear encoder value + offset
+initIP_EP201SingleRegisterPort("internalIO8",0,1)
+# internalIO9 - US wall linear encoder offset (16-bits)
+initIP_EP201SingleRegisterPort("internalIO9",0,1)
+# internalIO10 - DS aisle linear encoder offset (16-bits)
+initIP_EP201SingleRegisterPort("internalIO10",0,1)
+# internalIO11 - US aisle linear encoder offset (16-bits)
+initIP_EP201SingleRegisterPort("internalIO11",0,1)
+# internalIO12 - DS wall linear encoder offset (16-bits)
+initIP_EP201SingleRegisterPort("internalIO12",0,1)
+# internalIO13 - ID Maximum symmetry allowed (16-bits)
+initIP_EP201SingleRegisterPort("internalIO13",0,1)
+# internalIO14 - ID Maximum taper allowed (16-bits)
+initIP_EP201SingleRegisterPort("internalIO14",0,1)
+
+################# SSI Encoders TIP114 ###############################
+#int initTip114 (const char *portName,ushort_t carrier,ushort_t slot,int intVec)
+initTip114("LinEnc",0,3,0)
+################# SSI Linear Encoders TIP114 ##############################
+# Used for testing encoders for now
+configTip114("LinEnc",0,32,1,"B","N",0)
+configTip114("LinEnc",1,32,1,"B","N",0)
+configTip114("LinEnc",2,32,1,"B","N",0)
+configTip114("LinEnc",3,32,1,"B","N",0)
+
+dbLoadRecords("db/tews_LinearSSI.db","U=USEG:UND1:$(SEG)50,PORT=LinEnc,L1=0,L2=0,L3=0,L4=0")
 # ---------------------------------------------------------------
 # Allocate the number of tyGSOctal modules to support.
 # ---------------------------------------------------------------
 # tyGSOctalDrv(maxModules), where  maxModules is the maximum
 # number of modules to support.
-tyGSOctalDrv(1)
+tyGSOctalDrv(2)
 
 # Initialize octal UART (all channels)
 # ----------------------------
@@ -53,6 +116,9 @@ tyGSOctalDrv(1)
 #   carrier#   - carrier# assigned from the ipacAddCarrierType() call.
 #   slot#      - slot number on carrier; slot[A,B,C,D] -> slot#[0,1,2,3].
 tyGSOctalModuleInit("MOD0","RS232", 196, 0, 0)
+
+# This is used for ID motor motion
+tyGSOctalModuleInit("MOD1","RS232", 200, 1, 2)
 
 ##Initialize IP-OPTOIO-8
 initIpUnidig("io8",0,1,0)
@@ -86,6 +152,8 @@ configIp330("ai1",1,"Input",1000,0)
 ## tyGSOctalDevCreate(devName,moduleID,port,rdBufSize,wrBufSize)
 tyGSOctalDevCreate("/tyGS:0:","MOD0",-1,1000,1000)
 
+# This is used for ID motor control
+tyGSOctalDevCreate("/tyGS:1:","MOD1",-1,1000,1000)
 
 # Now it is time to the asyn layer of software:
 # Use drvAsynSerialPortConfigure
@@ -192,16 +260,18 @@ asynSetOption("L4", -1, "crtscts", "N")
 #asynSetTraceIOMask("L4", -1, 2)
 #asynSetTraceMask("L4", -1, 0x1)
 
+##########################################################
+# Translation stages no longer used
 ## Create serial port for Animatics Smart Motor - Trans #1
 ## tyGSOctalDevCreate(devName,moduleID,port,rdBufSize,wrBufSize)
-drvAsynSerialPortConfigure("L5","/tyGS:0:5",0,0,0)
+#!drvAsynSerialPortConfigure("L5","/tyGS:0:5",0,0,0)
 ## Configure serial port parameters
-asynSetOption("L5", -1, "baud", "9600")
-asynSetOption("L5", -1, "bits", "8")
-asynSetOption("L5", -1, "parity", "none")
-asynSetOption("L5", -1, "stop", "1")
-asynSetOption("L5", -1, "clocal", "Y")
-asynSetOption("L5", -1, "crtscts", "N")
+#!asynSetOption("L5", -1, "baud", "9600")
+#!asynSetOption("L5", -1, "bits", "8")
+#!asynSetOption("L5", -1, "parity", "none")
+#!asynSetOption("L5", -1, "stop", "1")
+#!asynSetOption("L5", -1, "clocal", "Y")
+#!asynSetOption("L5", -1, "crtscts", "N")
 
 # For Debugging uncomment the following:
 #asynSetTraceIOMask("L5", -1, 2)
@@ -209,24 +279,83 @@ asynSetOption("L5", -1, "crtscts", "N")
 
 ## Configure serial port for Animatics Smart Motor - Trans #2
 ## tyGSOctalDevCreate(devName,moduleID,port,rdBufSize,wrBufSize)
-drvAsynSerialPortConfigure("L6","/tyGS:0:6",0,0,0)
+#!drvAsynSerialPortConfigure("L6","/tyGS:0:6",0,0,0)
 ## Configure serial port parameters
-asynSetOption("L6", -1, "baud", "9600")
-asynSetOption("L6", -1, "bits", "8")
-asynSetOption("L6", -1, "parity", "none")
-asynSetOption("L6", -1, "stop", "1")
-asynSetOption("L6", -1, "clocal", "Y")
-asynSetOption("L6", -1, "crtscts", "N")
+#!asynSetOption("L6", -1, "baud", "9600")
+#!asynSetOption("L6", -1, "bits", "8")
+#!asynSetOption("L6", -1, "parity", "none")
+#!asynSetOption("L6", -1, "stop", "1")
+#!asynSetOption("L6", -1, "clocal", "Y")
+#!asynSetOption("L6", -1, "crtscts", "N")
 
 # For Debugging uncomment the following:
 #asynSetTraceIOMask("L6", -1, 2)
 #asynSetTraceMask("L6", -1, 0x1)
+##########################################################
+
+###########################################################################
+# HGVPU Gap Motors
+## Create serial port for Animatics Smart Motor - US Wall ID motor
+drvAsynSerialPortConfigure("L7","/tyGS:1:0",0,0,0)
+## Configure serial port parameters
+asynSetOption("L7", -1, "baud", "9600")
+asynSetOption("L7", -1, "bits", "8")
+asynSetOption("L7", -1, "parity", "none")
+asynSetOption("L7", -1, "stop", "1")
+asynSetOption("L7", -1, "clocal", "Y")
+asynSetOption("L7", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L7", -1, 2)
+#asynSetTraceMask("L7", -1, 0x1)
+
+## Create serial port for Animatics Smart Motor - US Aisle ID motor
+drvAsynSerialPortConfigure("L8","/tyGS:1:1",0,0,0)
+## Configure serial port parameters
+asynSetOption("L8", -1, "baud", "9600")
+asynSetOption("L8", -1, "bits", "8")
+asynSetOption("L8", -1, "parity", "none")
+asynSetOption("L8", -1, "stop", "1")
+asynSetOption("L8", -1, "clocal", "Y")
+asynSetOption("L8", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L8", -1, 2)
+#asynSetTraceMask("L8", -1, 0x1)
+
+## Create serial port for Animatics Smart Motor - DS Wall ID motor
+drvAsynSerialPortConfigure("L9","/tyGS:1:2",0,0,0)
+## Configure serial port parameters
+asynSetOption("L9", -1, "baud", "9600")
+asynSetOption("L9", -1, "bits", "8")
+asynSetOption("L9", -1, "parity", "none")
+asynSetOption("L9", -1, "stop", "1")
+asynSetOption("L9", -1, "clocal", "Y")
+asynSetOption("L9", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L9", -1, 2)
+#asynSetTraceMask("L9", -1, 0x1)
+
+## Create serial port for Animatics Smart Motor - DS Aisle ID motor
+drvAsynSerialPortConfigure("L10","/tyGS:1:3",0,0,0)
+## Configure serial port parameters
+asynSetOption("L10", -1, "baud", "9600")
+asynSetOption("L10", -1, "bits", "8")
+asynSetOption("L10", -1, "parity", "none")
+asynSetOption("L10", -1, "stop", "1")
+asynSetOption("L10", -1, "clocal", "Y")
+asynSetOption("L10", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L10", -1, 2)
+#asynSetTraceMask("L10", -1, 0x1)
+###########################################################################
 
 ## Setup SmartMotor System
 ## SmartMotorSetup(Max Controller Count, Polling Rate)
-#SmartMotorSetup(7,5)
-iocshCmd("SmartMotorSetup(7,5)")
-
+#SmartMotorSetup(9,5)
+iocshCmd("SmartMotorSetup(9,5)")
 
 ## Setup/Configure SmartMotor parameters - CAM #1
 ## SmartMotorConfig("Card" #, ASYN port)
@@ -253,14 +382,36 @@ iocshCmd("SmartMotorConfig(3,L3)")
 #SmartMotorConfig(4,"L4")
 iocshCmd("SmartMotorConfig(4,L4)")
 
+##########################################################
+# Translation stages no longer used
 ## Setup/Configure SmartMotor parameters - TRANS #1
 ## SmartMotorConfig("Card" #, ASYN port)
 #SmartMotorConfig(5,"L5")
-iocshCmd("SmartMotorConfig(5,L5)")
+#!iocshCmd("SmartMotorConfig(5,L5)")
 
 ## Setup/Configure SmartMotor parameters - TRANS #2
 ## SmartMotorConfig("Card" #, ASYN port)
-iocshCmd("SmartMotorConfig(6,L6)")
+#!iocshCmd("SmartMotorConfig(6,L6)")
+##########################################################
+
+###########################################################################
+# HGVPU Gap Motors
+## Setup/Configure SmartMotor parameters - US Wall ID motor
+## SmartMotorConfig("Card" #, ASYN port)
+iocshCmd("SmartMotorConfig(0,L7)")
+
+## Setup/Configure SmartMotor parameters - US Aisle ID motor
+## SmartMotorConfig("Card" #, ASYN port)
+iocshCmd("SmartMotorConfig(1,L8)")
+
+## Setup/Configure SmartMotor parameters - DS Wall ID motor
+## SmartMotorConfig("Card" #, ASYN port)
+iocshCmd("SmartMotorConfig(2,L9)")
+
+## Setup/Configure SmartMotor parameters - DS Aisle ID motor
+## SmartMotorConfig("Card" #, ASYN port)
+iocshCmd("SmartMotorConfig(3,L10)")
+###########################################################################
 
 ## Motor support debugging messages
 #var drvSmartMotordebug 4
@@ -279,8 +430,20 @@ dbLoadRecords("db/xxCamMotor.vdb","U=USEG:UND1:$(SEG)50,M=CM2,MDESC=CAM 2,card=C
 dbLoadRecords("db/xxCamMotor.vdb","U=USEG:UND1:$(SEG)50,M=CM3,MDESC=CAM 3,card=C2,addr=S0")
 dbLoadRecords("db/xxCamMotor.vdb","U=USEG:UND1:$(SEG)50,M=CM4,MDESC=CAM 4,card=C3,addr=S0")
 dbLoadRecords("db/xxCamMotor.vdb","U=USEG:UND1:$(SEG)50,M=CM5,MDESC=CAM 5,card=C4,addr=S0")
-$(NOTM)dbLoadRecords("db/xxTranslationMotor.vdb", "U=USEG:UND1:$(SEG)50, M=TM1, MDESC=TM 1,card=C5,addr=S0")
-$(NOTM)dbLoadRecords("db/xxTranslationMotor.vdb", "U=USEG:UND1:$(SEG)50, M=TM2, MDESC=TM 2,card=C6,addr=S0")
+#!$(NOTM)dbLoadRecords("db/xxTranslationMotor.vdb", "U=USEG:UND1:$(SEG)50, M=TM1, MDESC=TM 1,card=C5,addr=S0")
+#!$(NOTM)dbLoadRecords("db/xxTranslationMotor.vdb", "U=USEG:UND1:$(SEG)50, M=TM2, MDESC=TM 2,card=C6,addr=S0")
+
+#(Marty Smith)
+dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,$(S)=0.773,$(MH)=100.0,$(ML)=7.2,$(CARD)=C0,ADDR=S0")
+dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,$(S)=0.773,$(MH)=100.0,$(ML)=7.2,$(CARD)=C1,ADDR=S0")
+dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,$(S)=0.773,$(MH)=100.0,$(ML)=7.2,$(CARD)=C2,ADDR=S0")
+dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,$(S)=0.773,$(MH)=100.0,$(ML)=7.2,$(CARD)=C3,ADDR=S0")
+
+dbLoadRecords("db/IDcommon_NewPower.db","U=USEG:UND1:$(SEG)50,DH=100.0,DL=7.20")
+dbLoadRecords("db/IDLimitSwitches.db","U=USEG:UND1:$(SEG)50,PORT=limits,PORT1=monitor,PORT2=motors,ADDR=0x800000,ADDR1=0x800030,ADDR2=0x800008")
+
+dbLoadRecords("db/IDmotion.db","U=USEG:UND1:$(SEG)50,S=0.773,PORT=idmon")
+dbLoadRecords("db/IDMonitors.db","U=USEG:UND1:$(SEG)50,PORT=idmon,ADDR=0x800020")
 
 ## Load database for Cam Motion
 dbLoadRecords("db/xxCamMotion.vdb","U=USEG:UND1:$(SEG)50, UND=U$(NUM)")
@@ -288,15 +451,29 @@ dbLoadRecords("db/xxCamMotion.vdb","U=USEG:UND1:$(SEG)50, UND=U$(NUM)")
 ## Load database for Linear Motion
 dbLoadRecords("db/xxLinearMotion.vdb","U=USEG:UND1:$(SEG)50,PORT=ai1, UND=U$(NUM), kmax=16")
 
+# Linear encoders and asyn records for FPGA DIO (Marty Smith)
+#dbLoadRecords("db/encoder_test.db","ID=mls, L1=-24.2870,L2=-24.2870, PORT=LinEnc,ADDR0=0,ADDR1=1")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO,ADDR=0x800030,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO1,ADDR=0x800038,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO2,ADDR=0x800040,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO3,ADDR=0x800080,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO4,ADDR=0x800088,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO5,ADDR=0x800068,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO6,ADDR=0x800048,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO7,ADDR=0x800050,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO8,ADDR=0x800058,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO9,ADDR=0x800060,OMAX=0,IMAX=0")
+#dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO10,ADDR=0x800070,OMAX=0,IMAX=0")
+
 ## Load databases for RTD temperature monitors
 dbLoadRecords("db/undulatorRTD.db","U=USEG:UND1:$(SEG)50,PORT=ai1")
 dbLoadRecords("db/xxUndulatorRTD.vdb","U=USEG:UND1:$(SEG)50")
 
 ## Load databases for BFW actuator control/position monitor
-dbLoadRecords("db/xxUndulatorBFWact.vdb","B=BFW:UND1:$(SEG)10, PORT=io8")
+#!dbLoadRecords("db/xxUndulatorBFWact.vdb","B=BFW:UND1:$(SEG)10, PORT=io8")
 
 ## Load databases for undulator smart monitors
-dbLoadRecords("db/xxUndulatorSmartMon.vdb","U=USEG:UND1:$(SEG)50, B=BFW:UND1:$(SEG)10, PORT1=io8, PORT2=ai1")
+#!dbLoadRecords("db/xxUndulatorSmartMon.vdb","U=USEG:UND1:$(SEG)50, B=BFW:UND1:$(SEG)10, PORT1=io8, PORT2=ai1")
 
 ## Load databases for calibrating CAMs
 dbLoadRecords("db/xxCamCalibration.vdb","U=USEG:UND1:$(SEG)50")
@@ -326,8 +503,12 @@ dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=CAM2,PORT=L1,ADDR=
 dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=CAM3,PORT=L2,ADDR=0,IMAX=0,OMAX=0")
 dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=CAM4,PORT=L3,ADDR=0,IMAX=0,OMAX=0")
 dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=CAM5,PORT=L4,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=TRA1,PORT=L5,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=TRA2,PORT=L6,ADDR=0,IMAX=0,OMAX=0")
+#!dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=TRA1,PORT=L5,ADDR=0,IMAX=0,OMAX=0")
+#!dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=TRA2,PORT=L6,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=USW,PORT=L7,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=USA,PORT=L8,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=DSW,PORT=L9,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:UND1:$(SEG)50:ASYN,R=DSA,PORT=L10,ADDR=0,IMAX=0,OMAX=0")
 
 ## Load database for autosave/restore status pv's
 dbLoadRecords("db/save_restoreStatus.db","P=IOC:UND1:UC$(NUM):")
@@ -392,5 +573,5 @@ create_monitor_set("info_settings.req", 30, "U=USEG:UND1:$(SEG)50")
 
 # Let's start up our Sequencers:
 seq( &camCal, "S=USEG:UND1:$(SEG)50")
-seq( &motorMon, "S=USEG:UND1:$(SEG)50")
-seq( &bfwMon, "B=BFW:UND1:$(SEG)10, S=USEG:UND1:$(SEG)50")
+#!seq( &motorMon, "S=USEG:UND1:$(SEG)50")
+#!seq( &bfwMon, "B=BFW:UND1:$(SEG)10, S=USEG:UND1:$(SEG)50")

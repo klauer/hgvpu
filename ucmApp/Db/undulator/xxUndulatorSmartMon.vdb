@@ -3,7 +3,6 @@
 #! DBD("../../dbd/ucmIoc.dbd")
 #! DBDEND
 
-
 record(seq, "$(U):STOPMOTORSC") {
   field(DESC, "stop all motors")
   field(DOL1, "1")
@@ -118,7 +117,7 @@ record(bo, "$(U):SMRTMONITORC") {
 
 record(mbboDirect, "$(U):MOTORERROR") {
   field(DESC, "bits B0-B6 position, B8-BE communication")
-  field(ASG, "motor error status bits")
+#  field(ASG, "motor error status bits")
 }
 
 record(bo, "$(U):SMRTMONITORM") {

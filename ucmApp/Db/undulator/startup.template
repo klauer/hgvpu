@@ -19,15 +19,18 @@
 #
 #==============================================================
 #
-< /boot/lcls/epics/iocCommon/All/Prod/pre_st.cmd
+##< /boot/lcls/epics/iocCommon/All/Prod/pre_st.cmd
+. /boot/g/lcls/epics/iocCommon/facility/pre_st.cmd
 
 # Turn off error messages from iocLog.
 #eltc(0)
 
 # Load subsystem startup file
-chdir("/boot/lcls/epics/iocTop/Undulator/$(version)/iocBoot/ioc-und1-uc$(ioc)")
+#chdir("/boot/lcls/epics/iocTop/Undulator/$(version)/iocBoot/ioc-und1-uc$(ioc)")
+chdir("/boot/g/lcls/epics/iocCommon/ioc-und1-uc$(ioc)/iocSpecificRelease/iocBoot/ioc-und1-uc$(ioc)")
 
-< st.cmd
+. st.cmd
 
-< /boot/lcls/epics/iocCommon/All/Prod/post_st.cmd
+##< /boot/lcls/epics/iocCommon/All/Prod/post_st.cmd
+. /boot/g/lcls/epics/iocCommon/facility/post_st.cmd
 

@@ -16,7 +16,6 @@ ucmSoft_DBD += autosaveSupport.dbd
 ucmSoft_DBD += caPutLog.dbd
 ucmSoft_DBD += genSubRecord.dbd
 
-
 # ucmIoc.dbd will be made up from these files:
 #
 ifeq ($(OS_CLASS),RTEMS)
@@ -37,6 +36,9 @@ ucmIoc_DBD += motorSimSupport.dbd
 ucmIoc_DBD += ucmSupport.dbd
 ucmIoc_DBD += genPolySub.dbd
 ucmIoc_DBD += devA16Vme.dbd
+ucmIoc_DBD += calcSupport.dbd
+ucmIoc_DBD += busySupport.dbd
+ucmIoc_DBD += softGlueSupport.dbd
 endif
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
@@ -52,6 +54,9 @@ ucmIoc_SRCS += girderRollCalc.c
 ucmIoc_SRCS += quadBfwCalc.c
 ucmIoc_SRCS += polynomial.c
 ucmIoc_SRCS += xyCORrection.c
+ucmIoc_SRCS += drvTip114.c
+# Older softGlue code cannot load FPGA at boot time
+#ucmIoc_SRCS += drvIP_EP201.c
 endif
 
 # The following will get rid of the
@@ -67,6 +72,9 @@ USR_LIBS  += devIocStats
 USR_LIBS  += autosave
 USR_LIBS  += caPutLog
 USR_LIBS  += genSub
+USR_LIBS  += calc
+USR_LIBS  += sscan
+USR_LIBS  += busy
  
 # Add in VME drivers.
 ifeq ($(OS_CLASS),RTEMS)
@@ -83,6 +91,7 @@ ucmIoc_LIBS += Ipac
 ucmIoc_LIBS += asyn
 ucmIoc_LIBS += genPolySub
 ucmIoc_LIBS += a16Vme
+ucmIoc_LIBS += softGlue
 endif
 
 # Build SNL programs
