@@ -23,3 +23,4 @@ dbpf("USEG:UND1:150:DeviceStop.TPRO","1")
 dbpf("USEG:UND1:150:RepeatStop.TPRO","1")
 dbpf("USEG:UND1:150:RepeatStop.DISA","1")
 
+dbpf("USEG:UND1:150:ASYNHGU.AOUT","BRKENG:0")

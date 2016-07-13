@@ -163,6 +163,7 @@ record(calcout,"$(U):DSAAmountToMove") {
         field(DOPT,"Use CALC")
         field(PREC,"4")
 	field(EGU,"mm")
+        field(FLNK,"$(U):GapMotor:Trig")
 }
 record(calc,"$(U):DSAMotAmountToMove") {
         field(DESC,"DSA Gap Left to Move")

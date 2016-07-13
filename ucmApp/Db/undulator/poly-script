@@ -16,10 +16,10 @@ do
    msi -o ./useg"$und"-poly.substitutions -S temp.substitutions useg-poly.template
 done
 
-line1="file st_new.template{"
+line1="file st.template{"
 line2="  pattern { LINE0, NUM, SEG, SEGN1, NOTM}"
 
-newLine1="file st_new.template{"
+newLine1="file st.template{"
 newLine2="  pattern { LINE0, NUM, SEG, SEGN1, NOTM}"
 
 startupline1="file startup.template{"
@@ -36,7 +36,7 @@ do
      echo { \"$line0\", 0$i, $i, $segn1, \"\"} | cat >> temp.substitutions
    fi
    echo } | cat >> temp.substitutions
-   msi -o ../../../iocBoot/ioc-und1-uc0"$i"/st.cmd -S temp.substitutions st_new.template
+   msi -o ../../../iocBoot/ioc-und1-uc0"$i"/st.cmd -S temp.substitutions st.template
 
    iocVersion=$(sed -n "$i"p $IOC_DATA/sioc-und1-uc01/iocInfo/IOC-version-list)
    echo $startupline1 | cat > temp1.substitutions
@@ -58,11 +58,11 @@ do
      echo $newLine2 | cat >> temp.substitutions
      echo { \"$line0\", $i, $i, $segn1, \"#\"} | cat >> temp.substitutions
      echo } | cat >> temp.substitutions
-     msi -o ../../../iocBoot/ioc-und1-uc"$i"/st.cmd -S temp.substitutions st_new.template
+     msi -o ../../../iocBoot/ioc-und1-uc"$i"/st.cmd -S temp.substitutions st.template
    else
      echo { \"$line0\", $i, $i, $segn1, \"\"} | cat >> temp.substitutions
      echo } | cat >> temp.substitutions
-     msi -o ../../../iocBoot/ioc-und1-uc"$i"/st.cmd -S temp.substitutions st_new.template
+     msi -o ../../../iocBoot/ioc-und1-uc"$i"/st.cmd -S temp.substitutions st.template
    fi
 
    iocVersion=$(sed -n "$i"p $IOC_DATA/sioc-und1-uc01/iocInfo/IOC-version-list)
