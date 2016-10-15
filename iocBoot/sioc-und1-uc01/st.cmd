@@ -30,7 +30,7 @@ ucmSoft_registerRecordDeviceDriver(pdbbase)
 # For iocAdmin
 epicsEnvSet("ENGINEER","A. Alarcon") 
 epicsEnvSet("LOCATION","lcls-daemon1") 
-epicsEnvSet("STARTUP","/usr/local/lcls/epics/iocCommon/sioc-und1-uc01") 
+epicsEnvSet("STARTUP","/afs/slac/g/lcls/epics/iocCommon/sioc-und1-uc01") 
 epicsEnvSet("ST_CMD","startup.cmd") 
 
 ## Load record instances

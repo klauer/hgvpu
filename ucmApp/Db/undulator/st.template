@@ -562,6 +562,7 @@ dbLoadRecords("db/IDLimitSwitches.db","U=USEG:UND1:$(SEG)50,PORT=limits,PORT1=in
 dbLoadRecords("db/IDmotion.db","U=USEG:UND1:$(SEG)50,S=5.0,PORT=idmon")
 dbLoadRecords("db/IDMonitors.db","U=USEG:UND1:$(SEG)50,PORT=idmon,PORT1=monitors")
 dbLoadRecords("db/IDerrors.db","U=USEG:UND1:$(SEG)50")
+dbLoadRecords("db/ID_FPGArev.db","U=USEG:UND1:$(SEG)50")
 dbLoadRecords("db/FagorEncoders.db","U=USEG:UND1:$(SEG)50")
 
 dbLoadRecords("db/HGVPU_coordMotion.db","U=USEG:UND1:$(SEG)50")

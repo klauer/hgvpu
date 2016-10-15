@@ -251,6 +251,7 @@ record(dfanout,"$(U):StopMotors") {
 	field(OUTB,"$(U):USAMotor.STOP PP")
 	field(OUTC,"$(U):DSWMotor.STOP PP")
 	field(OUTD,"$(U):DSAMotor.STOP PP")
+	field(OUTE,"$(U):GapMotor.STOP PP")
 }
 record(ao,"$(U):MotorSpeed") {
         field(DESC,"Set Motors Speed")
