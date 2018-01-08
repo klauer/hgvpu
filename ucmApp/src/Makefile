@@ -28,6 +28,7 @@ ucmIoc_DBD += drvAsynIPPort.dbd
 ucmIoc_DBD += devSmartMotorMotor.dbd
 ucmIoc_DBD += devSmartMotorAsynSupport.dbd
 ucmIoc_DBD += tyGSOctal.dbd
+ucmIoc_DBD += IP520.dbd
 ucmIoc_DBD += ip330Support.dbd
 ucmIoc_DBD += ipUnidigSupport.dbd
 ucmIoc_DBD += drvIpac.dbd
@@ -55,8 +56,6 @@ ucmIoc_SRCS += quadBfwCalc.c
 ucmIoc_SRCS += polynomial.c
 ucmIoc_SRCS += xyCORrection.c
 ucmIoc_SRCS += drvTip114.c
-# Older softGlue code cannot load FPGA at boot time
-#ucmIoc_SRCS += drvIP_EP201.c
 endif
 
 # The following will get rid of the
@@ -85,6 +84,7 @@ ucmIoc_LIBS += softMotor
 ucmIoc_LIBS += motorSimSupport
 ucmIoc_LIBS += motor
 ucmIoc_LIBS += TyGSOctal
+ucmIoc_LIBS += IP520
 ucmIoc_LIBS += ip330
 ucmIoc_LIBS += ipUnidig
 ucmIoc_LIBS += Ipac
