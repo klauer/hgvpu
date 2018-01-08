@@ -2,7 +2,7 @@ TOP=../../..
 include $(TOP)/configure/CONFIG
 
 # Generate st.cmd files, and polynomial dbs for 33 iocs
-POLY := $(shell ./poly-script $TOP)
+#POLY := $(shell ./poly-script $TOP)
 
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
@@ -50,15 +50,15 @@ DB += UndulatorSum.db
 DB += UndulatorCorrectionSummary.vdb
 DB += useg34.vdb
 DB += save-reference-position.db
-DB += useg1-poly.db
-DB += useg2-poly.db
-DB += useg3-poly.db
-DB += useg4-poly.db
-DB += useg5-poly.db
-DB += useg6-poly.db
-DB += useg7-poly.db
-DB += useg8-poly.db
-DB += useg9-poly.db
+#DB += useg1-poly.db
+#DB += useg2-poly.db
+#DB += useg3-poly.db
+#DB += useg4-poly.db
+#DB += useg5-poly.db
+#DB += useg6-poly.db
+#DB += useg7-poly.db
+#DB += useg8-poly.db
+#DB += useg9-poly.db
 #DB += useg10-poly.db
 #DB += useg11-poly.db
 #DB += useg12-poly.db
