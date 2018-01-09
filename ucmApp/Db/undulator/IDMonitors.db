@@ -138,9 +138,9 @@ record(bi,"$(U):MotorStopMon") {
 	field(DTYP,"asynUInt32Digital")
 	field(SCAN,"1 second")
 	field(INP,"@asynMask($(PORT) 0x800020 0x20)")
-	field(OSV,"MAJOR")
-	field(ZNAM,"Motor Power OK")
-	field(ONAM,"Motor Power Bad")
+	field(ZSV,"MAJOR")
+	field(ZNAM,"Motor Power Bad")
+	field(ONAM,"Motor Power OK")
 }
 record(bo,"$(U):MotorStopPwr") {
 	field(DESC,"Motor Power Ctl")
@@ -155,7 +155,7 @@ record(bo,"$(U):MotorStopPwr") {
 record(calcout,"$(U):PowerOnCalib") {
 	field(DESC,"Cal Motors After Pwr On")
 	field(CALC,"A&&B")
-	field(INPA,"$(U):MotorStopPwr.VAL CP NMS")
+	field(INPA,"$(U):MotorStopMon.VAL CP NMS")
 	field(INPB,"$(U):42VDCMon.VAL CP NMS")
 	field(OUT,"$(U):RepeatStop.PROC PP NMS")
 	field(OOPT,"Transition To Non-zero")
@@ -200,7 +200,7 @@ record(seq,"$(U):RepeatStop") {
 record(calcout,"$(U):PowerOffStop") {
 	field(DESC,"Stop Motors After Pwr Off")
 	field(CALC,"!(A&&B)")
-	field(INPA,"$(U):MotorStopPwr.VAL CP NMS")
+	field(INPA,"$(U):MotorStopMon.VAL CP NMS")
 	field(INPB,"$(U):42VDCMon.VAL CP NMS")
 	field(OUT,"$(U):StopMotors.PROC PP NMS")
 	field(OOPT,"Transition To Non-zero")
@@ -522,3 +522,23 @@ record(calc,"$(U):DSEncSym") {
 	field(INPB,"$(U):DSEncDiffHi.VAL NPP NMS")
 }
 #######################################################
+record(bi,"$(U):FPGAIntlckLatchMon") {
+	field(DESC,"FPGA Encoder Interlock Latch Monitor")
+	field(DTYP,"asynUInt32Digital")
+	field(SCAN,"1 second")
+	field(INP,"@asynMask($(PORT) 0x800020 0x40)")
+	field(OSV,"MAJOR")
+	field(OSV,"NO_ALARM")
+	field(ZNAM,"Latch Low")
+	field(ONAM,"Latch High")
+}
+record(bo,"$(U):FPGAIntlckLatch") {
+	field(DESC,"FPGA Encoder Interlock Latch Ctl")
+	field(DTYP,"asynUInt32Digital")
+	field(PINI,"YES")
+#	field(ASG,"SYSTEM")
+	field(DOL,"0")
+	field(OUT,"@asynMask($(PORT) 0x800020 0x40)") 
+	field(ZNAM,"Latch Low")
+	field(ONAM,"Latch High")
+}
