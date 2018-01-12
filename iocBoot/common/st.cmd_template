@@ -16,6 +16,10 @@ ucmIoc_registerRecordDeviceDriver( pdbbase)
 epicsEnvSet("IOC_NAME",  "UC01")
 epicsEnvSet("LOCA_NAME", "TST1")
 
+# Testing macros...
+epicsEnvSet("LOCATION", "TST1")
+epicsEnvSet("PREFIX", "USEG:${LOCATION}")
+
 # iocAdmin environment variables
 epicsEnvSet("ENGINEER","Ziga Oven")
 epicsEnvSet("LOCATION","UIR-01")
@@ -29,8 +33,7 @@ osdTimeRegister()
 generalTimeReport(2)
 
 # ===================== HW initialization ============================
-#!. init_HW_HGVPUwithCAM
-#!. init_HW_HGVPU
+cexpsh("iocBoot/common/init_VME_hardware.cmd")
 
 # ===================== Load databases ===============================
 
@@ -126,7 +129,7 @@ dbLoadRecords("db/save-reference-position.db", "U=USEG:TST1:150")
 dbLoadRecords("db/save_restoreStatus.db","P=IOC:TST1:UC01:")
 
 # ===================== Load unique items for undulator segment ======
-. iocBoot/ioc-und1-uc01/st-unique.cmd
+cexpsh("iocBoot/%H/st-unique.cmd")
 
 # ===================== Autosave/restore Settings ====================
 save_restoreSet_status_prefix( "IOC:TST1:UC01:")
@@ -147,7 +150,7 @@ iocInit()
 # ====================================================================
 
 # ===================== Load unique items post iocBoot ===============
-. iocBoot/ioc-und1-uc01/st-post-unique.cmd
+cexpsh("iocBoot/%H/st-post-unique.cmd")
 
 # ===================== caPutLogging configuration ===================
 # Log values only on change to the iocLogServer:
