@@ -13,13 +13,16 @@ bspExtVerbosity=0
 #        memSize - size of allocated memory [1/2/4/8] in MegaBytes
 #        memAddr - memory address of the module, A24 base [hex]
 # -------------------------------------------------------------------------
-ipacAddXy9660("0x0,1 A=1,D00000")
 
 # This is used for the Acromag FPGA DIO module IP-EP201
 # It is located on the second IPAC carrier card
 # The FPGA DIO module is in the B slot and the SOPC base address 
 # is 0x800000 for the FPGA to put it in MEM address space
 ipacAddXy9660("0x6000,3 B=1,800000 C=1,A00000")
+hgvpuCarrier = ipacAddCarrierType()
+
+ipacAddXy9660("0x0,1 A=1,D00000")
+camCarrier = ipacLatestCarrier()
 
 # ========================================================================
 # Initialize SSI Encoders TIP114 
@@ -30,7 +33,7 @@ ipacAddXy9660("0x6000,3 B=1,800000 C=1,A00000")
 #   slot     - slot on IPAC carrier card <0-3>, where 0=A and 3=D
 #   intVec   - VME interrupt vector
 # -------------------------------------------------------------------------
-initTip114("LinEnc",1,3,0)
+initTip114("LinEnc", hgvpuCarrier, 3, 0)
 
 # ========================================================================
 # Configure  SSI Linear Encoders TIP114
@@ -64,7 +67,7 @@ configTip114("LinEnc",6,27,5,"B","E",0)
 # Allocate the number of tyGSOctal modules to support.
 # -------------------------------------------------------------------------
 # tyGSOctalDrv(maxModules), where  maxModules is the maximum number of modules to support.
-tyGSOctalDrv(1)
+camCarrier && tyGSOctalDrv(1)
 
 # ========================================================================
 # Initialize octal UART (all channels)
@@ -76,7 +79,7 @@ tyGSOctalDrv(1)
 #   carrier#   - carrier# assigned from the ipacAddCarrierType() call.
 #   slot#      - slot number on carrier; slot[A,B,C,D] -> slot#[0,1,2,3].
 # -------------------------------------------------------------------------
-tyGSOctalModuleInit("MOD0","RS232", 196, 0, 0)
+camCarrier && tyGSOctalModuleInit("MOD0","RS232", 196, camCarrier, 0)
 
 # ========================================================================
 # Allocate the number of IP520 modules to support.
@@ -95,7 +98,7 @@ IP520Drv(1)
 #   carrier#   - carrier# assigned from the ipacAddCarrierType() call.
 #   slot#      - slot number on carrier; slot[A,B,C,D] -> slot#[0,1,2,3].
 # -------------------------------------------------------------------------
-IP520ModuleInit("MOD1","RS232", 204, 1, 2)
+IP520ModuleInit("MOD1","RS232", 204, hgvpuCarrier, 2)
 
 # ========================================================================
 # Initialize IP-OPTOIO-8
@@ -109,7 +112,7 @@ IP520ModuleInit("MOD1","RS232", 204, 1, 2)
 #   risingMask  - [optional] mask of bits to generate interrupts on low to high (24 bits) 
 #   fallingMask - [optional] mask of bits to generate interrupts on high to low (24 bits)
 # -------------------------------------------------------------------------
-initIpUnidig("io8",0,1,0)
+camCarrier && initIpUnidig("io8",camCarrier,1,0)
 
 # ========================================================================
 # Initialize IP330 ADC
@@ -130,7 +133,7 @@ initIpUnidig("io8",0,1,0)
 #                 number of EPICS clients.  A value of 10 should certainly be safe.
 #   intVec      - Interrupt vector
 # -------------------------------------------------------------------------
-initIp330("ai1",0,2,"S","0to5",0,31,192)
+camCarrier && initIp330("ai1",camCarrier,2,"S","0to5",0,31,192)
 
 # ========================================================================
 # Configure IP330 ADC
@@ -144,7 +147,7 @@ initIp330("ai1",0,2,"S","0to5",0,31,192)
 #               4 = burstSingle
 #               5 = convertOnExternalTriggerOnly
 # -------------------------------------------------------------------------
-configIp330("ai1",1,"Input",1000,0)
+camCarrier && configIp330("ai1",1,"Input",1000,0)
 
 # ========================================================================
 #  Create tty devices.
@@ -156,7 +159,7 @@ configIp330("ai1",1,"Input",1000,0)
 #   rdBufSize  - read buffer size, in bytes.
 #   wrtBufSize - write buffer size, in bytes.
 # -----------------------------------------------------------------------
-tyGSOctalDevCreate("/tyGS:0:","MOD0",-1,1000,1000)
+camCarrier && tyGSOctalDevCreate("/tyGS:0:","MOD0",-1,1000,1000)
 
 # ========================================================================
 #  Create tty devices.
@@ -376,7 +379,7 @@ iocshCmd("SmartCreateController(S7,L7,4,1,100,1000)")
 #  slot     - slot on IPAC carrier card
 #  filename - Name of the FPGA-content hex file to load into the FPGA
 # -------------------------------------------------------------------------
-initIP_EP200_FPGA(1, 1, "ucmApp/Db/undulator/HGVPU_SSI_SLACLatched_v2.hexout")
+initIP_EP200_FPGA(hgvpuCarrier, 1, "ucmApp/Db/undulator/HGVPU_SSI_SLACLatched_v2.hexout")
 
 
 # ========================================================================
@@ -391,7 +394,7 @@ initIP_EP200_FPGA(1, 1, "ucmApp/Db/undulator/HGVPU_SSI_SLACLatched_v2.hexout")
 #   portName3 - Name of asyn port for component at sopcBase+0x20
 #   sopcBase  - must agree with FPGA content (0x800000)
 # -------------------------------------------------------------------------
-initIP_EP200(1, 1, "limits", "monitors", "idmon", 0x800000)
+initIP_EP200(hgvpuCarrier, 1, "limits", "monitors", "idmon", 0x800000)
 
 # ========================================================================
 # Initialize field-I/O interrupt support
@@ -408,7 +411,7 @@ initIP_EP200(1, 1, "limits", "monitors", "idmon", 0x800000)
 #   fallingMaskMS - interrupt on 1->0 for I/O pins 33-48
 #   fallingMaskLS - interrupt on 1->0 for I/O pins 1-32
 # -------------------------------------------------------------------------
-initIP_EP200_Int(1, 1, 0x90, 0x0, 0x0, 0x0, 0x0)
+initIP_EP200_Int(hgvpuCarrier, 1, 0x90, 0x0, 0x0, 0x0, 0x0)
 
 # ========================================================================
 # Set field-I/O data direction
@@ -449,7 +452,7 @@ initIP_EP200_Int(1, 1, 0x90, 0x0, 0x0, 0x0, 0x0)
 #    3. For the IP-EP203, moduleType is 203, and dataDir == 0x??? would mean
 #       that I/O bits 1-8, 25,27, 29,31, 33,35, 45,47 are outputs.
 # -------------------------------------------------------------------------
-initIP_EP200_IO(1, 1, 201, 0x12)
+initIP_EP200_IO(hgvpuCarrier, 1, 201, 0x12)
 
 # ========================================================================
 # Initialize softGlue signal-name support
@@ -464,65 +467,65 @@ initIP_EP200_IO(1, 1, 201, 0x12)
 
 # Init all FPGA SOPC PIO single register ports
 # internalIO - Various monitors (currently only limit lockout)
-initIP_EP201SingleRegisterPort("internalIO",1,1)
+initIP_EP201SingleRegisterPort("internalIO", hgvpuCarrier, 1)
 # internalIO1 - Lower 16 bits US wall linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO1",1,1)
+initIP_EP201SingleRegisterPort("internalIO1", hgvpuCarrier, 1)
 # internalIO2 - Upper 16 bits US wall linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO2",1,1)
+initIP_EP201SingleRegisterPort("internalIO2", hgvpuCarrier, 1)
 # internalIO3 - Lower 16 bits US aisle linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO3",1,1)
+initIP_EP201SingleRegisterPort("internalIO3", hgvpuCarrier, 1)
 # internalIO4 - Upper 16 bits US aisle linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO4",1,1)
+initIP_EP201SingleRegisterPort("internalIO4", hgvpuCarrier, 1)
 # internalIO5 - Lower 16 bits DS wall linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO5",1,1)
+initIP_EP201SingleRegisterPort("internalIO5", hgvpuCarrier, 1)
 # internalIO6 - Upper 16 bits DS wall linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO6",1,1)
+initIP_EP201SingleRegisterPort("internalIO6", hgvpuCarrier, 1)
 # internalIO7 - Lower 16 bits DS aisle linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO7",1,1)
+initIP_EP201SingleRegisterPort("internalIO7", hgvpuCarrier, 1)
 # internalIO8 - Upper 16 bits DS aisle linear encoder value + offset
-initIP_EP201SingleRegisterPort("internalIO8",1,1)
+initIP_EP201SingleRegisterPort("internalIO8", hgvpuCarrier, 1)
 # internalIO9 - US wall linear encoder offset (16-bits)
-initIP_EP201SingleRegisterPort("internalIO9",1,1)
+initIP_EP201SingleRegisterPort("internalIO9", hgvpuCarrier, 1)
 # internalIO10 - DS aisle linear encoder offset (16-bits)
-initIP_EP201SingleRegisterPort("internalIO10",1,1)
+initIP_EP201SingleRegisterPort("internalIO10", hgvpuCarrier, 1)
 # internalIO11 - US aisle linear encoder offset (16-bits)
-initIP_EP201SingleRegisterPort("internalIO11",1,1)
+initIP_EP201SingleRegisterPort("internalIO11", hgvpuCarrier, 1)
 # internalIO12 - DS wall linear encoder offset (16-bits)
-initIP_EP201SingleRegisterPort("internalIO12",1,1)
+initIP_EP201SingleRegisterPort("internalIO12", hgvpuCarrier, 1)
 # internalIO13 - ID Maximum symmetry allowed (16-bits)
-initIP_EP201SingleRegisterPort("internalIO13",1,1)
+initIP_EP201SingleRegisterPort("internalIO13", hgvpuCarrier, 1)
 # internalIO14 - ID Maximum taper allowed (16-bits)
-initIP_EP201SingleRegisterPort("internalIO14",1,1)
+initIP_EP201SingleRegisterPort("internalIO14", hgvpuCarrier, 1)
 
 # PIO 16 - DSA Raw Encoder Counts (Low 16-bits)
-initIP_EP201SingleRegisterPort("pio16",1,1)
+initIP_EP201SingleRegisterPort("pio16", hgvpuCarrier, 1)
 # PIO 17 - DSA Raw Encoder Counts (High 16-bits)
-initIP_EP201SingleRegisterPort("pio17",1,1)
+initIP_EP201SingleRegisterPort("pio17", hgvpuCarrier, 1)
 
 # PIO 18 - DSW Raw Encoder Counts (Low 16-bits)
-initIP_EP201SingleRegisterPort("pio18",1,1)
+initIP_EP201SingleRegisterPort("pio18", hgvpuCarrier, 1)
 # PIO 19 - DSW Raw Encoder Counts (High 16-bits)
-initIP_EP201SingleRegisterPort("pio19",1,1)
+initIP_EP201SingleRegisterPort("pio19", hgvpuCarrier, 1)
 
 # PIO 20 - USA Raw Encoder Counts (Low 16-bits)
-initIP_EP201SingleRegisterPort("pio20",1,1)
+initIP_EP201SingleRegisterPort("pio20", hgvpuCarrier, 1)
 # PIO 21 - USA Raw Encoder Counts (High 16-bits)
-initIP_EP201SingleRegisterPort("pio21",1,1)
+initIP_EP201SingleRegisterPort("pio21", hgvpuCarrier, 1)
 
 # PIO 22 - DSW Raw Encoder Counts (Low 16-bits)
-initIP_EP201SingleRegisterPort("pio22",1,1)
+initIP_EP201SingleRegisterPort("pio22", hgvpuCarrier, 1)
 # PIO 23 - DSW Raw Encoder Counts (High 16-bits)
-initIP_EP201SingleRegisterPort("pio23",1,1)
+initIP_EP201SingleRegisterPort("pio23", hgvpuCarrier, 1)
 
 # PIO 24 - ID Errors (High 16-bits)
-initIP_EP201SingleRegisterPort("pio24",1,1)
+initIP_EP201SingleRegisterPort("pio24", hgvpuCarrier, 1)
 
 # PIO 25 - US Symmetry Encoder Difference Raw Low (High 16-bits)
-initIP_EP201SingleRegisterPort("pio25",1,1)
+initIP_EP201SingleRegisterPort("pio25", hgvpuCarrier, 1)
 # PIO 26 - US Symmetry Encoder Difference Raw High (High 16-bits)
-initIP_EP201SingleRegisterPort("pio26",1,1)
+initIP_EP201SingleRegisterPort("pio26", hgvpuCarrier, 1)
 # PIO 27 - DS Symmetry Encoder Difference Raw Low (High 16-bits)
-initIP_EP201SingleRegisterPort("pio27",1,1)
+initIP_EP201SingleRegisterPort("pio27", hgvpuCarrier, 1)
 # PIO 28 - DS Symmetry Encoder Difference Raw High (High 16-bits)
-initIP_EP201SingleRegisterPort("pio28",1,1)
+initIP_EP201SingleRegisterPort("pio28", hgvpuCarrier, 1)
 

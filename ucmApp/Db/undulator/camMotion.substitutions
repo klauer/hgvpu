@@ -1,0 +1,62 @@
+file xxCamAsynMotor.vdb
+{
+pattern { M    , MDESC  , PORT, ADDR }
+        { "CM1", "CAM 1", S0  , 0    }
+        { "CM2", "CAM 2", S1  , 0    }
+        { "CM3", "CAM 3", S2  , 0    }
+        { "CM4", "CAM 4", S3  , 0    }
+        { "CM5", "CAM 5", S4  , 0    }
+}
+
+file smart_extra.db
+{
+pattern { P      , M    , PORT, ADDR }
+        { "$(U):", "CM1", S0  , 0    }
+        { "$(U):", "CM2", S1  , 0    }
+        { "$(U):", "CM3", S2  , 0    }
+        { "$(U):", "CM4", S3  , 0    }
+        { "$(U):", "CM5", S4  , 0    }
+}
+
+file xxCamMotion.vdb
+{
+pattern { UND   }
+        { "U01" }
+}
+
+file xxCamCalibration.vdb
+{
+pattern { U      }
+        { "$(U)" }
+}
+
+file xxUndulatorDispAlarmSum.template
+{
+pattern { motor }
+        { "CM1" }
+        { "CM2" }
+        { "CM3" }
+        { "CM4" }
+        { "CM5" }
+}
+
+file save-reference-position.template 
+{
+pattern { dev     , egu           }
+        { CM1MOTOR, "CAM Degrees" }
+        { CM2MOTOR, "CAM Degrees" }
+        { CM3MOTOR, "CAM Degrees" }
+        { CM4MOTOR, "CAM Degrees" }
+        { CM5MOTOR, "CAM Degrees" }
+}
+
+file asynRecord.db
+{
+pattern { P          , R     , PORT, ADDR, IMAX, OMAX }
+        { "$(U):ASYN", "CAM1", L0  , 0   , 0   , 0    }
+        { "$(U):ASYN", "CAM2", L1  , 0   , 0   , 0    }
+        { "$(U):ASYN", "CAM3", L2  , 0   , 0   , 0    }
+        { "$(U):ASYN", "CAM4", L3  , 0   , 0   , 0    }
+        { "$(U):ASYN", "CAM5", L4  , 0   , 0   , 0    }
+}
+

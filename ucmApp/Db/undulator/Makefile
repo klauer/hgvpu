@@ -65,6 +65,8 @@ DB += FagorEncoders.db
 
 DB += HGVPU_coordMotion.db 
 
+DB += camMotion.db
+
 # ==========================================
 # Install autosave/restore request files
 SECURITY += ucmAccessControl.acf

@@ -17,6 +17,7 @@ epicsEnvSet("IOC_NAME",  "UC01")
 epicsEnvSet("LOCA_NAME", "TST1")
 
 # Testing macros...
+setenv("RTEMSway","value")
 epicsEnvSet("LOCATION", "TST1")
 epicsEnvSet("PREFIX", "USEG:${LOCATION}")
 
@@ -61,6 +62,20 @@ dbLoadRecords("db/xxCamMotion.vdb","U=USEG:TST1:150, UND=U01")
 # Load databases for calibrating CAMs
 dbLoadRecords("db/xxCamCalibration.vdb","U=USEG:TST1:150")
 
+# Asyn records for CAM motors
+dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM1,PORT=L0,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM2,PORT=L1,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM3,PORT=L2,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM4,PORT=L3,ADDR=0,IMAX=0,OMAX=0")
+dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM5,PORT=L4,ADDR=0,IMAX=0,OMAX=0")
+
+# Load databases for alarm display summaries
+dbLoadRecords("db/xxUndulatorDispAlarmSum.db","U=USEG:TST1:150")
+
+# Load database to save reference motor positions
+dbLoadRecords("db/save-reference-position.db", "U=USEG:TST1:150")
+
+
 
 
 
@@ -84,15 +99,7 @@ dbLoadRecords("db/HGVPU_coordMotion.db","U=USEG:TST1:150")
 # Load databases for HGPVU linear encoders
 dbLoadRecords("db/tews_LinearSSI.db","U=USEG:UND1:150,PORT=LinEnc,USW_OFF=88.4245,USA_OFF=86.9381,DSW_OFF=86.9954,DSA_OFF=87.7675,USG_OFF=-3542.72525,DSG_OFF=-4273.2550")
 
-
-
-
-# asynRecord database for each link for diagnostic debugging
-dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM1,PORT=L0,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM2,PORT=L1,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM3,PORT=L2,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM4,PORT=L3,ADDR=0,IMAX=0,OMAX=0")
-dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=CAM5,PORT=L4,ADDR=0,IMAX=0,OMAX=0")
+# Asyn record for HGVPU motors
 dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX=0,OMAX=0")
 
 
@@ -105,25 +112,6 @@ dbLoadRecords("db/asynRecord.db","P=USEG:TST1:150:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX
 
 # Load databases for undulator smart monitors
 #!dbLoadRecords("db/xxUndulatorSmartMon.vdb","U=USEG:TST1:150, B=BFW:TST1:110, PORT1=io8, PORT2=ai1")
-
-# Load databases for alarm display summaries
-dbLoadRecords("db/xxUndulatorDispAlarmSum.db","U=USEG:TST1:150")
-
-# Load databases for automated display options
-dbLoadRecords("db/xxUndulatorDisplay.vdb","U=USEG:TST1:150")
-
-# Load databases for Undulator field calculations
-dbLoadRecords("db/xxUndulatorField.vdb","U=USEG:TST1:150")
-dbLoadRecords("db/useg1-poly.db")
-dbLoadRecords("db/useg-poly-bb.db", "U=USEG:TST1:150, POSITION=1")
-dbLoadRecords("db/poly-bb-ao.db", "U=USEG:TST1:150")
-
-# Load databases for Undulator BPM and X-YCOR corrections
-dbLoadRecords("db/xxBPMCorrection.vdb", "U=USEG:TST1:150")
-dbLoadRecords("db/xxCORcorrection.vdb", "U=USEG:TST1:150, UN1=USEG:TST1:250, N=1")
-
-## Load database to save reference motor positions
-dbLoadRecords("db/save-reference-position.db", "U=USEG:TST1:150")
 
 # Load database for autosave/restore status pv's
 dbLoadRecords("db/save_restoreStatus.db","P=IOC:TST1:UC01:")

@@ -18,7 +18,7 @@ bspExtVerbosity=0
 # The FPGA DIO module is in the B slot and the SOPC base address 
 # is 0x800000 for the FPGA to put it in MEM address space
 ipacAddXy9660("0x6000,3 B=1,800000 C=1,A00000")
-hgvpuCarrier = ipacAddCarrierType()
+hgvpuCarrier = ipacLatestCarrier()
 
 ipacAddXy9660("0x0,1 A=1,D00000")
 camCarrier = ipacLatestCarrier()
