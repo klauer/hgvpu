@@ -1,0 +1,124 @@
+# ========================================================================
+# Create Asyn Serial Port
+# -------------------------------------------------------------------------
+# drvAsynSerialPortConfigure(char *portName,char *ttyName,int priority,int noAutoConnect,int noProcessEosIn)
+#   portName      - The portName that is registered with asynGpib.
+#   ttyName       - The name of the local serial port (e.g. "/dev/ttyS0").
+#   priority      - Priority at which the asyn I/O thread will run. If this is zero or missing,then
+#                   epicsThreadPriorityMedium is used.
+#   addr          - This argument is ignored since serial devices are configured with multiDevice=0.
+#   noAutoConnect - Zero or missing indicates that portThread should automatically connect. Non-zero if
+#                   explicit connect command must be issued.
+#   noProcessEos  - If 0 then asynInterposeEosConfig is called specifying both processEosIn and processEosOut.
+# -------------------------------------------------------------------------
+
+# ========================================================================
+# Set Asyn Serial Port Options
+# -------------------------------------------------------------------------
+# asynSetOption("portName",addr,"key","value")
+# The following parameters are for the "key"  "value" pairs
+#   baud    - < 9600 | 50 | 75 | ... | 230400 >
+#   bits    - < 8 | 7 | 6 | 5 >
+#   parity  - < none | even | odd >
+#   stop    - < 1 | 2 >
+#   clocal  - < Y | N > ( modem control lines [DTR,DSR] used=Y or ignored=N )
+#   crtscts - < N | Y > ( hardware handshake lines [RTS,CTS] used[Y] or ignored[N] )
+# -------------------------------------------------------------------------
+
+# Create serial port for Animatics Smart Motor - Cam #1
+drvAsynSerialPortConfigure("L0","/tyGS:0:0",0,0,0)
+# Configure serial port parameters
+asynSetOption("L0", -1, "baud", "9600")
+asynSetOption("L0", -1, "bits", "8")
+asynSetOption("L0", -1, "parity", "none")
+asynSetOption("L0", -1, "stop", "1")
+asynSetOption("L0", -1, "clocal", "Y")
+asynSetOption("L0", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L0", 0, 2)
+#asynSetTraceMask("L0", 0, 0x19)
+
+# Create serial port for Animatics Smart Motor - Cam #2
+drvAsynSerialPortConfigure("L1","/tyGS:0:1",0,0,0)
+# Configure serial port parameters
+asynSetOption("L1", -1, "baud", "9600")
+asynSetOption("L1", -1, "bits", "8")
+asynSetOption("L1", -1, "parity", "none")
+asynSetOption("L1", -1, "stop", "1")
+asynSetOption("L1", -1, "clocal", "Y")
+asynSetOption("L1", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L1", 0, 2)
+#asynSetTraceMask("L1", 0, 0x19)
+
+# Create serial port for Animatics Smart Motor - Cam #3
+drvAsynSerialPortConfigure("L2","/tyGS:0:2",0,0,0)
+# Configure serial port parameters
+asynSetOption("L2", -1, "baud", "9600")
+asynSetOption("L2", -1, "bits", "8")
+asynSetOption("L2", -1, "parity", "none")
+asynSetOption("L2", -1, "stop", "1")
+asynSetOption("L2", -1, "clocal", "Y")
+asynSetOption("L2", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L2", -1, 2)
+#asynSetTraceMask("L2", -1, 0x19)
+
+# Create serial port for Animatics Smart Motor - Cam #4
+drvAsynSerialPortConfigure("L3","/tyGS:0:3",0,0,0)
+# Configure serial port parameters
+asynSetOption("L3", -1, "baud", "9600")
+asynSetOption("L3", -1, "bits", "8")
+asynSetOption("L3", -1, "parity", "none")
+asynSetOption("L3", -1, "stop", "1")
+asynSetOption("L3", -1, "clocal", "Y")
+asynSetOption("L3", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L3", -1, 2)
+#asynSetTraceMask("L3", -1, 0x19)
+
+# Create serial port for Animatics Smart Motor - Cam #5
+drvAsynSerialPortConfigure("L4","/tyGS:0:4",0,0,0)
+# Configure serial port parameters
+asynSetOption("L4", -1, "baud", "9600")
+asynSetOption("L4", -1, "bits", "8")
+asynSetOption("L4", -1, "parity", "none")
+asynSetOption("L4", -1, "stop", "1")
+asynSetOption("L4", -1, "clocal", "Y")
+asynSetOption("L4", -1, "crtscts", "N")
+
+# For Debugging uncomment the following:
+#asynSetTraceIOMask("L4", -1, 2)
+#asynSetTraceMask("L4", -1, 0x19)
+
+# ========================================================================
+# Setup/Configure SmartMotor parameters
+# -------------------------------------------------------------------------
+# SmartCreateController(motorPortName,asynPortName,realAxis,virtualAxis,movingPollPeriode,idlePollPeriode)
+#   motorPortName     - motor moduel port name
+#   asynPortName      - asyn port name for serial communication
+#   realAxis          - number of real axis
+#   virtualAxis       - number of virtual axis
+#   movingPollPeriode - poll periode while in motion
+#   idlePollPeriode   - poll periode while idle
+# -------------------------------------------------------------------------
+
+# CAM #1 Motor
+iocshCmd("SmartCreateController(S0,L0,1,0,100,1000)")
+
+# CAM #2 motor
+iocshCmd("SmartCreateController(S1,L1,1,0,100,1000)")
+
+# CAM #3 motor
+iocshCmd("SmartCreateController(S2,L2,1,0,100,1000)")
+
+# CAM #4 motor
+iocshCmd("SmartCreateController(S3,L3,1,0,100,1000)")
+
+# CAM #5 motor
+iocshCmd("SmartCreateController(S4,L4,1,0,100,1000)")
+
