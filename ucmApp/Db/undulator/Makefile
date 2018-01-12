@@ -20,28 +20,14 @@ CFG +=  CONFIG_SECURITY
 # Create and install (or just install)
 # databases, templates, substitutions like this
 
-DB += xxCamMotor.vdb
-DB += xxCamAsynMotor.vdb
-DB += xxTranslationMotor.vdb
-DB += xxTranslationAsynMotor.vdb
-DB += xxUndulatorBFWact.vdb
 DB += xxUndulatorRTD.vdb
 DB += xxUndulatorSmartMon.vdb
-DB += xxCamMotion.vdb
 DB += xxLinearMotion.vdb
 DB += undulatorCommon.vdb
-DB += xxCamCalibration.vdb
 DB += xxRTDsum1.db
 DB += UndulatorCallAlarm.vdb
-DB += xxUndulatorDispAlarmSum.db
 DB += UndulatorESTOPsum.vdb
-DB += xxUndulatorField.vdb
-DB += useg-poly-bb.db
-DB += poly-bb-ao.db
 DB += undulatorRTD.db
-DB += xxUndulatorDisplay.vdb
-DB += xxBPMCorrection.vdb
-DB += xxCORcorrection.vdb
 DB += undulatorSoft.db
 DB += correctionSoft.db
 DB += RFBU00Correction.vdb
@@ -49,7 +35,6 @@ DB += RFBU00SoftCorrection.vdb
 DB += UndulatorSum.db
 DB += UndulatorCorrectionSummary.vdb
 DB += useg34.vdb
-DB += save-reference-position.db
 DB += smart_extra.db
 
 DB += IDcommon_NewPower.db
@@ -66,6 +51,24 @@ DB += FagorEncoders.db
 DB += HGVPU_coordMotion.db 
 
 DB += camMotion.db
+# camMotion inflates following dbs
+#DB += xxCamMotor.vdb
+#DB += xxCamAsynMotor.vdb
+#DB += xxTranslationMotor.vdb
+#DB += xxTranslationAsynMotor.vdb
+#DB += xxCamMotion.vdb
+#DB += xxCamCalibration.vdb
+#DB += xxUndulatorDispAlarmSum.db
+#DB += save-reference-position.db
+
+# LCLS specific databases
+#DB += xxUndulatorField.vdb
+#DB += useg-poly-bb.db
+#DB += poly-bb-ao.db
+#DB += xxBPMCorrection.vdb
+#DB += xxCORcorrection.vdb
+#DB += xxUndulatorBFWact.vdb
+#DB += xxUndulatorDisplay.vdb
 
 # ==========================================
 # Install autosave/restore request files
