@@ -41,49 +41,49 @@ cexpsh("iocBoot/common/init_VME_hardware.cmd")
 # ===================== Load databases ===============================
 
 # Load iocAdmin database which reports on ioc health
-iocshCmd("dbLoadRecords('db/iocAdminRTEMS.db', 'IOC=IOC:${LOCATION}:${IOC_NAME}')")
-iocshCmd("dbLoadRecords('db/iocRelease.db', 'IOC=IOC:${LOCATION}:${IOC_NAME}')")
+iocshCmd("dbLoadRecords(\"db/iocAdminRTEMS.db\", \"IOC=IOC:${LOCATION}:${IOC_NAME}\")")
+iocshCmd("dbLoadRecords(\"db/iocRelease.db\", \"IOC=IOC:${LOCATION}:${IOC_NAME}\")")
 
 # Load database for cam motion
-camCarrier && iocshCmd("dbLoadRecords('db/camMotion.db', 'U=${PREFIX}')")
+camCarrier && iocshCmd("dbLoadRecords(\"db/camMotion.db\", \"U=${PREFIX}\")")
 
 
 # HGVPU Specific
-iocshCmd("dbLoadRecords('db/HGVPU.db', 'U=${PREFIX}')")
-iocshCmd("dbLoadRecords('db/smart_extra.db', 'P=${PREFIX}:,M=USW,PORT=S7,ADDR=0')")
-iocshCmd("dbLoadRecords('db/smart_extra.db', 'P=${PREFIX}:,M=USA,PORT=S7,ADDR=1')")
-iocshCmd("dbLoadRecords('db/smart_extra.db', 'P=${PREFIX}:,M=DSW,PORT=S7,ADDR=2')")
-iocshCmd("dbLoadRecords('db/smart_extra.db', 'P=${PREFIX}:,M=DSA,PORT=S7,ADDR=3')")
-iocshCmd("dbLoadRecords('db/IDcommon_NewPower.db', 'U=${PREFIX},DH=100.0,DL=7.18,BL=7.19')")
-iocshCmd("dbLoadRecords('db/IDLimitSwitches.db', 'U=${PREFIX},PORT=limits,PORT1=internalIO')")
-iocshCmd("dbLoadRecords('db/IDmotion.db', 'U=${PREFIX},S=5.0,PORT=idmon')")
-iocshCmd("dbLoadRecords('db/IDMonitors.db', 'U=${PREFIX},PORT=idmon,PORT1=monitors')")
-iocshCmd("dbLoadRecords('db/IDerrors.db', 'U=${PREFIX}')")
-iocshCmd("dbLoadRecords('db/FagorEncoders.db', 'U=${PREFIX}')")
-iocshCmd("dbLoadRecords('db/HGVPU_coordMotion.db', 'U=${PREFIX}')")
+iocshCmd("dbLoadRecords(\"db/HGVPU.db\", \"U=${PREFIX}\")")
+iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USW,PORT=S7,ADDR=0\")")
+iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USA,PORT=S7,ADDR=1\")")
+iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSW,PORT=S7,ADDR=2\")")
+iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSA,PORT=S7,ADDR=3\")")
+iocshCmd("dbLoadRecords(\"db/IDcommon_NewPower.db\", \"U=${PREFIX},DH=100.0,DL=7.18,BL=7.19\")")
+iocshCmd("dbLoadRecords(\"db/IDLimitSwitches.db\", \"U=${PREFIX},PORT=limits,PORT1=internalIO\")")
+iocshCmd("dbLoadRecords(\"db/IDmotion.db\", \"U=${PREFIX},S=5.0,PORT=idmon\")")
+iocshCmd("dbLoadRecords(\"db/IDMonitors.db\", \"U=${PREFIX},PORT=idmon,PORT1=monitors\")")
+iocshCmd("dbLoadRecords(\"db/IDerrors.db\", \"U=${PREFIX}\")")
+iocshCmd("dbLoadRecords(\"db/FagorEncoders.db\", \"U=${PREFIX}\")")
+iocshCmd("dbLoadRecords(\"db/HGVPU_coordMotion.db\", \"U=${PREFIX}\")")
 
 # Load databases for HGPVU linear encoders
-iocshCmd("dbLoadRecords('db/tews_LinearSSI.db', 'U=${PREFIX},PORT=LinEnc,USW_OFF=88.4245,USA_OFF=86.9381,DSW_OFF=86.9954,DSA_OFF=87.7675,USG_OFF=-3542.72525,DSG_OFF=-4273.2550')")
+iocshCmd("dbLoadRecords(\"db/tews_LinearSSI.db\", \"U=${PREFIX},PORT=LinEnc,USW_OFF=88.4245,USA_OFF=86.9381,DSW_OFF=86.9954,DSA_OFF=87.7675,USG_OFF=-3542.72525,DSG_OFF=-4273.2550\")")
 
 # Asyn record for HGVPU motors
-iocshCmd("dbLoadRecords('db/asynRecord.db', 'P=${PREFIX}:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX=0,OMAX=0')")
+iocshCmd("dbLoadRecords(\"db/asynRecord.db\", \"P=${PREFIX}:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX=0,OMAX=0\")")
 
 
 # Load databases for RTD temperature monitors
-#!iocshCmd("dbLoadRecords('db/undulatorRTD.db', 'U=${PREFIX},PORT=ai1')")
-#!iocshCmd("dbLoadRecords('db/xxUndulatorRTD.vdb', 'U=${PREFIX}')")
+#!iocshCmd("dbLoadRecords(\"db/undulatorRTD.db\", \"U=${PREFIX},PORT=ai1\")")
+#!iocshCmd("dbLoadRecords(\"db/xxUndulatorRTD.vdb\", \"U=${PREFIX}\")")
 
 # Load databases for undulator smart monitors
-#!iocshCmd("dbLoadRecords('db/xxUndulatorSmartMon.vdb', 'U=${PREFIX}, B=BFW:${LOCATION}:${SEGMENT}10, PORT1=io8, PORT2=ai1')")
+#!iocshCmd("dbLoadRecords(\"db/xxUndulatorSmartMon.vdb\", \"U=${PREFIX}, B=BFW:${LOCATION}:${SEGMENT}10, PORT1=io8, PORT2=ai1\")")
 
 # Load database for autosave/restore status pv's
-iocshCmd("dbLoadRecords('db/save_restoreStatus.db', 'P=IOC:${LOCATION}:${IOC_NAME}:')")
+iocshCmd("dbLoadRecords(\"db/save_restoreStatus.db\", \"P=IOC:${LOCATION}:${IOC_NAME}:\")")
 
 # ===================== Load unique items for undulator segment ======
 cexpsh("iocBoot/%H/st-unique.cmd")
 
 # ===================== Autosave/restore Settings ====================
-iocshCmd("save_restoreSet_status_prefix('IOC:${LOCATION}:${IOC_NAME}:')")
+iocshCmd("save_restoreSet_status_prefix(\"IOC:${LOCATION}:${IOC_NAME}:\")")
 save_restoreSet_IncompleteSetsOk(1)
 save_restoreSet_DatedBackupFiles(1)
 set_requestfile_path("/data/autosave-req") 
@@ -115,9 +115,9 @@ chdir("/data/autosave-req")
 iocshCmd("makeAutosaveFiles()")
 
 # Create autsave monitors
-iocshCmd("create_monitor_set('info_positions.req', 5, 'U=${PREFIX}, B=BFW:${LOCATION}:${SEGMENT}10')")
-iocshCmd("create_monitor_set('info_settings.req', 30, 'U=${PREFIX}')")
+iocshCmd("create_monitor_set(\"info_positions.req\", 5, \"U=${PREFIX}, B=BFW:${LOCATION}:${SEGMENT}10\")")
+iocshCmd("create_monitor_set(\"info_settings.req\", 30, \"U=${PREFIX}\")")
 
 # ===================== Start sequence programs ======================
-camCarrier && iocshCmd("seq( &camCal, 'S=${PREFIX}')")
+camCarrier && iocshCmd("seq( &camCal, \"S=${PREFIX}\")")
 
