@@ -45,7 +45,7 @@ iocshCmd("dbLoadRecords(\"db/iocAdminRTEMS.db\", \"IOC=IOC:${LOCATION}:${IOC_NAM
 iocshCmd("dbLoadRecords(\"db/iocRelease.db\", \"IOC=IOC:${LOCATION}:${IOC_NAME}\")")
 
 # Load database for cam motion
-camCarrier && iocshCmd("dbLoadRecords(\"db/camMotion.db\", \"U=${PREFIX}")")
+camCarrier && iocshCmd("dbLoadRecords(\"db/camMotion.db\", \"U=${PREFIX}\")")
 
 
 # HGVPU Specific
