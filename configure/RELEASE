@@ -28,7 +28,7 @@ EPICS_MODULES=$(MODULES_SITE_TOP)
 # Define the version of modules needed by
 # IOC apps or other Support apps
 # =============================================================
-ASYN_MODULE_VERSION=asyn-R4-25_1-1
+ASYN_MODULE_VERSION=asyn-R4-21_1-1
 AUTOSAVE_MODULE_VERSION=autosave-R4-8-lcls3
 GENSUB_MODULE_VERSION=genSub-R1-6-lcls6
 IP330_MODULE_VERSION=ip330-asyn-R2-7_1-2
