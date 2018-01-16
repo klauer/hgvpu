@@ -48,25 +48,25 @@ iocshCmd("dbLoadRecords(\"db/iocRelease.db\", \"IOC=IOC:${LOCATION}:${IOC_NAME}\
 camCarrier && iocshCmd("dbLoadRecords(\"db/camMotion.db\", \"U=${PREFIX}\")")
 
 
+# Load database for HGVPU motion
+iocshCmd("dbLoadRecords(\"db/hgvpuMotion.db\", \"U=${PREFIX}\")")
+
 # HGVPU Specific
-iocshCmd("dbLoadRecords(\"db/HGVPU.db\", \"U=${PREFIX}\")")
-iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USW,PORT=S7,ADDR=0\")")
-iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USA,PORT=S7,ADDR=1\")")
-iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSW,PORT=S7,ADDR=2\")")
-iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSA,PORT=S7,ADDR=3\")")
-iocshCmd("dbLoadRecords(\"db/IDcommon_NewPower.db\", \"U=${PREFIX},DH=100.0,DL=7.18,BL=7.19\")")
-iocshCmd("dbLoadRecords(\"db/IDLimitSwitches.db\", \"U=${PREFIX},PORT=limits,PORT1=internalIO\")")
-iocshCmd("dbLoadRecords(\"db/IDmotion.db\", \"U=${PREFIX},S=5.0,PORT=idmon\")")
-iocshCmd("dbLoadRecords(\"db/IDMonitors.db\", \"U=${PREFIX},PORT=idmon,PORT1=monitors\")")
-iocshCmd("dbLoadRecords(\"db/IDerrors.db\", \"U=${PREFIX}\")")
-iocshCmd("dbLoadRecords(\"db/FagorEncoders.db\", \"U=${PREFIX}\")")
-iocshCmd("dbLoadRecords(\"db/HGVPU_coordMotion.db\", \"U=${PREFIX}\")")
-
-# Load databases for HGPVU linear encoders
-iocshCmd("dbLoadRecords(\"db/tews_LinearSSI.db\", \"U=${PREFIX},PORT=LinEnc,USW_OFF=88.4245,USA_OFF=86.9381,DSW_OFF=86.9954,DSA_OFF=87.7675,USG_OFF=-3542.72525,DSG_OFF=-4273.2550\")")
-
-# Asyn record for HGVPU motors
-iocshCmd("dbLoadRecords(\"db/asynRecord.db\", \"P=${PREFIX}:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX=0,OMAX=0\")")
+#!iocshCmd("dbLoadRecords(\"db/HGVPU.db\", \"U=${PREFIX}\")")
+#!iocshCmd("dbLoadRecords(\"db/HGVPU_coordMotion.db\", \"U=${PREFIX}\")")
+#!iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USW,PORT=S7,ADDR=0\")")
+#!iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=USA,PORT=S7,ADDR=1\")")
+#!iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSW,PORT=S7,ADDR=2\")")
+#!iocshCmd("dbLoadRecords(\"db/smart_extra.db\", \"P=${PREFIX}:,M=DSA,PORT=S7,ADDR=3\")")
+#!iocshCmd("dbLoadRecords(\"db/IDcommon_NewPower.db\", \"U=${PREFIX},DH=100.0,DL=7.18,BL=7.19\")")
+#!iocshCmd("dbLoadRecords(\"db/IDLimitSwitches.db\", \"U=${PREFIX},PORT=limits,PORT1=internalIO\")")
+#!iocshCmd("dbLoadRecords(\"db/IDmotion.db\", \"U=${PREFIX},S=5.0,PORT=idmon\")")
+#!iocshCmd("dbLoadRecords(\"db/IDMonitors.db\", \"U=${PREFIX},PORT=idmon,PORT1=monitors\")")
+#!iocshCmd("dbLoadRecords(\"db/IDerrors.db\", \"U=${PREFIX}\")")
+#!iocshCmd("dbLoadRecords(\"db/ID_FPGArev.db\", \"U=${PREFIX}\")")
+#!iocshCmd("dbLoadRecords(\"db/FagorEncoders.db\", \"U=${PREFIX}\")")
+#!iocshCmd("dbLoadRecords(\"db/tews_LinearSSI.db\", \"U=${PREFIX},PORT=LinEnc,USW_OFF=88.4245,USA_OFF=86.9381,DSW_OFF=86.9954,DSA_OFF=87.7675,USG_OFF=-3542.72525,DSG_OFF=-4273.2550\")")
+#!iocshCmd("dbLoadRecords(\"db/asynRecord.db\", \"P=${PREFIX}:ASYN,R=HGU,PORT=L7,ADDR=0,IMAX=0,OMAX=0\")")
 
 
 # Load databases for RTD temperature monitors

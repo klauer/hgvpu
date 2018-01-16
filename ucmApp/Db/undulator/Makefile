@@ -35,23 +35,25 @@ DB += RFBU00SoftCorrection.vdb
 DB += UndulatorSum.db
 DB += UndulatorCorrectionSummary.vdb
 DB += useg34.vdb
-DB += smart_extra.db
 
-DB += IDcommon_NewPower.db
-DB += IDmotion.db
-DB += IDerrors.db
-DB += ID_FPGArev.db
-DB += IDLimitSwitches.db
-DB += IDMonitors.db
-DB += HGVPU.db
-DB += HGVPUmotors.db
-DB += tews_LinearSSI.db
-DB += FagorEncoders.db
-
-DB += HGVPU_coordMotion.db 
+DB += hgvpuMotion.db
+#  hgvpuMotion inflates follwing dbs for HGVPU system moton:
+#DB += HGVPU.db
+#DB += HGVPU_masterMotorStatus.db
+#DB += HGVPU_real_motor.db
+#DB += HGVPU_virt_motor.db
+#DB += smart_extra.db
+#DB += IDcommon_NewPower.db
+#DB += IDLimitSwitches.db
+#DB += IDmotion.db
+#DB += IDMonitors.db
+#DB += IDerrors.db
+#DB += ID_FPGArev.db
+#DB += FagorEncoders.db
+#DB += tews_LinearSSI.db
 
 DB += camMotion.db
-# camMotion inflates following dbs
+# camMotion inflates following dbs for CAM system motion:
 #DB += xxCamMotor.vdb
 #DB += xxCamAsynMotor.vdb
 #DB += xxTranslationMotor.vdb
@@ -75,7 +77,7 @@ DB += camMotion.db
 SECURITY += ucmAccessControl.acf
 # =========================================
 
-DB_INSTALLS += $(ASYN)/db/asynRecord.db
+#DB_INSTALLS += $(ASYN)/db/asynRecord.db
 DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 DB_INSTALLS += $(IOCADMIN)/db/iocAdminRTEMS.db
 DB_INSTALLS += $(IOCADMIN)/db/iocAdminSoft.db

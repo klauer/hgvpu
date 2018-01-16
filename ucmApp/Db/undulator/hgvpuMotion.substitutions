@@ -1,0 +1,90 @@
+file HGVPU.db
+{
+pattern { U      }
+        { "$(U)" }
+}
+
+file HGVPU_masterMotorStatus.db
+{
+pattern { AXIS  , PORT, ADDR }
+        { "USW" , S7  , 0    }
+}
+
+file HGVPU_real_motor.db
+{
+pattern {  AXIS , PORT, ADDR, DESC     , DIR, DLLM, DHLM, MRES  , VELO, VBAS, VMAX, ACCL, TWV, SREV }
+        {  "USW", S7  , 0   , "Motor 1", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
+        {  "DSW", S7  , 1   , "Motor 2", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
+        {  "DSA", S7  , 2   , "Motor 3", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
+        {  "USA", S7  , 3   , "Motor 4", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
+} 
+
+file HGVPU_virt_motor.db
+{
+pattern { AXIS , PORT, ADDR, DESC       , DIR, DLLM, DHLM, MRES   , PREC, EGU, VELO, VBAS, VMAX, ACCL, TWV, RRES, RDBL     , DEST     }
+        { "Gap", S7  , 4   , "Gap Motor", Pos, 0   , 0   , 1.27e-5, 4   , mm , 0.5 , 0.01, 3.67, 1   , 0.1, 1   , "Gap.VAL", "GapSet" } 
+} 
+
+file smart_extra.db
+{
+pattern { P      , M    , PORT, ADDR }
+        { "$(U):", "USW", S7  , 0    }
+        { "$(U):", "DSW", S7  , 1    }
+        { "$(U):", "DSA", S7  , 2    }
+        { "$(U):", "USA", S7  , 3    }
+}
+
+file IDcommon_NewPower.db
+{
+pattern { DH , DL  , BL   }
+        { 120, 7.18, 7.19 }
+}
+
+file IDLimitSwitches.db
+{
+pattern { PORT    , PORT1        }
+        { "limits", "internalIO" }
+}
+
+file IDmotion.db
+{
+pattern { PORT   , S   }
+        { "idmon", 5.0 }
+}
+
+file IDMonitors.db
+{
+pattern { PORT   , PORT1      }
+        { "idmon", "monitors" }
+}
+
+file IDerrors.db
+{
+pattern { U      }
+        { "$(U)" }
+}
+
+file ID_FPGArev.db
+{
+pattern { U      }
+        { "$(U)" }
+}
+
+file FagorEncoders.db
+{
+pattern { U      }
+        { "$(U)" }
+}
+
+file tews_LinearSSI.db
+{
+pattern { PORT    , USW_OFF, USA_OFF, DSW_OFF, DSA_OFF, USG_OFF    , DSG_OFF    }
+        { "LinEnc", 88.4245, 86.9381, 86.9954, 87.7675, -3542.72525, -4273.2550 }
+}
+
+file asynRecord.db
+{
+pattern { P          , R    , PORT, ADDR, IMAX, OMAX }
+        { "$(U):ASYN", "HGU", S7  , 0   , 0   , 0    }
+}
+
