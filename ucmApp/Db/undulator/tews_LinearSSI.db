@@ -5,7 +5,7 @@ record(ai,"$(U):USALinearEncoder") {
 	field(DTYP,"asynInt32")
         field(INP,"@asyn($(PORT),0)")
 	field(ASLO,"-0.0001")
-	field(AOFF,"$(L2)")
+	field(AOFF,"$(USA_OFF)")
 	field(PREC,"4")
 	field(EGU,"mm")	
 }
@@ -16,7 +16,7 @@ record(ai,"$(U):USWLinearEncoder") {
 	field(DTYP,"asynInt32")
         field(INP,"@asyn($(PORT),1)")
 	field(ASLO,"-0.0001")
-	field(AOFF,"$(L1)")
+	field(AOFF,"$(USW_OFF)")
 	field(PREC,"4")
 	field(EGU,"mm")	
 }
@@ -27,7 +27,7 @@ record(ai,"$(U):DSWLinearEncoder") {
 	field(DTYP,"asynInt32")
         field(INP,"@asyn($(PORT),2)")
 	field(ASLO,"-0.0001")
-	field(AOFF,"$(L3)")
+	field(AOFF,"$(DSW_OFF)")
 	field(PREC,"4")
 	field(EGU,"mm")	
 }
@@ -38,10 +38,56 @@ record(ai,"$(U):DSALinearEncoder") {
 	field(DTYP,"asynInt32")
         field(INP,"@asyn($(PORT),4)")
 	field(ASLO,"-0.0001")
-	field(AOFF,"$(L4)")
+	field(AOFF,"$(DSA_OFF)")
 	field(PREC,"4")
 	field(EGU,"mm")	
 }
+
+record(ai,"$(U):USGapEncoder_RAW") {
+    field(DESC,"US Gap Amosin Encoder raw counts")
+    field(SCAN,".1 second")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT),5)")
+    field(PREC,"4")
+    field(EGU,"cnt")
+}
+record(calc,"$(U):USGapEncoder") {
+    field(DESC,"US Gap Amosin Encoder Position")
+    field(INPA,"0.00025")
+    field(INPB,"$(U):USGapEncoder_RAW CP MS")
+    field(INPC,"$(USG_OFF)")
+    field(CALC, "A*(B>>2)+C")
+    field(PREC,"4")
+    field(EGU,"mm")
+}
+record(calc,"$(U):USGapEncoder_Err") {
+    field(DESC,"US Gap Amosin Encoder Error Bit")
+    field(INPA,"$(U):USGapEncoder_RAW CP MS")
+    field(CALC, "A&2")
+}
+record(ai,"$(U):DSGapEncoder_RAW") {
+    field(DESC,"DS Gap Amosin Encoder raw counts")
+    field(SCAN,".1 second")
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT),6)")
+    field(PREC,"4")
+    field(EGU,"cnt")
+}
+record(calc,"$(U):DSGapEncoder") {
+    field(DESC,"DS Gap Amosin Encoder Position")
+    field(INPA,"0.00025")
+    field(INPB,"$(U):DSGapEncoder_RAW CP MS")
+    field(INPC,"$(DSG_OFF)")
+    field(CALC, "A*(B>>2)+C")
+    field(PREC,"4")
+    field(EGU,"mm")
+}
+record(calc,"$(U):DSGapEncoder_Err") {
+    field(DESC,"DS Gap Amosin Encoder Error Bit")
+    field(INPA,"$(U):DSGapEncoder_RAW CP MS")
+    field(CALC, "A&2")
+}
+
 #############################################
 # Find the maximum encoder raw value and set the
 # encoder offsets for the FPGA accordingly
