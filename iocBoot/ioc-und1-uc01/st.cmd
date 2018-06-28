@@ -356,7 +356,7 @@ iocshCmd("SmartCreateController(S7,L7,4,1,100,1000)")
 #    standard softGlue 2.2 plus two up/down counters
 #initIP_EP200_FPGA(0, 2, "$(SOFTGLUE,undefined)/softGlueApp/Db/SoftGlue_2_2_1ID_Vgate_0_1.hex")
 # Use this line to load the HGVPU hex file into FPGA at cold boot (Not tested)
-#!initIP_EP200_FPGA(1, 1, "ucmApp/Db/undulator/HGVPU.hex")
+initIP_EP200_FPGA(1, 1, "ucmApp/Db/undulator/HGVPU_SSI_SLACLatched_v2.hexout")
 
 ################################################################################
 # OLD SOFTGLUE DRIVER
@@ -580,7 +580,9 @@ dbLoadRecords("db/xxLinearMotion.vdb","U=USEG:UND1:150,PORT=ai1, UND=U01, kmax=1
 # For tews_LinearSSI.db: L1=USW Encoder, L2=USA Encoder, L3=DSW Encoder, L4=DSA Encoder
 # These are the linear encoder offsets for the 1/2 gap for this device
 # You will need to devise a method for including these for eac device
-dbLoadRecords("db/tews_LinearSSI.db","U=USEG:UND1:150,PORT=LinEnc,L1=103.8174,L2=102.0518,L3=102.1204,L4=99.4575")
+# dbLoadRecords("db/tews_LinearSSI.db","U=USEG:UND1:150,PORT=LinEnc,L1=103.8174,L2=102.0518,L3=102.1204,L4=99.4575")
+# HXU001 from Motion Solutions
+dbLoadRecords("db/tews_LinearSSI.db","U=USEG:UND1:150,PORT=LinEnc,L1=89.2202,L2=89.0865,L3=88.0813,L4=87.9695")
 #dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO,ADDR=0x800030,OMAX=0,IMAX=0")
 #dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO1,ADDR=0x800038,OMAX=0,IMAX=0")
 #dbLoadRecords("db/asynRecord.db","P=mls:,R=IO4,PORT=internalIO2,ADDR=0x800040,OMAX=0,IMAX=0")

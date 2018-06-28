@@ -77,7 +77,7 @@ DB += camMotion.db
 SECURITY += ucmAccessControl.acf
 # =========================================
 
-#DB_INSTALLS += $(ASYN)/db/asynRecord.db
+DB_INSTALLS += $(ASYN)/db/asynRecord.db
 DB_INSTALLS += $(AUTOSAVE)/db/save_restoreStatus.db
 DB_INSTALLS += $(IOCADMIN)/db/iocAdminRTEMS.db
 DB_INSTALLS += $(IOCADMIN)/db/iocAdminSoft.db

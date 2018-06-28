@@ -289,7 +289,7 @@ asynSetOption("L10", -1, "crtscts", "N")
 # -------------------------------------------------------------------------
 
 # Undulator motors
-iocshCmd("SmartCreateController(S7,M1_USW,4,1,100,1000)")
+#!iocshCmd("SmartCreateController(S7,M1_USW,4,1,100,1000)")
 
 # ========================================================================
 # Initialize the FPGA

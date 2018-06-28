@@ -20,7 +20,7 @@ epicsEnvSet("IOC_NAME", "UC01")
 epicsEnvSet("PREFIX",   "USEG:${LOCATION}:${SEGMENT}50")
 
 # Variable that determines if loading cam motion configuration
-setenv("CAM_MOTION","YES")
+#setenv("CAM_MOTION","TRUE")
 
 # iocAdmin environment variables
 epicsEnvSet("ENGINEER","Ziga Oven")
@@ -34,7 +34,7 @@ osdTimeRegister()
 generalTimeReport(2)
 
 # ===================== HW initialization ============================
-cexpsh("iocBoot/common/init_VME_hardware.cmd")
+cexpsh("iocBoot/ioc-b081-mc01/init_VME_hardware.cmd")
 
 # ===================== Load databases ===============================
 
@@ -48,6 +48,14 @@ getenv("CAM_MOTION") && iocshCmd("dbLoadRecords(\"db/camMotion.db\", \"U=${PREFI
 
 # Load database for HGVPU motion
 iocshCmd("dbLoadRecords(\"db/hgvpuMotion.db\", \"U=${PREFIX}\")")
+
+
+#DEBUGGGING 
+iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_1,PORT=M1_USW,ADDR=0,IMAX=0,OMAX=0\")")
+iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_2,PORT=M2_DSW,ADDR=0,IMAX=0,OMAX=0\")")
+iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_3,PORT=M3_DSA,ADDR=0,IMAX=0,OMAX=0\")")
+iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_4,PORT=M4_USA,ADDR=0,IMAX=0,OMAX=0\")")
+
 
 # Load databases for RTD temperature monitors
 #!iocshCmd("dbLoadRecords(\"db/undulatorRTD.db\", \"U=${PREFIX},PORT=ai1\")")
@@ -81,6 +89,7 @@ iocInit()
 # ====================================================================
 
 # ===================== Load unique items post iocBoot ===============
+cexpsh(pathSubstitute("iocBoot/%H/st-offsets.cmd"))
 cexpsh(pathSubstitute("iocBoot/%H/st-post-unique.cmd"))
 
 # ===================== caPutLogging configuration ===================
