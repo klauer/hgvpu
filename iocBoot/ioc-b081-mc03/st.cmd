@@ -34,7 +34,8 @@ osdTimeRegister()
 generalTimeReport(2)
 
 # ===================== HW initialization ============================
-cexpsh("iocBoot/ioc-b081-mc01/init_VME_hardware.cmd")
+# cexpsh("iocBoot/ioc-b081-mc03/init_VME_hardware.cmd")
+cexpsh(pathSubstitute("iocBoot/%H/init_VME_hardware.cmd"))
 
 # ===================== Load databases ===============================
 
