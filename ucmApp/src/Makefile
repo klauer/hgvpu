@@ -40,6 +40,7 @@ ucmIoc_DBD += devA16Vme.dbd
 ucmIoc_DBD += calcSupport.dbd
 ucmIoc_DBD += busySupport.dbd
 ucmIoc_DBD += softGlueSupport.dbd
+ucmIoc_DBD += setGap.dbd
 endif
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
@@ -108,6 +109,7 @@ ifneq ($(SNCSEQ),)
  USR_SRCS += recovery.st
  USR_SRCS += bfwMon.st
  USR_SRCS += autoOff.st
+ USR_SRCS += setGap.stt
  USR_LIBS += seq pv
 endif
 
