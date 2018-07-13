@@ -39,7 +39,7 @@ record(stringin,"$(P)$(M):ERROR") {
 }
 
 record(ai,"$(P)$(M):MCTR0") {
-    field(DESC,"Motor Torque")
+    field(DESC,"Internal Encoder Counter")
     field(PREC,"3")
     field(DTYP, "asynFloat64")
     field(SCAN, "I/O Intr")

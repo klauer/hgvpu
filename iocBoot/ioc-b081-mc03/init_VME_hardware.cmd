@@ -215,11 +215,11 @@ asynSetOption("M1_USW", -1, "clocal", "Y")
 asynSetOption("M1_USW", -1, "crtscts", "N")
 
 # For Debugging uncomment the following:
-#asynSetTraceIOMask("M1_USW", -1, 2)
-#asynSetTraceMask("M1_USW", -1, 0x1)
+asynSetTraceIOMask("M1_USW", -1, 2)
+asynSetTraceMask("M1_USW", -1, 0x1)
 
 # Degbugging motors
-## Create serial port for Animatics Smart Motor - US Aisle ID motor
+## Create serial port for [Animatics Smart Motor - US Aisle ID motor
 drvAsynSerialPortConfigure("M4_USA","/IP520:0:0",0,0,0)
 ## Configure serial port parameters
 asynSetOption("M4_USA", -1, "baud", "9600")
@@ -262,14 +262,14 @@ asynSetOption("M2_DSW", -1, "crtscts", "N")
 #asynSetTraceMask("M2_DSW", -1, 0x1)
 
 ## Create serial port for Animatics Smart Motor - Phase Shifter motor
-drvAsynSerialPortConfigure("L10","/IP520:0:4",0,0,0)
+#drvAsynSerialPortConfigure("L10","/IP520:0:4",0,0,0)
 ## Configure serial port parameters
-asynSetOption("L10", -1, "baud", "9600")
-asynSetOption("L10", -1, "bits", "8")
-asynSetOption("L10", -1, "parity", "none")
-asynSetOption("L10", -1, "stop", "1")
-asynSetOption("L10", -1, "clocal", "Y")
-asynSetOption("L10", -1, "crtscts", "N")
+#asynSetOption("L10", -1, "baud", "9600")
+#asynSetOption("L10", -1, "bits", "8")
+#asynSetOption("L10", -1, "parity", "none")
+#asynSetOption("L10", -1, "stop", "1")
+#asynSetOption("L10", -1, "clocal", "Y")
+#asynSetOption("L10", -1, "crtscts", "N")
 
 # For Debugging uncomment the following:
 #asynSetTraceIOMask("L10", -1, 2)
@@ -289,7 +289,23 @@ asynSetOption("L10", -1, "crtscts", "N")
 # -------------------------------------------------------------------------
 
 # Undulator motors
+
+# Talk to master motor, with one virtual motor:
 iocshCmd("SmartCreateController(S7,M1_USW,4,1,100,1000)")
+
+# Talk to master motor, with no virtual motor (NO gap motor):
+# iocshCmd("SmartCreateController(S7,M1_USW,4,0,100,1000)")
+
+# Talk to motors individually (NO gap motor):
+# iocshCmd("SmartCreateController(S7,M1_USW,1,0,100,1000)")
+# iocshCmd("SmartCreateController(S8,M2_DSW,1,0,100,1000)")
+# iocshCmd("SmartCreateController(S9,M3_DSA,1,0,100,1000)")
+# iocshCmd("SmartCreateController(S10,M4_USA,1,0,100,1000)")
+
+
+# For Debugging uncomment the following:
+asynSetTraceIOMask("S7", -1, 2)
+asynSetTraceMask("S7", -1, 0x1)
 
 # ========================================================================
 # Initialize the FPGA

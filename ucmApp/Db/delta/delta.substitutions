@@ -12,11 +12,12 @@ pattern
   { PHAS:UND1:3340:,     MOTR, "Phase Shifter", Pos,  0.2,  0.1, 0.4,  1, Yes,    4,  mm,  100, 11,    0.001,   S5,   0,  1,  0.1,   "", 0.00003175, 0, supervisory,  ""}
 }
 
-file smart_extra.db{
-pattern
- {        P,      M, PORT, ADDR}
- {PHAS:UND1:, 3340,   S5,    0}
-}
+# TODO
+# file smart_extra.db{
+#pattern
+# {        P,      M, PORT, ADDR}
+# {PHAS:UND1:, 3340,   S5,    0}
+#}
 
 file motor-sim.template 
 {

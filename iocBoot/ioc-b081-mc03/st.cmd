@@ -34,8 +34,8 @@ osdTimeRegister()
 generalTimeReport(2)
 
 # ===================== HW initialization ============================
-# cexpsh("iocBoot/ioc-b081-mc03/init_VME_hardware.cmd")
-cexpsh(pathSubstitute("iocBoot/%H/init_VME_hardware.cmd"))
+cexpsh("iocBoot/ioc-b081-mc03/init_VME_hardware.cmd")
+# cexpsh(pathSubstitute("iocBoot/%H/init_VME_hardware.cmd"))
 
 # ===================== Load databases ===============================
 
@@ -53,9 +53,9 @@ iocshCmd("dbLoadRecords(\"db/hgvpuMotion.db\", \"U=${PREFIX}\")")
 
 #DEBUGGGING 
 iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_1,PORT=M1_USW,ADDR=0,IMAX=0,OMAX=0\")")
-iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_2,PORT=M2_DSW,ADDR=0,IMAX=0,OMAX=0\")")
-iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_3,PORT=M3_DSA,ADDR=0,IMAX=0,OMAX=0\")")
-iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_4,PORT=M4_USA,ADDR=0,IMAX=0,OMAX=0\")")
+#iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_2,PORT=M2_DSW,ADDR=0,IMAX=0,OMAX=0\")")
+#iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_3,PORT=M3_DSA,ADDR=0,IMAX=0,OMAX=0\")")
+#iocshCmd("dbLoadRecords(\"db/asynRecord.db\",\"P=${PREFIX}:ASYN,R=HGU_4,PORT=M4_USA,ADDR=0,IMAX=0,OMAX=0\")")
 
 
 # Load databases for RTD temperature monitors
