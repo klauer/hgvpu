@@ -24,6 +24,7 @@ ucmIoc_DBD += ucmSoft.dbd
 ucmIoc_DBD += motorSupport.dbd
 ucmIoc_DBD += motorRecord.dbd
 ucmIoc_DBD += asyn.dbd
+ucmIoc_DBD += drvAsynSerialPort.dbd
 # ucmIoc_DBD += devSmartMotorMotor.dbd
 ucmIoc_DBD += devSmartMotorAsynSupport.dbd
 ucmIoc_DBD += tyGSOctal.dbd

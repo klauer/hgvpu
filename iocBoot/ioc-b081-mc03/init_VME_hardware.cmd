@@ -192,86 +192,31 @@ IP520DevCreate("/IP520:0:","MOD1",-1,1000,1000)
 # -------------------------------------------------------------------------
 
 # ========================================================================
-# Set Asyn Serial Port Options
-# -------------------------------------------------------------------------
-# asynSetOption("portName",addr,"key","value")
-# The following parameters are for the "key"  "value" pairs
-#   baud    - < 9600 | 50 | 75 | ... | 230400 >
-#   bits    - < 8 | 7 | 6 | 5 >
-#   parity  - < none | even | odd >
-#   stop    - < 1 | 2 >
-#   clocal  - < Y | N > ( modem control lines [DTR,DSR] used=Y or ignored=N )
-#   crtscts - < N | Y > ( hardware handshake lines [RTS,CTS] used[Y] or ignored[N] )
+# Create serial ports - all use default parameters of 9600 8N1
 # -------------------------------------------------------------------------
 
 # Create serial port for Animatics Smart Motor - US Wall ID motor
 drvAsynSerialPortConfigure("M1_USW","/IP520:0:1",0,0,0)
-# Configure serial port parameters
-asynSetOption("M1_USW", -1, "baud", "9600")
-asynSetOption("M1_USW", -1, "bits", "8")
-asynSetOption("M1_USW", -1, "parity", "none")
-asynSetOption("M1_USW", -1, "stop", "1")
-asynSetOption("M1_USW", -1, "clocal", "Y")
-asynSetOption("M1_USW", -1, "crtscts", "N")
-
-# For Debugging uncomment the following:
-#asynSetTraceIOMask("M1_USW", -1, 2)
-#asynSetTraceMask("M1_USW", -1, 0x1)
-
-# Degbugging motors
-## Create serial port for Animatics Smart Motor - US Aisle ID motor
-drvAsynSerialPortConfigure("M4_USA","/IP520:0:0",0,0,0)
-## Configure serial port parameters
-asynSetOption("M4_USA", -1, "baud", "9600")
-asynSetOption("M4_USA", -1, "bits", "8")
-asynSetOption("M4_USA", -1, "parity", "none")
-asynSetOption("M4_USA", -1, "stop", "1")
-asynSetOption("M4_USA", -1, "clocal", "Y")
-asynSetOption("M4_USA", -1, "crtscts", "N")
-
-# For Debugging uncomment the following:
-#asynSetTraceIOMask("M4_USA", -1, 2)
-#asynSetTraceMask("M4_USA", -1, 0x1)
-
 ## Create serial port for Animatics Smart Motor - DS Aisle ID motor
 drvAsynSerialPortConfigure("M3_DSA","/IP520:0:2",0,0,0)
-# Configure serial port parameters
-asynSetOption("M3_DSA", -1, "baud", "9600")
-asynSetOption("M3_DSA", -1, "bits", "8")
-asynSetOption("M3_DSA", -1, "parity", "none")
-asynSetOption("M3_DSA", -1, "stop", "1")
-asynSetOption("M3_DSA", -1, "clocal", "Y")
-asynSetOption("M3_DSA", -1, "crtscts", "N")
-
-# For Debugging uncomment the following:
-#asynSetTraceIOMask("M3_DSA", -1, 2)
-#asynSetTraceMask("M3_DSA", -1, 0x1)
-
+## Create serial port for Animatics Smart Motor - US Aisle ID motor
+drvAsynSerialPortConfigure("M4_USA","/IP520:0:0",0,0,0)
 ## Create serial port for Animatics Smart Motor - DS Wall ID motor
 drvAsynSerialPortConfigure("M2_DSW","/IP520:0:3",0,0,0)
-## Configure serial port parameters
-asynSetOption("M2_DSW", -1, "baud", "9600")
-asynSetOption("M2_DSW", -1, "bits", "8")
-asynSetOption("M2_DSW", -1, "parity", "none")
-asynSetOption("M2_DSW", -1, "stop", "1")
-asynSetOption("M2_DSW", -1, "clocal", "Y")
-asynSetOption("M2_DSW", -1, "crtscts", "N")
-
-# For Debugging uncomment the following:
-#asynSetTraceIOMask("M2_DSW", -1, 2)
-#asynSetTraceMask("M2_DSW", -1, 0x1)
-
 ## Create serial port for Animatics Smart Motor - Phase Shifter motor
 drvAsynSerialPortConfigure("L10","/IP520:0:4",0,0,0)
-## Configure serial port parameters
-asynSetOption("L10", -1, "baud", "9600")
-asynSetOption("L10", -1, "bits", "8")
-asynSetOption("L10", -1, "parity", "none")
-asynSetOption("L10", -1, "stop", "1")
-asynSetOption("L10", -1, "clocal", "Y")
-asynSetOption("L10", -1, "crtscts", "N")
+
 
 # For Debugging uncomment the following:
+asynSetTraceIOMask("M1_USW", -1, 2)
+asynSetTraceMask("M1_USW", -1, 0x1)
+asynSetTraceIOMask("M4_USA", -1, 2)
+asynSetTraceMask("M4_USA", -1, 0x1)
+asynSetTraceIOMask("M3_DSA", -1, 2)
+asynSetTraceMask("M3_DSA", -1, 0x1)
+asynSetTraceIOMask("M2_DSW", -1, 2)
+asynSetTraceMask("M2_DSW", -1, 0x1)
+
 #asynSetTraceIOMask("L10", -1, 2)
 #asynSetTraceMask("L10", -1, 0x1)
 
@@ -279,13 +224,13 @@ asynSetOption("L10", -1, "crtscts", "N")
 # ========================================================================
 # Setup/Configure SmartMotor parameters
 # -------------------------------------------------------------------------
-# SmartCreateController(motorPortName,asynPortName,realAxis,virtualAxis,movingPollPeriode,idlePollPeriode)
+# SmartCreateController(motorPortName,asynPortName,realAxis,virtualAxis,movingPollPeriod,idlePollPeriod)
 #   motorPortName     - motor moduel port name
 #   asynPortName      - asyn port name for serial communication
 #   realAxis          - number of real axis
 #   virtualAxis       - number of virtual axis
-#   movingPollPeriode - poll periode while in motion
-#   idlePollPeriode   - poll periode while idle
+#   movingPollPeriod  - poll period while in motion
+#   idlePollPeriod    - poll period while idle
 # -------------------------------------------------------------------------
 
 # Undulator motors
