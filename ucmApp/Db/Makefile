@@ -1,6 +1,7 @@
 TOP=../..
 include $(TOP)/configure/CONFIG
 
+DIRS += shared
 DIRS += undulator
 DIRS += hxrss
 DIRS += sxrss
