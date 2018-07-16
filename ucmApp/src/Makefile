@@ -22,10 +22,9 @@ ifeq ($(OS_CLASS),RTEMS)
 DBD += ucmIoc.dbd
 ucmIoc_DBD += ucmSoft.dbd
 ucmIoc_DBD += motorSupport.dbd
-ucmIoc_DBD += drvAsynSerialPort.dbd
 ucmIoc_DBD += motorRecord.dbd
-ucmIoc_DBD += drvAsynIPPort.dbd
-ucmIoc_DBD += devSmartMotorMotor.dbd
+ucmIoc_DBD += asyn.dbd
+# ucmIoc_DBD += devSmartMotorMotor.dbd
 ucmIoc_DBD += devSmartMotorAsynSupport.dbd
 ucmIoc_DBD += tyGSOctal.dbd
 ucmIoc_DBD += IP520.dbd
@@ -79,7 +78,7 @@ USR_LIBS  += busy
 # Add in VME drivers.
 ifeq ($(OS_CLASS),RTEMS)
 
-ucmIoc_LIBS += SmartMotor
+# ucmIoc_LIBS += SmartMotor
 ucmIoc_LIBS += SmartMotorAsyn
 ucmIoc_LIBS += softMotor
 ucmIoc_LIBS += motorSimSupport
