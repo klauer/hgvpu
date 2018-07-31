@@ -9,4 +9,4 @@ iocBoot/*/envPaths
 ucmApp/Db/undulator/useg*-poly*
 ucmApp/Db/undulator/temp.substitutions
 *~
-*/.*.swp
+*.swp

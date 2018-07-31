@@ -29,7 +29,7 @@ float	bfwOutPos;
 assign	bfwOutPos to "{B}:OUTPOS";
 monitor	bfwOutPos;
 
-long	excitationSTAT;
+int32_t excitationSTAT;
 assign	excitationSTAT to "{S}:EXCTTNADCM.STAT";
 monitor	excitationSTAT;
 

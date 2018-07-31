@@ -25,7 +25,7 @@ pattern { AXIS , PORT, ADDR, DESC       , DIR, DLLM, DHLM, MRES   , PREC, EGU, V
         { "Gap", S7  , 4   , "Gap Motor", Pos, 0   , 0   , 1.27e-5, 4   , mm , 0.5 , 0.01, 3.67, 1   , 0.1, 1   , "Gap.VAL", "GapSet" } 
 } 
 
-file smart_extra.db
+file AnimaticsSmartMotor_extra.db
 {
 pattern { P      , M    , PORT, ADDR }
         { "$(U):", "USW", S7  , 0    }

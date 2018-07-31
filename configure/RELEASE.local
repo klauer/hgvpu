@@ -1,0 +1,72 @@
+#RELEASE Location of external products
+# Run "gnumake clean uninstall install" in the application
+# top directory each time this file is changed.
+
+# ==========================================================
+# We will include some variables to indicate where 
+# our epics, base, modules, iocTop live.
+# We also include a variable for the version of EPICS BASE
+# =========================================================
+include $(TOP)/RELEASE_SITE
+# =========================================================
+
+TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
+
+# =============================================================
+# If you don't want to install into $(TOP) then
+# define INSTALL_LOCATION_APP here
+#INSTALL_LOCATION_APP=<fullpathname>
+
+
+# =============================================================
+# Define location of module tree with respect to
+# EPICS_SITE_TOP
+# =============================================================
+EPICS_MODULES=$(MODULES_SITE_TOP)
+
+# =============================================================
+# Define the version of modules needed by
+# IOC apps or other Support apps
+# =============================================================
+ASYN_MODULE_VERSION     = R4.32-1.0.0
+AUTOSAVE_MODULE_VERSION = R5.8-1.0.0
+A16VME_MODULE_VERSION   = R1.0-0.1.0
+BUSY_MODULE_VERSION     = R1.6.1-0.2.6
+CALC_MODULE_VERSION     = R3.6.1-0.1.0
+CAPUTLOG_MODULE_VERSION = R3.5-0.1.0
+IOCADMIN_MODULE_VERSION = R3.1.15-0.1.0
+IPAC_MODULE_VERSION     = R2.11-1.3.0
+IPUNIDIG_MODULE_VERSION = R2.9-1.1.0
+IP330_MODULE_VERSION    = R2.9-1.0.0
+MOTOR_MODULE_VERSION    = R6.10.1-1.0.0
+SNCSEQ_MODULE_VERSION   = R2.2.4-1.0
+SOFTGLUE_MODULE_VERSION = R2.4.3-1.0.0
+SSCAN_MODULE_VERSION    = R2.10.2-1.0.0
+
+# =============================================================================
+
+ASYN=$(EPICS_MODULES)/asyn/$(ASYN_MODULE_VERSION)
+AUTOSAVE=$(EPICS_MODULES)/autosave/$(AUTOSAVE_MODULE_VERSION)
+A16VME=$(EPICS_MODULES)/a16vme/$(A16VME_MODULE_VERSION)
+BUSY=$(EPICS_MODULES)/busy/$(BUSY_MODULE_VERSION)
+CALC=$(EPICS_MODULES)/calc/$(CALC_MODULE_VERSION)
+CAPUTLOG=$(EPICS_MODULES)/caPutLog/$(CAPUTLOG_MODULE_VERSION)
+IOCADMIN=$(EPICS_MODULES)/iocAdmin/$(IOCADMIN_MODULE_VERSION)
+IPAC=$(EPICS_MODULES)/ipac/$(IPAC_MODULE_VERSION)
+IPUNIDIG=$(EPICS_MODULES)/ipUnidig/$(IPUNIDIG_MODULE_VERSION)
+IP330=$(EPICS_MODULES)/ip330-asyn/$(IP330_MODULE_VERSION)
+MOTOR=$(EPICS_MODULES)/motor/$(MOTOR_MODULE_VERSION)
+SNCSEQ=$(EPICS_MODULES)/seq/$(SNCSEQ_MODULE_VERSION)
+SSCAN=$(EPICS_MODULES)/sscan/$(SSCAN_MODULE_VERSION)
+SOFTGLUE=$(EPICS_MODULES)/softGlue/$(SOFTGLUE_MODULE_VERSION)
+
+# =================================================================
+# Define EPICS_BASE
+# EPICS_BASE usually appears last so other apps can override stuff:
+# =================================================================
+EPICS_BASE=$(EPICS_SITE_TOP)/base/$(BASE_MODULE_VERSION)
+
+# Check for undefined EPICS_BASE
+-include $(TOP)/../../EPICS_BASE.check
+
+# End of script

@@ -67,15 +67,15 @@ assign	Cam4MotorSTUP to "{S}:CM4MOTOR.STUP";
 float	Cam5MotorSTUP;
 assign	Cam5MotorSTUP to "{S}:CM5MOTOR.STUP";
 
-long	cam1EnableCtl;
+int32_t cam1EnableCtl;
 assign	cam1EnableCtl to "{S}:CM1MOTOR.SPMG";
-long	cam2EnableCtl;
+int32_t cam2EnableCtl;
 assign	cam2EnableCtl to "{S}:CM2MOTOR.SPMG";
-long	cam3EnableCtl;
+int32_t cam3EnableCtl;
 assign	cam3EnableCtl to "{S}:CM3MOTOR.SPMG";
-long	cam4EnableCtl;
+int32_t cam4EnableCtl;
 assign	cam4EnableCtl to "{S}:CM4MOTOR.SPMG";
-long	cam5EnableCtl;
+int32_t cam5EnableCtl;
 assign	cam5EnableCtl to "{S}:CM5MOTOR.SPMG";
 
 
@@ -95,9 +95,9 @@ assign	Trans1MotorSTUP to "{S}:TM1MOTOR.STUP";
 float	Trans2MotorSTUP;
 assign	Trans2MotorSTUP to "{S}:TM2MOTOR.STUP";
 
-long	trans1EnableCtl;
+int32_t trans1EnableCtl;
 assign	trans1EnableCtl to "{S}:TM1MOTOR.SPMG";
-long	trans2EnableCtl;
+int32_t trans2EnableCtl;
 assign	trans2EnableCtl to "{S}:TM1MOTOR.SPMG";
 
 
@@ -117,10 +117,10 @@ monitor	ucmiLevel1Fault;
 short	ucmiLevel2Fault;
 assign	ucmiLevel2Fault to "{S}:LEVEL2FAULTM";
 monitor	ucmiLevel2Fault;
-long	excitationSTAT;
+int32_t excitationSTAT;
 assign	excitationSTAT to "{S}:EXCTTNADCM.STAT";
 monitor	excitationSTAT;
-long	motorError;
+int32_t motorError;
 assign	motorError to "{S}:MOTORERROR";
 monitor	motorError;
 
@@ -134,7 +134,7 @@ assign  recoverMsg2 to "{S}:RECOVERMSG2";
 
 short	recoverRequest;
 short	moveTranslation;
-long	commStatus;
+int32_t commStatus;
 
 
 ss powerRecovery

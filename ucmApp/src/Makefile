@@ -12,30 +12,29 @@ PROD_HOST      = ucmSoft
 DBD          = ucmSoft.dbd
 ucmSoft_DBD += base.dbd
 ucmSoft_DBD += iocAdmin.dbd
-ucmSoft_DBD += autosaveSupport.dbd
+ucmSoft_DBD += asSupport.dbd
 ucmSoft_DBD += caPutLog.dbd
-ucmSoft_DBD += genSubRecord.dbd
+#ucmSoft_DBD += genSubRecord.dbd
 
 # ucmIoc.dbd will be made up from these files:
 #
 ifeq ($(OS_CLASS),RTEMS)
 DBD += ucmIoc.dbd
 ucmIoc_DBD += ucmSoft.dbd
-ucmIoc_DBD += motorSupport.dbd
-ucmIoc_DBD += motorRecord.dbd
 ucmIoc_DBD += asyn.dbd
 ucmIoc_DBD += drvAsynSerialPort.dbd
 # ucmIoc_DBD += devSmartMotorMotor.dbd
+ucmIoc_DBD += motorSupport.dbd
+ucmIoc_DBD += motorSimSupport.dbd
+#ucmIoc_DBD += devSoftMotor.dbd
 ucmIoc_DBD += devSmartMotorAsynSupport.dbd
 ucmIoc_DBD += tyGSOctal.dbd
 ucmIoc_DBD += IP520.dbd
 ucmIoc_DBD += ip330Support.dbd
 ucmIoc_DBD += ipUnidigSupport.dbd
 ucmIoc_DBD += drvIpac.dbd
-ucmIoc_DBD += devSoftMotor.dbd
-ucmIoc_DBD += motorSimSupport.dbd
 ucmIoc_DBD += ucmSupport.dbd
-ucmIoc_DBD += genPolySub.dbd
+#ucmIoc_DBD += genPolySub.dbd
 ucmIoc_DBD += devA16Vme.dbd
 ucmIoc_DBD += calcSupport.dbd
 ucmIoc_DBD += busySupport.dbd
@@ -71,7 +70,7 @@ endif
 USR_LIBS  += devIocStats
 USR_LIBS  += autosave
 USR_LIBS  += caPutLog
-USR_LIBS  += genSub
+#USR_LIBS  += genSub
 USR_LIBS  += calc
 USR_LIBS  += sscan
 USR_LIBS  += busy
@@ -90,7 +89,7 @@ ucmIoc_LIBS += ip330
 ucmIoc_LIBS += ipUnidig
 ucmIoc_LIBS += Ipac
 ucmIoc_LIBS += asyn
-ucmIoc_LIBS += genPolySub
+#ucmIoc_LIBS += genPolySub
 ucmIoc_LIBS += a16Vme
 ucmIoc_LIBS += softGlue
 endif

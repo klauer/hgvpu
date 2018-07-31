@@ -136,43 +136,43 @@ monitor transMotorMoving;
 
 
 /* Setup monitors for all motor alarms (loss of communications) */
-long 	Cam1MotorSTAT;
+int32_t Cam1MotorSTAT;
 assign 	Cam1MotorSTAT to "{S}:CM1MOTOR.STAT";
 monitor Cam1MotorSTAT;
 evflag 	Cam1MotorSTATev;
 sync 	Cam1MotorSTAT Cam1MotorSTATev;
 
-long 	Cam2MotorSTAT;
+int32_t Cam2MotorSTAT;
 assign 	Cam2MotorSTAT to "{S}:CM2MOTOR.STAT";
 monitor	Cam2MotorSTAT;
 evflag 	Cam2MotorSTATev;
 sync 	Cam2MotorSTAT Cam2MotorSTATev;
 
-long 	Cam3MotorSTAT;
+int32_t Cam3MotorSTAT;
 assign 	Cam3MotorSTAT to "{S}:CM3MOTOR.STAT";
 monitor Cam3MotorSTAT;
 evflag 	Cam3MotorSTATev;
 sync 	Cam3MotorSTAT Cam3MotorSTATev;
 
-long 	Cam4MotorSTAT;
+int32_t Cam4MotorSTAT;
 assign 	Cam4MotorSTAT to "{S}:CM4MOTOR.STAT";
 monitor Cam4MotorSTAT;
 evflag 	Cam4MotorSTATev;
 sync 	Cam4MotorSTAT Cam4MotorSTATev;
 
-long 	Cam5MotorSTAT;
+int32_t Cam5MotorSTAT;
 assign 	Cam5MotorSTAT to "{S}:CM5MOTOR.STAT";
 monitor Cam5MotorSTAT;
 evflag 	Cam5MotorSTATev;
 sync 	Cam5MotorSTAT Cam5MotorSTATev;
 
-long 	Trans1MotorSTAT;
+int32_t Trans1MotorSTAT;
 assign 	Trans1MotorSTAT to "{S}:TM1MOTOR.STAT";
 monitor Trans1MotorSTAT;
 evflag 	Trans1MotorSTATev;
 sync 	Trans1MotorSTAT Trans1MotorSTATev;
 
-long 	Trans2MotorSTAT;
+int32_t Trans2MotorSTAT;
 assign 	Trans2MotorSTAT to "{S}:TM2MOTOR.STAT";
 monitor Trans2MotorSTAT;
 evflag 	Trans2MotorSTATev;
@@ -224,7 +224,7 @@ float	excitationVoltage;
 assign	excitationVoltage to "{S}:EXCTTNADCM";
 monitor	excitationVoltage;
 
-long	excitationSTAT;
+int32_t excitationSTAT;
 assign	excitationSTAT to "{S}:EXCTTNADCM.STAT";
 monitor	excitationSTAT;
 
