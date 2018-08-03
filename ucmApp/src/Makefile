@@ -74,6 +74,7 @@ USR_LIBS  += caPutLog
 USR_LIBS  += calc
 USR_LIBS  += sscan
 USR_LIBS  += busy
+USR_LIBS += asyn
  
 # Add in VME drivers.
 ifeq ($(OS_CLASS),RTEMS)
@@ -88,7 +89,6 @@ ucmIoc_LIBS += IP520
 ucmIoc_LIBS += ip330
 ucmIoc_LIBS += ipUnidig
 ucmIoc_LIBS += Ipac
-ucmIoc_LIBS += asyn
 #ucmIoc_LIBS += genPolySub
 ucmIoc_LIBS += a16Vme
 ucmIoc_LIBS += softGlue
