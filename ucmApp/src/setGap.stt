@@ -26,16 +26,21 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
 }%
 
+/*
+ * If DIRECT CONTROL = 1, we are bypassing virtual record and communicating straight with the controller
+ * if DIRECT_CONTROL = 0, we are controling through individual motor record and defered move
+ */
+int DIRECT_CONTROL = 1;
+
 /** SNL variables  **/
 /* Configuration and communication */
-
-
 char stringOut[200];
 char stringIn[200];
 char abortCommand[200];
 char *asynPort;
 char *pasynUser;
-int status;
+int sg_status;
+int am_status;
 int n;
 int initStatus = 0;
 int numAxes;
@@ -73,18 +78,20 @@ double dsaMotorAmountToMove;
 double dswMotorAmountToMove;
 double moveFraction;
 
-double posUSA;
-double posUSW;
-double posDSA;
-double posDSW;
-double acclDccl;
-
-int posUSA_raw;
-int posUSW_raw;
-int posDSA_raw;
-int posDSW_raw;
+double usaPos;
+double uswPos;
+double dsaPos;
+double dswPos;
+int usaPos_raw;
+int uswPos_raw;
+int dsaPos_raw;
+int dswPos_raw;
 int moveVelo_raw;
 int acclDccl_raw;
+
+int sampleRate;
+double scalingFactorVelo;
+double scalingFactorAD;
 
 /* Setpoint PVs */
 double desiredGap;        assign desiredGap   to "{DEV}:GAP_DES";
@@ -101,13 +108,18 @@ double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:<TODO>";              
 double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:<TODO>";              monitor calcDsSymmetry;
 
 /* Hardware position readback PVs */
-double halfGapEncoderUSA; assign halfGapEncoderUSA to "{DEV}:USALinearEncoder"; monitor halfGapEncoderUSA;
-double halfGapEncoderUSW; assign halfGapEncoderUSW to "{DEV}:USWLinearEncoder"; monitor halfGapEncoderUSW;
-double halfGapEncoderDSA; assign halfGapEncoderDSA to "{DEV}:DSALinearEncoder"; monitor halfGapEncoderDSA;
-double halfGapEncoderDSW; assign halfGapEncoderDSW to "{DEV}:DSWLinearEncoder"; monitor halfGapEncoderDSW;
-double fullGapEncoderUS;  assign fullGapEncoderUS  to "{DEV}:USGapEncoder";     monitor fullGapEncoderUS;
-double fullGapEncoderDS;  assign fullGapEncoderDS  to "{DEV}:DSGapEncoder";     monitor fullGapEncoderDS;
+double usaHalfGapEncoder; assign usaHalfGapEncoder to "{DEV}:USALinearEncoder"; monitor usaHalfGapEncoder;
+double uswHalfGapEncoder; assign uswHalfGapEncoder to "{DEV}:USWLinearEncoder"; monitor uswHalfGapEncoder;
+double dsaHalfGapEncoder; assign dsaHalfGapEncoder to "{DEV}:DSALinearEncoder"; monitor dsaHalfGapEncoder;
+double dswHalfGapEncoder; assign dswHalfGapEncoder to "{DEV}:DSWLinearEncoder"; monitor dswHalfGapEncoder;
+double usFullGapEncoder;  assign usFullGapEncoder  to "{DEV}:USGapEncoder";     monitor usFullGapEncoder;
+double dsFullGapEncoder;  assign dsFullGapEncoder  to "{DEV}:DSGapEncoder";     monitor dsFullGapEncoder;
 
+/* Motor position setpoint */
+double usaMotorVal;       assign usaMotorVal to "{DEV}:USAMotor.VAL";           monitor usaMotorVal;
+double uswMotorVal;       assign uswMotorVal to "{DEV}:USWMotor.VAL";           monitor uswMotorVal;
+double dsaMotorVal;       assign dsaMotorVal to "{DEV}:DSAMotor.VAL";           monitor dsaMotorVal;
+double dswMotorVal;       assign dswMotorVal to "{DEV}:DSWMotor.VAL";           monitor dswMotorVal;
 /* Motor position readback */
 double usaMotorRbk;       assign usaMotorRbk to "{DEV}:USAMotor.RBK";           monitor usaMotorRbk;
 double uswMotorRbk;       assign uswMotorRbk to "{DEV}:USWMotor.RBK";           monitor uswMotorRbk;
@@ -118,11 +130,14 @@ double usaMotorGap;       assign usaMotorGap to "{DEV}:USAMotorGap";            
 double uswMotorGap;       assign uswMotorGap to "{DEV}:USWMotorGap";            monitor uswMotorGap;
 double dsaMotorGap;       assign dsaMotorGap to "{DEV}:DSAMotorGap";            monitor dsaMotorGap;
 double dswMotorGap;       assign dswMotorGap to "{DEV}:DSWMotorGap";            monitor dswMotorGap;
+double motorResolution;   assign motorResolution to "{DEV}:USAMotor.MRES";
 
 /* Move precision and retry */
 double deadband;          assign deadband to "{DEV}:DEADBAND";
 double moveFrac;          assign moveFrac to "{DEV}:MOVEFRAC";
 double moveVelo;          assign moveVelo to "{DEV}:MOVEVELO";
+//TODO: Create record for this acceleration paramter ( if using DIRECT_CONTROL of the motor)
+double acclDccl;          assign acclDccl to "{DEV}:MOVEACCL";
 double dlyInput;          assign dlyInput to "{DEV}:DLYINPUT";                  monitor dlyInput;
 double dly;               assign dly to "{DEV}:DLY";                            monitor dly;
 int rtry;                 assign rtry to "{DEV}:RETRY";                         monitor rtry;
@@ -154,7 +169,7 @@ ss setGap
       if (debugLevel) printf("setGap:init: entry\n");
       n = sprintf(setGapState, "setGap:init");
       pvPut(setGapState, SYNC);
-      status = 0;
+      sg_status = 0;
       /* Initialization of variables and PVs */
       /*initStatus = 0;*/
       stop = 0;
@@ -171,15 +186,14 @@ ss setGap
       dsaMotorAmountToMove=0;
       dswMotorAmountToMove=0;
       moveFraction=0.9;
-      posUSA=0;
-      posUSW=0;
-      posDSA=0;
-      posDSW=0;
-      acclDccl=0;
-      posUSA_raw=0;
-      posUSW_raw=0;
-      posDSA_raw=0;
-      posDSW_raw=0;
+      usaPos=0;
+      uswPos=0;
+      dsaPos=0;
+      dswPos=0;
+      usaPos_raw=0;
+      uswPos_raw=0;
+      dsaPos_raw=0;
+      dswPos_raw=0;
       moveVelo_raw=0;
       acclDccl_raw=0;
       movingLarger = 0;
@@ -194,11 +208,19 @@ ss setGap
 
       /* Connecting to ASYN port for motors */
       asynPort = macValueGet("PORT");
-      %%pVar->status = pasynOctetSyncIO->connect(pVar->asynPort, 0, (asynUser **)&pVar->pasynUser, NULL);
-      if (status != 0) {
+      %%pVar->sg_status = pasynOctetSyncIO->connect(pVar->asynPort, 0, (asynUser **)&pVar->pasynUser, NULL);
+      if (sg_status != 0) {
         printf("trajectoryScan error in pasynOctetSyncIO->connect\n");
-        printf("   status=%d, port=%s\n", status, asynPort);
+        printf("   sg_status=%d, port=%s\n", sg_status, asynPort);
       }
+
+      /* Retrive sampling rate of the motor */
+      sprintf(stringOut, "RSAMP:1");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sampleRate = atoi(stringIn);
+      /* Set scaling factor for velocity and acceleration */
+      scalingFactorVelo = 65536 / sampleRate;
+      scalingFactorAD = scalingFactorVelo / sampleRate;
 
       if (initStatus == 0) initStatus = 1;
       if (debugLevel) printf("setGap:init: done; going to 'idle'\n");
@@ -224,9 +246,9 @@ ss setGap
     }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:idle ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-      status = 0;
+    when(sg_status != 0) {
+      printf(" setGap:idle ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
+      sg_status = 0;
     } state idle
 
     /* If stop is issued */
@@ -242,6 +264,7 @@ ss setGap
       pvGet(deadband,SYNC);
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
+      pvGet(motorResolution,SYNC);
       /* Clear retries and Go flag */
       rtry = 0;
       pvPut(rtry);
@@ -273,8 +296,8 @@ ss setGap
     }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to idle.\n", status);
+    when(sg_status != 0) {
+      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
     } state idle
 
     /* Disable retry checking for time based gap setting */
@@ -325,39 +348,52 @@ ss setGap
         moveFraction = moveFrac;
 
       /* Calculate new motor positions */
-      posUSA = usaMotorRbk + moveFraction * usaMotorAmountToMove;
-      posUSW = uswMotorRbk + moveFraction * uswMotorAmountToMove;
-      posDSA = dsaMotorRbk + moveFraction * dsaMotorAmountToMove;
-      posDSW = dswMotorRbk + moveFraction * dswMotorAmountToMove;
+      usaPos = usaMotorRbk + moveFraction * usaMotorAmountToMove;
+      uswPos = uswMotorRbk + moveFraction * uswMotorAmountToMove;
+      dsaPos = dsaMotorRbk + moveFraction * dsaMotorAmountToMove;
+      dswPos = dswMotorRbk + moveFraction * dswMotorAmountToMove;
 
-      //TODO: Add a push to PV or scaling to RAW motor position
+      if ( DIRECT_CONTROL == 0 ) { 
+        /* Write values to motor control */ 
+        usaMotorVal = usaPos;
+        pvPut(usaMotorVal);
+        uswMotorVal = uswPos;
+        pvPut(uswMotorVal);
+        dsaMotorVal = dsaPos;
+        pvPut(dsaMotorVal);
+        dswMotorVal = dswPos;
+        pvPut(dswMotorVal);
+      }
+      else {
+        /* Scale new positions to raw value and push to motor */ 
+        usaPos_raw = (int) usaPos * motorResolution;
+        uswPos_raw = (int) uswPos * motorResolution;
+        dsaPos_raw = (int) dsaPos * motorResolution;
+        dswPos_raw = (int) dswPos * motorResolution;
+        moveVelo_raw = (int) (moveVelo/motorResolution) * scalingFactorVelo;
+        acclDccl_raw = (int) ((moveVelo * motorResolution) / acclDccl) * scalingFactorAD;
+  
+        /* Create a string to send to controller to start motor move */
+        sprintf(stringOut, "iii:1=%d", uswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        sprintf(stringOut, "jjj:1=%d", dswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        sprintf(stringOut, "kkk:1=%d", dsaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        sprintf(stringOut, "lll:1=%d", usaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        sprintf(stringOut, "aaa:1=%d", acclDccl_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      }
 
       /* Enable motors and disable breaks */
       sprintf(stringOut, "BRKRLS:0");
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-
-      /* Create a string to send to controller to start motor move */
-      // #define POS_ST_LOC1 "iii"
-      // #define POS_ST_LOC2 "jjj"
-      // #define POS_ST_LOC3 "kkk"
-      // #define POS_ST_LOC4 "lll"
-      // #define MAX_VELO_ST_LOC "vvv"
-      // #define ACCL_ST_LOC "aaa"
-      sprintf(stringOut, "iii:1=%d", posUSW_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "jjj:1=%d", posDSW_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "kkk:1=%d", posDSA_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "lll:1=%d", posUSA_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "aaa:1=%d", acclDccl_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
 
       if (debugLevel) {
         printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
-        printf("setGap:calcMove: posUSW = %f (%d)'\n", posUSW, posUSW_raw);
-        printf("setGap:calcMove: posDSW = %f (%d)'\n", posDSW, posDSW_raw);
-        printf("setGap:calcMove: posDSA = %f (%d)'\n", posDSA, posDSA_raw);
-        printf("setGap:calcMove: posUSA = %f (%d)'\n", posUSA, posUSA_raw);
+        printf("setGap:calcMove: uswPos = %f (%d)'\n", uswPos, uswPos_raw);
+        printf("setGap:calcMove: dswPos = %f (%d)'\n", dswPos, dswPos_raw);
+        printf("setGap:calcMove: dsaPos = %f (%d)'\n", dsaPos, dsaPos_raw);
+        printf("setGap:calcMove: usaPos = %f (%d)'\n", usaPos, usaPos_raw);
         printf("setGap:calcMove: moveVelo = %f (%d)'\n", moveVelo, moveVelo_raw);
-        printf("setGap:calcMove: acelDcel = %f (%d)'\n", acclDccl, acclDccl_raw);
+        printf("setGap:calcMove: acclDccl = %f (%d)'\n", acclDccl, acclDccl_raw);
       }
     } state move
   }
@@ -367,21 +403,24 @@ ss setGap
     entry {
       if (debugLevel){
         printf("setGap:move: entry\n");
-        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n", fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
+        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",
+                                  fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
+                                  fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
       n = sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
     }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to idle.\n", status);
+    when(sg_status != 0) {
+      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
     } state idle
 
     /* If stop is issued */
     when(stop == 1){} state stop
 
-    when( (usaMotorAmountToMove < deadband) && (uswMotorAmountToMove < deadband) && (dsaMotorAmountToMove < deadband) && (dswMotorAmountToMove < deadband) ) {
+    when( (usaMotorAmountToMove < deadband) && (uswMotorAmountToMove < deadband) &&
+          (dsaMotorAmountToMove < deadband) && (dswMotorAmountToMove < deadband) ) {
       epicsThreadSleep(1.5);
       if (debugLevel) printf("setGap:move: All absolute moves less than deadband. Going to moveComplete\n");
     } state moveComplete
@@ -393,14 +432,16 @@ ss setGap
       %%waitEpicsMotors(ssId, pVar);
       if (debugLevel) printf("setGap:move: Wait complete\n");
       
-      //XXX : Select one option of operation: write directly to controller or trigger defer change ...
-//      /* Send comand to start move */
-//      sprintf(stringOut, "GS")
-//      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      //XXX : Trigger motor defer flag
-      triggerDefer = 1;
-      pvPut(triggerDefer,SYNC);
-
+      if ( DIRECT_CONTROL == 0 ) {
+        /* Trigger defered move */ 
+        triggerDefer = 1;
+        pvPut(triggerDefer,SYNC);
+      }
+      else {
+        /* Send comand to start move */
+        sprintf(stringOut, "GS");
+        %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      }
     } state moving
   }
 
@@ -413,8 +454,8 @@ ss setGap
     }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to idle.\n", status);
+    when(sg_status != 0) {
+      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
     } state idle
 
     /* If stop is issued */
@@ -442,8 +483,8 @@ ss setGap
     }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to idle.\n", status);
+    when(sg_status != 0) {
+      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
     } state idle
 
     /* If stop is issued */
@@ -459,12 +500,24 @@ ss setGap
 
     /* On complete move */
     when() {
-      /* If autmatic enabeling of brakes is turned on */
-      //FIXME: split in two strings
+      /* If automatic brake engagement is turned on */
       if (autoBrake) {
-        sprintf(stringOut, "S:0 BRKENG:0");
-        %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        /* Issue a global stop */
+        sprintf(stringOut, "S:0");
+        %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+        epicsThreadSleep(0.2);
+        if ( sg_status != 0 ) {
+          sprintf(stringOut, "S:0");
+          %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+          epicsThreadSleep(0.2);
+        }
+        /* Engage brakes on all motors */
+        sprintf(stringOut, "BRKENG:0");
+        %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       }
+      /* Calibrate motors at final position */
+      calibMotors = 1;
+      pvPut(calibMotors);
     } state idle
   }
 
@@ -476,21 +529,14 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-/*
-    when(status != 0) {
-      printf(" setGap:stop ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-*/
-
     /* On STOP flag */
     when (){
       /* Send out an Abort all axes command */
-      %%pVar->status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->setGapState);
-/*      if(status == 0) { */
-      sprintf(stringOut, "S:0 BRKENG:0");
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-/*      } */
+      sprintf(stringOut, "S:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      epicsThreadSleep(0.2);
+      sprintf(stringOut, "BRKENG:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       /* Raise virtual axis done moving flag */
       dmov = 1;
       pvPut(dmov);
@@ -511,14 +557,16 @@ ss setGap
 /* stateSet to abort move */
 ss abortMove {
 
-  state idle {
-
+  state am_init {
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf("abortMove:idle ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
+    when(am_status != 0) {
+      printf("abortMove:am_init ERROR: previous writeRead() returned %d. Going to am_init.\n", am_status);
+      /* Clear status flag */
+      am_status = 0;
+    } state am_init
 
     when() {
+      sprintf(abortCommand, "S:0"); 
     } state monitorAbort
 
   }
@@ -530,19 +578,24 @@ ss abortMove {
    }
 
     /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf("abortMove:monitorAbort ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
+    when(am_status != 0) {
+      printf("abortMove:monitorAbort ERROR: previous writeRead() returned %d. Going to am_init.\n", am_status);
+    } state am_init
 
     /* When Abort is triggered */
     when ((abort==1) && delay(0.1)) {
       /* Issue an abort command on controller */
-      %%pVar->status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
+      %%pVar->am_status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
       if (debugLevel) printf("abortMove: sent command '%s'\n", abortCommand);
-      if (status == 0 ) {
-        sprintf(stringOut, "S:0 BRKENG:0");
-        %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->abortState);
+      epicsThreadSleep(0.2);
+      if (am_status != 0 ) {
+        /* If problem with writing abort command to controller, try again */
+        %%pVar->am_status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
+        epicsThreadSleep(0.2);
       }
+      /* Engage break if abort command recieved */
+      sprintf(stringOut, "BRKENG:0");
+      %%pVar->am_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->abortState);
       /* Set stop PV for main stateSet to interrupt move */
       stop = 1;
       pvPut(stop);
@@ -553,16 +606,13 @@ ss abortMove {
   }
 }
 
-
 %{
-
 
 /* WriteRead operation through asyn port */
 static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *reply, char *stateName)
 {
   asynStatus status=0;
   char buffer[BUF_SIZE];
-  char cmdSucc[10];
   size_t nwrite, nread;
   int eomReason;
 
@@ -571,7 +621,6 @@ static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *repl
              strlen(command), reply, BUF_SIZE,
              30.0, &nwrite, &nread, &eomReason);
     if (status) printf("writeRead called from %s: pasynOctetSyncIO->writeRead returned %d\n", stateName, status);
-    if (strncmp(reply, cmdSucc, 1)) printf("Aerotech returned %c, command not successful\n", reply[0]);
  }
   if (pVar->simMode || (pVar->debugLevel)) {
     if (buffer[strlen(buffer)-1] == '\n')
@@ -632,6 +681,3 @@ static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
 
 }%
 
-/*
-vim:filetype=cpp:
- */
