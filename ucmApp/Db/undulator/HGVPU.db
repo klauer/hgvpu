@@ -73,7 +73,7 @@ record(calc,"$(U):USAMotorGap") {
 record(calc,"$(U):DSWMotorGap") {
   field(DESC,"DS Wall Gap at Motor")
   field(CALC,"D*C+E*(1.0-C)")
-  field(CALC,"D+(796.93*(D-E)/3415.89)")
+#        field(CALC,"D+(796.93*(D-E)/3415.89)")
 #        field(INPA,"$(U):EncoderSelect.VAL NPP NMS")
 #        field(INPB,"$(U):DSWRotaryEncoder.VAL NPP NMS")
   field(INPC,"$(U):LinMotFactor.VAL NPP NMS")

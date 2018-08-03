@@ -19,6 +19,7 @@ program setGap
 
 #define inputEos "\r"
 #define outputEos " "
+#define BUF_SIZE 200
 
 static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *reply, char *stateName);
 static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
@@ -28,11 +29,10 @@ static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
 /** SNL variables  **/
 /* Configuration and communication */
 
-#define BUF_SIZE 200
 
-char stringOut[BUF_SIZE];
-char stringIn[BUF_SIZE];
-char abortCommand[BUF_SIZE];
+char stringOut[200];
+char stringIn[200];
+char abortCommand[200];
 char *asynPort;
 char *pasynUser;
 int status;
@@ -77,8 +77,14 @@ double posUSA;
 double posUSW;
 double posDSA;
 double posDSW;
-double moveVelo;
+double acclDccl;
 
+int posUSA_raw;
+int posUSW_raw;
+int posDSA_raw;
+int posDSW_raw;
+int moveVelo_raw;
+int acclDccl_raw;
 
 /* Setpoint PVs */
 double desiredGap;        assign desiredGap   to "{DEV}:GAP_DES";
@@ -129,6 +135,8 @@ int stop;                 assign stop to "{DEV}:STOP";                          
 int dmov;                 assign dmov to "{DEV}:GAP_DMOV";                      monitor dmov;
 int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
 int autoBrake;            assign autoBrake to "{DEV}:AUTOBRAKE";                monitor autoBrake;
+int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
+int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
 
 /* Debug and simulation PVs */
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
@@ -167,6 +175,13 @@ ss setGap
       posUSW=0;
       posDSA=0;
       posDSW=0;
+      acclDccl=0;
+      posUSA_raw=0;
+      posUSW_raw=0;
+      posDSA_raw=0;
+      posDSW_raw=0;
+      moveVelo_raw=0;
+      acclDccl_raw=0;
       movingLarger = 0;
       startGapAdjustment = 0;
       pvPut(startGapAdjustment);
@@ -219,7 +234,7 @@ ss setGap
       if (debugLevel) printf("setGap:idle: going to 'stop'\n");
     } state stop
 
-    /* When motors are commanded to GO and autofocus is diabled*/
+    /* When motors are commanded to GO */
     when( startGapAdjustment == 1 ) {
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
@@ -234,10 +249,6 @@ ss setGap
       pvPut(startGapAdjustment);
       dmov = 0;
       pvPut(dmov);
-
-      /* Enable motors and disable breaks */
-      sprintf(stringOut, "BRKRLS:0");
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
 
       /* If single approach and opening gap */
       if( (desiredGap > actualGap) && (singleApproach == 1) ) {
@@ -282,10 +293,16 @@ ss setGap
 
     /* Calculate new positions */
     when() {
+      /* Calibrate motor positions with linear encoder readback */
+      calibMotors = 1;
+      pvPut(calibMotors,SYNC);
+      /* Wait for sync to complete and monitors to update */
+      epicsThreadSleep(0.3);
+
       //TODO: reorganize this:
       desiredTaper = (desiredGap + desiredTaper) < 7.1 ? 0 : desiredTaper;
      
-      // TODO: Discuss with SLAC and select option below:
+      //TODO: Discuss with SLAC and select option below:
       /* Option 1, symetrical taper around center*/
       //desiredUsGap = desiredGap - desiredTaper/2.0;
       //desiredDsGap = desiredGap + desiredTaper/2.0;
@@ -302,7 +319,7 @@ ss setGap
       dswMotorAmountToMove = desiredDsMotorPosition - dswMotorGap;
       
       /* Calculate factor for retries */
-      if ( abs(actualGap - desiredGap ) < 0.1 )
+      if ( fabs(actualGap - desiredGap ) < 0.1 )
         moveFraction = 1.0;
       else
         moveFraction = moveFrac;
@@ -314,6 +331,10 @@ ss setGap
       posDSW = dswMotorRbk + moveFraction * dswMotorAmountToMove;
 
       //TODO: Add a push to PV or scaling to RAW motor position
+
+      /* Enable motors and disable breaks */
+      sprintf(stringOut, "BRKRLS:0");
+      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
 
       /* Create a string to send to controller to start motor move */
       // #define POS_ST_LOC1 "iii"
@@ -327,7 +348,7 @@ ss setGap
       sprintf(stringOut, "kkk:1=%d", posDSA_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       sprintf(stringOut, "lll:1=%d", posUSA_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      ///sprintf(stringOut, "aaa:1=%d", moveVelo_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "aaa:1=%d", acclDccl_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
 
       if (debugLevel) {
         printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
@@ -336,7 +357,7 @@ ss setGap
         printf("setGap:calcMove: posDSA = %f (%d)'\n", posDSA, posDSA_raw);
         printf("setGap:calcMove: posUSA = %f (%d)'\n", posUSA, posUSA_raw);
         printf("setGap:calcMove: moveVelo = %f (%d)'\n", moveVelo, moveVelo_raw);
-        printf("setGap:calcMove: command:  = %s'\n", stringOut);
+        printf("setGap:calcMove: acelDcel = %f (%d)'\n", acclDccl, acclDccl_raw);
       }
     } state move
   }
@@ -346,7 +367,7 @@ ss setGap
     entry {
       if (debugLevel){
         printf("setGap:move: entry\n");
-        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",fabs(halfGapEncoderUs-posUSW),fabs(halfGapEncoderDs-posDSW),fabs(gapEncoderDs-posDSA),fabs(gapEncoderUs-posUSA));
+        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n", fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
       n = sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
@@ -360,7 +381,7 @@ ss setGap
     /* If stop is issued */
     when(stop == 1){} state stop
 
-    when( (fabs(gapEncoderUs-posUSA) < deadband) && (fabs(gapEncoderDs-posDSA) < deadband) && (fabs(halfGapEncoderUs-posUSW) < deadband) && (fabs(halfGapEncoderDs-posDSW) < deadband) ) {
+    when( (usaMotorAmountToMove < deadband) && (uswMotorAmountToMove < deadband) && (dsaMotorAmountToMove < deadband) && (dswMotorAmountToMove < deadband) ) {
       epicsThreadSleep(1.5);
       if (debugLevel) printf("setGap:move: All absolute moves less than deadband. Going to moveComplete\n");
     } state moveComplete
@@ -371,8 +392,15 @@ ss setGap
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
       if (debugLevel) printf("setGap:move: Wait complete\n");
-      /* Send comand to start move */
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      
+      //XXX : Select one option of operation: write directly to controller or trigger defer change ...
+//      /* Send comand to start move */
+//      sprintf(stringOut, "GS")
+//      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      //XXX : Trigger motor defer flag
+      triggerDefer = 1;
+      pvPut(triggerDefer,SYNC);
+
     } state moving
   }
 
@@ -432,13 +460,10 @@ ss setGap
     /* On complete move */
     when() {
       /* If autmatic enabeling of brakes is turned on */
+      //FIXME: split in two strings
       if (autoBrake) {
         sprintf(stringOut, "S:0 BRKENG:0");
         %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        if(status == 0) {
-          /* Possibly not needed, can be removed */
-          %%pVar->status = writeIntAndCheck(ssId, pVar, 4, 1, pVar->setGapState);
-        }
       }
     } state idle
   }
