@@ -102,10 +102,10 @@ double actualGap;         assign actualGap to "{DEV}:Gap";                      
 double calcUsGap;         assign calcUsGap to "{DEV}:USGap";                    monitor calcUsGap;
 double calcDsGap;         assign calcDsGap to "{DEV}:DSGap";                    monitor calcDsGap;
 //TODO: create records
-double calcAisleTaper;    assign calcAisleTaper to "{DEV}:<TODO>";              monitor calcAisleTaper;
-double calcWallTaper;     assign calcWallTaper to "{DEV}:<TODO>";               monitor calcWallTaper;
-double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:<TODO>";              monitor calcUsSymmetry;
-double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:<TODO>";              monitor calcDsSymmetry;
+double calcAisleTaper;    assign calcAisleTaper to "{DEV}:AisleTaper";              monitor calcAisleTaper;
+double calcWallTaper;     assign calcWallTaper to "{DEV}:WallTaper";               monitor calcWallTaper;
+double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:USSymmetry";              monitor calcUsSymmetry;
+double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:DSSymmetry";              monitor calcDsSymmetry;
 
 /* Hardware position readback PVs */
 double usaHalfGapEncoder; assign usaHalfGapEncoder to "{DEV}:USALinearEncoder"; monitor usaHalfGapEncoder;

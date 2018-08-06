@@ -376,77 +376,49 @@ record(calc, "$(U):DSAStallCheck") {
 ########################################################
 record(calc, "$(U):USWLinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
-  field(CALC, "E>C|E<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):OldUSWLinearEncoder.VAL NPP NMS")
-  field(INPB, "$(U):OldUSWLinearEncoder.VAL PP NMS")
-  field(INPC, "50.0")
+  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
+  field(INPA, "$(U):USWLinearEncCheck.LB NPP NMS")
+  field(INPB, "$(U):USWLinearEncoder.VAL NPP NMS")
+  field(INPC, "60.5")
   field(INPD, "3.5")
-  field(INPE, "$(U):USWLinearEncoder.VAL NPP NMS")
+  field(HIGH, "1")
+  field(HSV, "MAJOR")
+  field(SCAN, "1 second")
 }
 
 record(calc, "$(U):USALinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
-  field(CALC, "E>C|E<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):OldUSALinearEncoder.VAL NPP NMS")
-  field(INPB, "$(U):OldUSALinearEncoder.VAL PP NMS")
-  field(INPC, "50.0")
+  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
+  field(INPA, "$(U):USALinearEncCheck.LB NPP NMS")
+  field(INPB, "$(U):USALinearEncoder.VAL NPP NMS")
+  field(INPC, "60.5")
   field(INPD, "3.5")
-  field(INPE, "$(U):USALinearEncoder.VAL NPP NMS")
+  field(HIGH, "1")
+  field(HSV, "MAJOR")
+  field(SCAN, "1 second")
 }
 
 record(calc, "$(U):DSWLinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
-  field(CALC, "E>C|E<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):OldDSWLinearEncoder.VAL NPP NMS")
-  field(INPB, "$(U):OldDSWLinearEncoder.VAL PP NMS")
-  field(INPC, "50.0")
+  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
+  field(INPA, "$(U):DSWLinearEncCheck.LB NPP NMS")
+  field(INPB, "$(U):DSWLinearEncoder.VAL NPP NMS")
+  field(INPC, "60.5")
   field(INPD, "3.5")
-  field(INPE, "$(U):DSWLinearEncoder.VAL NPP NMS")
+  field(HIGH, "1")
+  field(HSV, "MAJOR")
+  field(SCAN, "1 second")
 }
 
 record(calc, "$(U):DSALinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
-  field(CALC, "E>C|E<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):OldDSALinearEncoder.VAL NPP NMS")
-  field(INPB, "$(U):OldDSALinearEncoder.VAL PP NMS")
-  field(INPC, "50.0")
+  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
+  field(INPA, "$(U):DSALinearEncCheck.LB NPP NMS")
+  field(INPB, "$(U):DSALinearEncoder.VAL NPP NMS")
+  field(INPC, "60.5")
   field(INPD, "3.5")
-  field(INPE, "$(U):DSALinearEncoder.VAL NPP NMS")
-}
-
-record(ai, "$(U):OldUSWLinearEncoder") {
-  field(DESC, "Store USW Linear Encoder")
-  field(PINI, "YES")
-  field(ASG, "SYSTEM")
-  field(INP, "$(U):USWLinearEncoder.VAL NPP NMS")
-  field(PREC, "4")
-  field(EGU, "mm")
-}
-
-record(ai, "$(U):OldUSALinearEncoder") {
-  field(DESC, "Store USA Linear Encoder")
-  field(PINI, "YES")
-  field(ASG, "SYSTEM")
-  field(INP, "$(U):USALinearEncoder.VAL NPP NMS")
-  field(PREC, "4")
-  field(EGU, "mm")
-}
-
-record(ai, "$(U):OldDSWLinearEncoder") {
-  field(DESC, "Store DSW Linear Encoder")
-  field(PINI, "YES")
-  field(ASG, "SYSTEM")
-  field(INP, "$(U):DSWLinearEncoder.VAL NPP NMS")
-  field(PREC, "4")
-  field(EGU, "mm")
-}
-
-record(ai, "$(U):OldDSALinearEncoder") {
-  field(DESC, "Store DSA Linear Encoder")
-  field(PINI, "YES")
-  field(ASG, "SYSTEM")
-  field(INP, "$(U):DSALinearEncoder.VAL NPP NMS")
-  field(PREC, "4")
-  field(EGU, "mm")
+  field(HIGH, "1")
+  field(HSV, "MAJOR")
+  field(SCAN, "1 second")
 }
 
