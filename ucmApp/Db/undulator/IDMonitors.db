@@ -243,14 +243,14 @@ record(bi,"$(U):DSATaperOffsetErr") {
   field(ONAM,"DSA Offset Add Err")
 }
 ########################################################
-record(bi,"$(U):DSWTaperOffsetErr") {
+record(bi,"$(U):USWTaperOffsetErr") {
   field(DESC,"Encoder Offset Add Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x10)")
   field(OSV,"MAJOR")
-  field(ZNAM,"DSA Offset Add OK")
-  field(ONAM,"DSA Offset Add Err")
+  field(ZNAM,"USW Offset Add OK")
+  field(ONAM,"USW Offset Add Err")
 }
 record(bi,"$(U):USDSWTaperDiffErr") {
   field(DESC,"Enc Difference Err")
@@ -289,32 +289,32 @@ record(bi,"$(U):USASymOffsetErr") {
   field(ZNAM,"USA Offset Add OK")
   field(ONAM,"USA Offset Add Err")
 }
-record(bi,"$(U):USDSASymDiffErr") {
+record(bi,"$(U):USAWSymDiffErr") {
   field(DESC,"Enc Difference Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x200)")
   field(OSV,"MAJOR")
-  field(ZNAM,"USA-DSA Diff OK")
-  field(ONAM,"USA-DSA Diff Err")
+  field(ZNAM,"USA-USW Diff OK")
+  field(ONAM,"USA-USW Diff Err")
 }
-record(bi,"$(U):USDSASymDiffPrec") {
+record(bi,"$(U):USAWSymDiffPrec") {
   field(DESC,"Enc Difference Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x400)")
   field(OSV,"MAJOR")
-  field(ZNAM,"USA-DSA Prec OK")
-  field(ONAM,"USA-DSA Prec Err")
+  field(ZNAM,"USA-USW Prec OK")
+  field(ONAM,"USA-USW Prec Err")
 }
-record(bi,"$(U):DSASymOffsetErr") {
+record(bi,"$(U):USWSymOffsetErr") {
   field(DESC,"Encoder Offset Add Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x800)")
   field(OSV,"MAJOR")
-  field(ZNAM,"DSA Offset Add OK")
-  field(ONAM,"DSA Offset Add Err")
+  field(ZNAM,"USW Offset Add OK")
+  field(ONAM,"USW Offset Add Err")
 }
 ########################################################
 record(bi,"$(U):DSWSymOffsetErr") {
@@ -323,35 +323,35 @@ record(bi,"$(U):DSWSymOffsetErr") {
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x1000)")
   field(OSV,"MAJOR")
-  field(ZNAM,"DSA Offset Add OK")
-  field(ONAM,"DSA Offset Add Err")
+  field(ZNAM,"DSW Offset Add OK")
+  field(ONAM,"DSW Offset Add Err")
 }
-record(bi,"$(U):USDSWSymDiffErr") {
+record(bi,"$(U):DSWASymDiffErr") {
   field(DESC,"Enc Difference Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x2000)")
   field(OSV,"MAJOR")
-  field(ZNAM,"USW-DSW Diff OK")
-  field(ONAM,"USW-DSW Diff Err")
+  field(ZNAM,"DSW-DSA Diff OK")
+  field(ONAM,"DSW-DSA Diff Err")
 }
-record(bi,"$(U):USDSWSymDiffPrec") {
+record(bi,"$(U):DSWASymDiffPrec") {
   field(DESC,"Enc Difference Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x4000)")
   field(OSV,"MAJOR")
-  field(ZNAM,"USW-DSW Prec OK")
-  field(ONAM,"USW-DSW Prec Err")
+  field(ZNAM,"DSW-DSA Prec OK")
+  field(ONAM,"DSW-DSA Prec Err")
 }
-record(bi,"$(U):DSWSymOffsetErr") {
+record(bi,"$(U):DSASymOffsetErr") {
   field(DESC,"Encoder Offset Add Err")
   field(DTYP,"asynUInt32Digital")
   field(SCAN,"1 second")
   field(INP,"@asynMask($(PORT) 0x008000b0 0x8000)")
   field(OSV,"MAJOR")
-  field(ZNAM,"DSW Offset Add OK")
-  field(ONAM,"DSW Offset Add Err")
+  field(ZNAM,"DSA Offset Add OK")
+  field(ONAM,"DSA Offset Add Err")
 }
 
 ########################################################
