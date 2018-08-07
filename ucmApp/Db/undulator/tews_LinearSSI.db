@@ -1,6 +1,5 @@
 record(ai,"$(U):USALinearEncoder") {
   field(DESC,"US Aisle Fagor Encoder")
-#	field(ASG,"SYSTEM")
   field(SCAN,".1 second")
   field(DTYP,"asynInt32")
   field(INP,"@asyn($(PORT),0)")
@@ -11,7 +10,6 @@ record(ai,"$(U):USALinearEncoder") {
 }
 record(ai,"$(U):USWLinearEncoder") {
   field(DESC,"US Wall Fagor Encoder")
-#	field(ASG,"SYSTEM")
   field(SCAN,".1 second")
   field(DTYP,"asynInt32")
   field(INP,"@asyn($(PORT),1)")
@@ -22,7 +20,6 @@ record(ai,"$(U):USWLinearEncoder") {
 }
 record(ai,"$(U):DSWLinearEncoder") {
   field(DESC,"DS Wall Fagor Encoder")
-#	field(ASG,"SYSTEM")
   field(SCAN,".1 second")
   field(DTYP,"asynInt32")
   field(INP,"@asyn($(PORT),2)")
@@ -33,7 +30,6 @@ record(ai,"$(U):DSWLinearEncoder") {
 }
 record(ai,"$(U):DSALinearEncoder") {
   field(DESC,"DS Aisle Fagor Encoder")
-#	field(ASG,"SYSTEM")
   field(SCAN,".1 second")
   field(DTYP,"asynInt32")
   field(INP,"@asyn($(PORT),4)")
@@ -172,7 +168,6 @@ record(calcout,"$(U):SetDSAEncOff") {
 #############################################
 record(ao,"$(U):USWLinEncOffset") {
   field(DESC,"US Wall Enc Offset Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO9,0x800080)")
   field(DOL,"0")
@@ -182,7 +177,6 @@ record(ao,"$(U):USWLinEncOffset") {
 }
 record(ai,"$(U):USWLinEncOff") {
   field(DESC,"US Wall Enc Offset Rd")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO9,0x800080)")
   field(ASLO,"1")
@@ -191,7 +185,6 @@ record(ai,"$(U):USWLinEncOff") {
 }
 record(ao,"$(U):DSALinEncOffset") {
   field(DESC,"DS Aisle Enc Offset Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO10,0x800088)")
   field(DOL,"0")
@@ -201,7 +194,6 @@ record(ao,"$(U):DSALinEncOffset") {
 }
 record(ai,"$(U):DSALinEncOff") {
   field(DESC,"DS Aisle Enc Offset Rd")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO10,0x800088)")
   field(ASLO,"1")
@@ -210,7 +202,6 @@ record(ai,"$(U):DSALinEncOff") {
 }
 record(ao,"$(U):USALinEncOffset") {
   field(DESC,"US Aisle Enc Offset Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO11,0x800090)")
   field(DOL,"0")
@@ -220,7 +211,6 @@ record(ao,"$(U):USALinEncOffset") {
 }
 record(ai,"$(U):USALinEncOff") {
   field(DESC,"US Aisle Enc Offset Rd")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO11,0x800090)")
   field(ASLO,"1")
@@ -229,7 +219,6 @@ record(ai,"$(U):USALinEncOff") {
 }
 record(ao,"$(U):DSWLinEncOffset") {
   field(DESC,"DS Wall Enc Offset Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO12,0x800098)")
   field(DOL,"0")
@@ -239,7 +228,6 @@ record(ao,"$(U):DSWLinEncOffset") {
 }
 record(ai,"$(U):DSWLinEncOff") {
   field(DESC,"DS Wall Enc Offset Rd")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO12,0x800098)")
   field(ASLO,"1")
@@ -253,7 +241,6 @@ record(ai,"$(U):DSWLinEncOff") {
 # in DIO FPGA
 record(ai,"$(U):DSWLinEncRawLow") {
   field(DESC,"DS Wall Enc Raw Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO5,0x800060)")
   field(ASLO,"1")
@@ -267,7 +254,6 @@ record(ai,"$(U):DSWLinEncRawLow") {
 # in DIO FPGA
 record(ai,"$(U):DSWLinEncRawHi") {
   field(DESC,"DS Wall Enc Raw Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO6,0x800068)")
   field(ASLO,"1")
@@ -287,7 +273,6 @@ record(calc,"$(U):DSWLinEncRaw") {
 # in DIO FPGA
 record(ai,"$(U):USWLinEncRawLow") {
   field(DESC,"US Wall Enc Raw Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO5,0x800040)")
   field(ASLO,"1")
@@ -301,7 +286,6 @@ record(ai,"$(U):USWLinEncRawLow") {
 # in DIO FPGA
 record(ai,"$(U):USWLinEncRawHi") {
   field(DESC,"US Wall Enc Raw Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO6,0x800048)")
   field(ASLO,"1")
@@ -321,7 +305,6 @@ record(calc,"$(U):USWLinEncRaw") {
 # in DIO FPGA
 record(ai,"$(U):USALinEncRawLow") {
   field(DESC,"US Aisle Enc Raw Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO5,0x800050)")
   field(ASLO,"1")
@@ -335,7 +318,6 @@ record(ai,"$(U):USALinEncRawLow") {
 # in DIO FPGA
 record(ai,"$(U):USALinEncRawHi") {
   field(DESC,"US Aisle Enc Raw Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO6,0x800058)")
   field(ASLO,"1")
@@ -355,7 +337,6 @@ record(calc,"$(U):USALinEncRaw") {
 # in DIO FPGA
 record(ai,"$(U):DSALinEncRawLow") {
   field(DESC,"DS Aisle Enc Raw Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO5,0x800070)")
   field(ASLO,"1")
@@ -369,7 +350,6 @@ record(ai,"$(U):DSALinEncRawLow") {
 # in DIO FPGA
 record(ai,"$(U):DSALinEncRawHi") {
   field(DESC,"DS Aisle Enc Raw Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO6,0x800078)")
   field(ASLO,"1")

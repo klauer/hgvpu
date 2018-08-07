@@ -146,7 +146,6 @@ record(bo,"$(U):MotorStopPwr") {
   field(DESC,"Motor Power Ctl")
   field(DTYP,"asynUInt32Digital")
   field(PINI,"YES")
-#	field(ASG,"SYSTEM")
   field(DOL,"1")
   field(OUT,"@asynMask($(PORT) 0x800020 0x20)") 
   field(ZNAM,"Motor Power Off")
@@ -398,7 +397,6 @@ record(bi,"$(U):DSSymErr") {
 #######################################################
 record(ai,"$(U):AisleEncDiffLow") {
   field(DESC,"Aisle Enc Diff Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio20,0x8000d8)")
   field(ASLO,"1")
@@ -410,7 +408,6 @@ record(ai,"$(U):AisleEncDiffLow") {
 }
 record(ai,"$(U):AisleEncDiffHi") {
   field(DESC,"Aisle Enc Diff Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio21,0x8000e0)")
   field(ASLO,"1")
@@ -430,7 +427,6 @@ record(calc,"$(U):AisleEncDiff") {
 #######################################################
 record(ai,"$(U):WallEncDiffLow") {
   field(DESC,"Wall Enc Diff Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio22,0x8000e8)")
   field(ASLO,"1")
@@ -442,7 +438,6 @@ record(ai,"$(U):WallEncDiffLow") {
 }
 record(ai,"$(U):WallEncDiffHi") {
   field(DESC,"Wall Enc Diff Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio23,0x8000f0)")
   field(ASLO,"1")
@@ -462,7 +457,6 @@ record(calc,"$(U):WallEncDiff") {
 #######################################################
 record(ai,"$(U):USEncDiffLow") {
   field(DESC,"US Enc Diff Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio25,0x800100)")
   field(ASLO,"1")
@@ -474,7 +468,6 @@ record(ai,"$(U):USEncDiffLow") {
 }
 record(ai,"$(U):USEncDiffHi") {
   field(DESC,"US Enc Diff Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio25,0x800108)")
   field(ASLO,"1")
@@ -494,7 +487,6 @@ record(calc,"$(U):USEncSym") {
 #######################################################
 record(ai,"$(U):DSEncDiffLow") {
   field(DESC,"DS Enc Diff Low")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio25,0x800110)")
   field(ASLO,"1")
@@ -506,7 +498,6 @@ record(ai,"$(U):DSEncDiffLow") {
 }
 record(ai,"$(U):DSEncDiffHi") {
   field(DESC,"DS Enc Diff Hi")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(pio25,0x800118)")
   field(ASLO,"1")
@@ -536,7 +527,6 @@ record(bo,"$(U):FPGAIntlckLatch") {
   field(DESC,"FPGA Encoder Interlock Latch Ctl")
   field(DTYP,"asynUInt32Digital")
   field(PINI,"YES")
-#	field(ASG,"SYSTEM")
   field(DOL,"0")
   field(OUT,"@asynMask($(PORT) 0x800020 0x40)") 
   field(ZNAM,"Latch Low")

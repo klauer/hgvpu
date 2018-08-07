@@ -236,13 +236,6 @@ record(calc,"$(U):MotorsMoving") {
   field(INPC,"$(U):DSWMotor.DMOV CP NMS")
   field(INPD,"$(U):DSAMotor.DMOV CP NMS")
 }
-#record(bi,"$(U):MotorsMoving") {
-#        field(DESC,"Motors Moving")
-#        field(INP,"$(U):IDMovingStat.VAL NPP NMS")
-#        field(OSV,"MINOR")
-#        field(ZNAM,"Motors Stopped")
-#        field(ONAM,"Motors Moving")
-#}
 record(dfanout,"$(U):StopMotors") {
   field(DESC,"STOP all Motors")
   field(ASG,"SYSTEM")
@@ -351,81 +344,5 @@ record(seq,"$(U):CalibrateMotors") {
   field(DLYA,"0.1")
   field(DOLA,"3")
   field(LNKA,"$(U):MotorsSPMG.VAL PP NMS")
-#	field(DOL1,"1")
-#	field(LNK1,"$(U):MotorsSet.VAL PP NMS")
-#	field(DLY2,"0.05")
-#	field(DOL2,"$(U):USWMotorGap.VAL NPP NMS")
-#	field(LNK2,"$(U):USWMotor.VAL PP NMS")
-#	field(DOL3,"$(U):USAMotorGap.VAL NPP NMS")
-#	field(LNK3,"$(U):USAMotor.VAL PP NMS")
-#	field(DOL4,"$(U):DSWMotorGap.VAL NPP NMS")
-#	field(LNK4,"$(U):DSWMotor.VAL PP NMS")
-#	field(DOL5,"$(U):DSAMotorGap.VAL NPP NMS")
-#	field(LNK5,"$(U):DSAMotor.VAL PP NMS")
-#	field(DLY7,"0.05")
-#	field(DOL7,"0")
-#	field(LNK7,"$(U):MotorsSet.VAL PP NMS")
 }
-########################################################
-# Added these records to provide active feedback when not 
-# moving. This will try to hold the device position to
-# within some deadband This has not been tested
-#record(ao,"$(U):ActiveDeadband") {
-#	field(DESC,"ID Gap Deadband")
-#	field(ASG,"$(U)_USER")
-#	field(PINI,"YES")
-#	field(DOL,"0.2")
-#	field(OMSL,"closed_loop")
-#	field(EGU,"microns")
-#	field(DRVH,"1000")
-#	field(DRVL,"0.2")
-#	field(PREC,"3")
-#}
-#record(calcout,"$(U):ActiveDeadCheck") {
-#	field(DESC,"ID Positioning Accuracy")
-#        field(CALC,"(B<A)||(A<0.2)?0:1")
-#        field(INPA,"$(U):DeadbandGap.VAL CP NMS")
-#        field(INPB,"$(U):ActiveDeadband.VAL CP NMS")
-#        field(OUT,"$(U):ResetActiveDead.PROC PP NMS")
-#        field(OOPT,"When Zero")
-#        field(DOPT,"Use CALC")
-#        field(PREC,"3")
-#}
-#record(seq,"$(U):ResetActiveDead") {
-#	field(DESC,"Fully Open Device ")
-#	field(ASG,"OPERATOR")
-#	field(DOL1,"0.2")
-#	field(LNK1,"$(U):ActiveDeadband.VAL PP NMS")
-#}
-#record(ai,"$(U):ActiveGap") {
-#	field(DESC,"Active Feedback Gap")
-#	field(PINI,"YES")
-#	field(ASG,"$(U)_USER")
-#	field(INP,"100")
-#	field(PREC,"3")
-#	field(EGU,"mm")
-#	field(HOPR,"120")
-#	field(LOPR,"7.19")
-#}
-#record(calcout,"$(U):HoldActivePos") {
-#	field(DESC,"Hold ID Position")
-#        field(SDIS,"$(U):ActiveControl.VAL NPP NMS")
-#        field(CALC,"D=0?(A<C-B)||(A>C+B)?1:0:0")
-#        field(INPA,"$(U):ActiveGap.VAL NPP NMS")
-#        field(INPB,"$(U):ActiveDeadband.VAL NPP NMS")
-#        field(INPC,"$(U):Gap.VAL NPP NMS")
-#        field(INPD,"$(U):Busy.VAL NPP NMS")
-#        field(OUT,"$(U):Start.PROC PP NMS")
-#        field(OOPT,"When Non-zero")
-#       field(DOPT,"Use CALC")
-#        field(PREC,"3")
-#}
-#record(bi,"$(U):ActiveControl") {
-#	field(DESC,"Hold Pos Ctl")
-#	field(ASG,"SYSTEM")
-#	field(PINI,"YES")
-#	field(INP,"1")
-#	field(OSV,"MINOR")
-#	field(ZNAM,"Active Pos On")
-#	field(ONAM,"Active Pos Off")
-#}
+

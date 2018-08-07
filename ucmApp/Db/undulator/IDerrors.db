@@ -99,7 +99,6 @@ record(calcout, "$(U):EncoderCheck") {
   field(DESC, "Check Encoder Error")
   field(CALC, "A")
   field(SDIS, "$(U):GlobalBusy.VAL NPP NMS")
-#        field(INPA,"$(U):FagorEncoderCheck.VAL NPP NMS")
   field(INPA, "$(U):LinearEncoderCheck.VAL NPP NMS")
   field(OUT, "$(U):EncoderError.PROC PP NMS")
   field(OOPT, "Transition To Non-zero")

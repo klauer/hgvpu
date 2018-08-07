@@ -70,7 +70,6 @@ record(bi,"$(U):PSAMinLimit") {
 ##########################################################
 record(bo,"$(U):LimitLockout") {
   field(DESC,"Max Limit Lockout")
-#	field(PINI,"YES")
   field(ASG,"SYSTEM")
   field(DTYP,"asynUInt32Digital")
   field(OMSL,"supervisory")

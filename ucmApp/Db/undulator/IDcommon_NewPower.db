@@ -688,7 +688,6 @@ record(ai,"$(U):OldUSWMotorGap") {
 #############################################
 record(ao,"$(U):MaximumSymm") {
   field(DESC,"Max ID Symmetry Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO13,0x8000a0)")
   field(DOL,"5000")
@@ -700,7 +699,6 @@ record(ao,"$(U):MaximumSymm") {
 }
 record(ai,"$(U):MaximumSymmRd") {
   field(DESC,"Max ID Symmetry Rd")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO13,0x8000a0)")
   field(ASLO,"1")
@@ -714,7 +712,6 @@ record(ai,"$(U):MaximumSymmRd") {
 #############################################
 record(ao,"$(U):MaximumTaper") {
   field(DESC,"Max ID Taper Write")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(OUT,"@asyn(internalIO14,0x8000a8)")
   field(DOL,"4000")
@@ -726,7 +723,6 @@ record(ao,"$(U):MaximumTaper") {
 }
 record(ai,"$(U):MaxTaperRd") {
   field(DESC,"Max ID Taper Read")
-#	field(ASG,"SYSTEM")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO14,0x8000a8)")
   field(ASLO,"1")
