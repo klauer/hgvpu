@@ -52,7 +52,25 @@ record(calc,"$(U):DSGapSet") {
   field(EGU,"mm")
   field(PREC,"4")
 }
-
+record(calc,"$(U):USMotorSet") {
+  field(DESC,"Upstream Motor from GapSet")
+  field(CALC,"0.5*(A*C+B*(1.0-C))")
+  field(INPA,"$(U):USGapSet.VAL NPP NMS")
+  field(INPB,"$(U):DSGapSet.VAL NPP NMS")
+  field(INPC,"$(U):EndMotFactor.VAL NPP NMS")
+  field(EGU,"mm")
+  field(PREC,"4")
+  field(FLNK,"$(U):DSMotorSet")
+}
+record(calc,"$(U):DSMotorSet") {
+  field(DESC,"Downsteam Motor from GapSet")
+  field(CALC,"0.5*(A*C+B*(1.0-C))")
+  field(INPA,"$(U):DSGapSet.VAL NPP NMS")
+  field(INPB,"$(U):USGapSet.VAL NPP NMS")
+  field(INPC,"$(U):EndMotFactor.VAL NPP NMS")
+  field(EGU,"mm")
+  field(PREC,"4")
+}
 record(calc,"$(U):OldGapSet") {
   field(DESC,"Previous Gap Set Value")
   field(CALC,"A")
