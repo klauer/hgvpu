@@ -1,23 +1,23 @@
-record(ai,"$(U):GapSet") {
-  field(DESC,"Set Gap of the ID")
+record(ai,"$(U):GapDes") {
+  field(DESC,"Set Desired Gap of the Undulator")
   field(PINI,"YES")
   field(ASG,"$(U)_USER")
   field(INP,"100")
   field(PREC,"3")
   field(EGU,"mm")
-  field(HOPR,"$(DH)")
-  field(LOPR,"$(DL)")
-  field(FLNK,"$(U):StartGaps.PROC PP NMS")
+  field(HOPR,"$(MAX_G=110)")
+  field(LOPR,"$(MIN_G=7.2)")
 }
-record(fanout,"$(U):StartGaps") {
-  field(DESC,"Process on GapSet")
-  field(LNK1,"$(U):USGapSet")
-  field(LNK2,"$(U):DSGapSet")
-  field(LNK3,"$(U):OldGapSet")
-  field(LNK4,"$(U):GapCheck")
+record(calc,"$(U):Old_GapDes") {
+  field(DESC,"Previous Desired Gap Value")
+  field(CALC,"A")
+  field(INPA,"$(U):Old_GapDes.LB NPP NMS")
+  field(INPB,"$(U):GapDes.VAL CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
-record(ai,"$(U):TaperGapSet") {
-  field(DESC,"Set Taper of the ID")
+record(ai,"$(U):TaperDes") {
+  field(DESC,"Set Desired Taper of the Undulator")
   field(PINI,"YES")	
   field(ASG,"$(U)_USER")
   field(PINI,"YES")
@@ -26,83 +26,141 @@ record(ai,"$(U):TaperGapSet") {
   field(EGU,"mm")
   field(HOPR,"0.150")
   field(LOPR,"-0.150")
-  field(FLNK,"$(U):StartTaper.PROC PP NMS")
+}
+record(calc,"$(U):Old_TaperDes") {
+  field(DESC,"Previous Desired Taper Value")
+  field(CALC,"A")
+  field(INPA,"$(U):Old_TaperDes.LB NPP NMS")
+  field(INPB,"$(U):TaperDes.VAL CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 ####################################################
-record(fanout,"$(U):StartTaper") {
-  field(DESC,"Process on GapSet")
-  field(LNK1,"$(U):USGapSet.PROC PP NMS")
-  field(LNK2,"$(U):DSGapSet.PROC PP NMS")
-  field(LNK3,"$(U):OldTaperSet.PROC PP NMS")
-  field(LNK4,"$(U):TaperCheck.PROC PP NMS")
-}
-record(calc,"$(U):USGapSet") {
-  field(CALC,"A+(B/2.0)")
-  field(DESC,"Upstream GapSet")
-  field(INPA,"$(U):GapSet.VAL NPP NMS")
-  field(INPB,"$(U):TaperGapSet.VAL NPP NMS")
-  field(EGU,"mm")
-  field(PREC,"4")
-}
-record(calc,"$(U):DSGapSet") {
-  field(CALC,"A-(B/2.0)")
-  field(DESC,"Downstream GapSet")
-  field(INPA,"$(U):GapSet.VAL NPP NMS")
-  field(INPB,"$(U):TaperGapSet.VAL NPP NMS")
-  field(EGU,"mm")
-  field(PREC,"4")
-}
-record(calc,"$(U):USMotorSet") {
-  field(DESC,"Upstream Motor from GapSet")
-  field(CALC,"0.5*(A*C+B*(1.0-C))")
-  field(INPA,"$(U):USGapSet.VAL NPP NMS")
-  field(INPB,"$(U):DSGapSet.VAL NPP NMS")
-  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-  field(EGU,"mm")
-  field(PREC,"4")
-  field(FLNK,"$(U):DSMotorSet")
-}
-record(calc,"$(U):DSMotorSet") {
-  field(DESC,"Downsteam Motor from GapSet")
-  field(CALC,"0.5*(A*C+B*(1.0-C))")
-  field(INPA,"$(U):DSGapSet.VAL NPP NMS")
-  field(INPB,"$(U):USGapSet.VAL NPP NMS")
-  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-  field(EGU,"mm")
-  field(PREC,"4")
-}
-record(calc,"$(U):OldGapSet") {
-  field(DESC,"Previous Gap Set Value")
+record(calc,"$(U):USGapDes") {
+  field(DESC,"Upstream Desired Gap")
   field(CALC,"A")
-  field(INPA,"$(U):StoreGapSet.VAL NPP NMS")
-  field(INPB,"$(U):StoreGapSet.VAL PP NMS")
-  field(PREC,"4")
+  field(INPA,"$(U):GapDes.VAL CP NMS")
   field(EGU,"mm")
-}
-record(ai,"$(U):StoreGapSet") {
-  field(DESC,"Store Gap Set of the ID")
-  field(ASG,"SYSTEM")
-  field(PINI,"YES")
-  field(INP,"$(U):GapSet.VAL NPP NMS")
   field(PREC,"4")
-  field(EGU,"mm")
+  field(FLNK,"$(U):DSGapDes")
 }
-record(calc,"$(U):OldTaperSet") {
-  field(DESC,"Previous Taper Set Value")
-  field(CALC,"A")
-  field(INPA,"$(U):StoreTaperSet.VAL NPP NMS")
-  field(INPB,"$(U):StoreTaperSet.VAL PP NMS")
+record(calc,"$(U):DSGapDes") {
+  field(DESC,"Downstream Desired Gap")
+  field(CALC,"A+B")
+  field(INPA,"$(U):GapDes.VAL NPP NMS")
+  field(INPB,"$(U):TaperDes.VAL CP NMS")
+  field(EGU,"mm")
   field(PREC,"4")
-  field(EGU,"mm")
+  field(FLNK,"$(U):CheckGap")
 }
-record(ai,"$(U):StoreTaperSet") {
-  field(DESC,"Store Taper Set of the ID")
-  field(ASG,"SYSTEM")
-  field(PINI,"YES")
-  field(INP,"$(U):TaperGapSet.VAL NPP NMS")
-  field(PREC,"4")
-  field(EGU,"mm")
+record(calcout,"$(U):CheckGap") {
+  field(DESC,"Checks If New Desired Gap/Taper is Invalid")
+  field(CALC,"(A<C||B<C||A>D||B>D)?1:0")
+  field(INPA,"$(U):USGapDes.VAL NPP NMS")
+  field(INPB,"$(U):DSGapDes.VAL NPP NMS")
+  field(INPC,"$(U):GapDes.DRVL NPP NMS")
+  field(INPD,"$(U):GapDes.DRVH NPP NMS")
+  field(MDEL,"-1")
+  field(FLNK,"$(U):CheckGapMsg.PROC")
 }
+record(scalcout,"$(U):CheckGapMsg") {
+  field(DESC,"Generates Message after Check Gap")
+  field(CALC,"A?BB:AA")
+  field(INPA,"$(U):CheckGap.VAL NPP NMS")
+  field(AA,"Requested Position OK")
+  field(BB,"Gap/Taper Out of Range")
+  field(OOPT,"Every Time")
+  field(OUT,"$(U):Message1.VAL PP NMS")
+}
+####################################################
+###record(ai,"$(U):GapSet") {
+###  field(DESC,"Set Gap of the ID")
+###  field(PINI,"YES")
+###  field(ASG,"$(U)_USER")
+###  field(INP,"100")
+###  field(PREC,"3")
+###  field(EGU,"mm")
+###  field(HOPR,"$(DH)")
+###  field(LOPR,"$(DL)")
+###  field(FLNK,"$(U):StartGaps.PROC PP NMS")
+###}
+###record(fanout,"$(U):StartGaps") {
+###  field(DESC,"Process on GapSet")
+###  field(LNK1,"$(U):USGapSet")
+###  field(LNK2,"$(U):DSGapSet")
+###  field(LNK3,"$(U):OldGapSet")
+###  field(LNK4,"$(U):GapCheck")
+###}
+###record(ai,"$(U):TaperGapSet") {
+###  field(DESC,"Set Taper of the ID")
+###  field(PINI,"YES")	
+###  field(ASG,"$(U)_USER")
+###  field(PINI,"YES")
+###  field(INP,"0")
+###  field(PREC,"3")
+###  field(EGU,"mm")
+###  field(HOPR,"0.150")
+###  field(LOPR,"-0.150")
+###  field(FLNK,"$(U):StartTaper.PROC PP NMS")
+###}
+###record(fanout,"$(U):StartTaper") {
+###  field(DESC,"Process on GapSet")
+###  field(LNK1,"$(U):USGapSet.PROC PP NMS")
+###  field(LNK2,"$(U):DSGapSet.PROC PP NMS")
+###  field(LNK3,"$(U):OldTaperSet.PROC PP NMS")
+###  field(LNK4,"$(U):TaperCheck.PROC PP NMS")
+###}
+###record(calc,"$(U):USMotorSet") {
+###  field(DESC,"Upstream Motor from GapSet")
+###  field(CALC,"0.5*(A*C+B*(1.0-C))")
+###  field(INPA,"$(U):USGapSet.VAL NPP NMS")
+###  field(INPB,"$(U):DSGapSet.VAL NPP NMS")
+###  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+###  field(EGU,"mm")
+###  field(PREC,"4")
+###  field(FLNK,"$(U):DSMotorSet")
+###}
+###record(calc,"$(U):DSMotorSet") {
+###  field(DESC,"Downsteam Motor from GapSet")
+###  field(CALC,"0.5*(A*C+B*(1.0-C))")
+###  field(INPA,"$(U):DSGapSet.VAL NPP NMS")
+###  field(INPB,"$(U):USGapSet.VAL NPP NMS")
+###  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+###  field(EGU,"mm")
+###  field(PREC,"4")
+###}
+###record(calc,"$(U):OldGapSet") {
+###  field(DESC,"Previous Gap Set Value")
+###  field(CALC,"A")
+###  field(INPA,"$(U):StoreGapSet.VAL NPP NMS")
+###  field(INPB,"$(U):StoreGapSet.VAL PP NMS")
+###  field(PREC,"4")
+###  field(EGU,"mm")
+###}
+###record(ai,"$(U):StoreGapSet") {
+###  field(DESC,"Store Gap Set of the ID")
+###  field(ASG,"SYSTEM")
+###  field(PINI,"YES")
+###  field(INP,"$(U):GapSet.VAL NPP NMS")
+###  field(PREC,"4")
+###  field(EGU,"mm")
+###}
+###record(calc,"$(U):OldTaperSet") {
+###  field(DESC,"Previous Taper Set Value")
+###  field(CALC,"A")
+###  field(INPA,"$(U):StoreTaperSet.VAL NPP NMS")
+###  field(INPB,"$(U):StoreTaperSet.VAL PP NMS")
+###  field(PREC,"4")
+###  field(EGU,"mm")
+###}
+###record(ai,"$(U):StoreTaperSet") {
+###  field(DESC,"Store Taper Set of the ID")
+###  field(ASG,"SYSTEM")
+###  field(PINI,"YES")
+###  field(INP,"$(U):TaperGapSet.VAL NPP NMS")
+###  field(PREC,"4")
+###  field(EGU,"mm")
+###}
 ########################################################
 # MAY NEED TO DO SOMETHING WITH THE OUT FIELD HERE
 record(calcout,"$(U):GapCheck") {

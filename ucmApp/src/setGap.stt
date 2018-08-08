@@ -26,12 +26,6 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
 }%
 
-/*
- * If DIRECT CONTROL = 1, we are bypassing virtual record and communicating straight with the controller
- * if DIRECT_CONTROL = 0, we are controling through individual motor record and defered move
- */
-int DIRECT_CONTROL = 1;
-
 /** SNL variables  **/
 /* Configuration and communication */
 char stringOut[200];
@@ -48,13 +42,13 @@ int movingLarger;
 
 /* HXU strongback distances in mm */
 /* distance beetween upstream end and downstream end */
-//double distEndToEnd = 3419.05;
+double distEndToEnd = 3419.050;
 /* distance between upstream end and upstream motor */
-//double distToUsMtr =  850.0;
+double distToUsMtr =  798.525;
 /* distance between upstream end and downstream motor */
-//double distToDsMtr = 2550.0;
+double distToDsMtr = 2620.525;
 /* distance between upstream motor and downstream motor */
-//double distBtwnMtr = 1700.0;
+double distBtwnMtr = 1822.000;
 
 /* HXU specific conversion factor (from ANL database) */
 /* Device End to Motor conversion factor */
@@ -101,11 +95,10 @@ double desiredTaper;      assign desiredTaper to "{DEV}:TAPER_DES";
 double actualGap;         assign actualGap to "{DEV}:Gap";                      monitor actualGap;
 double calcUsGap;         assign calcUsGap to "{DEV}:USGap";                    monitor calcUsGap;
 double calcDsGap;         assign calcDsGap to "{DEV}:DSGap";                    monitor calcDsGap;
-//TODO: create records
-double calcAisleTaper;    assign calcAisleTaper to "{DEV}:AisleTaper";              monitor calcAisleTaper;
-double calcWallTaper;     assign calcWallTaper to "{DEV}:WallTaper";               monitor calcWallTaper;
-double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:USSymmetry";              monitor calcUsSymmetry;
-double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:DSSymmetry";              monitor calcDsSymmetry;
+double calcAisleTaper;    assign calcAisleTaper to "{DEV}:AisleTaper";          monitor calcAisleTaper;
+double calcWallTaper;     assign calcWallTaper to "{DEV}:WallTaper";            monitor calcWallTaper;
+double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:USSymmetry";          monitor calcUsSymmetry;
+double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:DSSymmetry";          monitor calcDsSymmetry;
 
 /* Hardware position readback PVs */
 double usaHalfGapEncoder; assign usaHalfGapEncoder to "{DEV}:USALinearEncoder"; monitor usaHalfGapEncoder;
@@ -136,7 +129,7 @@ double motorResolution;   assign motorResolution to "{DEV}:USAMotor.MRES";
 double deadband;          assign deadband to "{DEV}:DEADBAND";
 double moveFrac;          assign moveFrac to "{DEV}:MOVEFRAC";
 double moveVelo;          assign moveVelo to "{DEV}:MOVEVELO";
-//TODO: Create record for this acceleration paramter ( if using DIRECT_CONTROL of the motor)
+//TODO: Create record for this acceleration paramter 
 double acclDccl;          assign acclDccl to "{DEV}:MOVEACCL";
 double dlyInput;          assign dlyInput to "{DEV}:DLYINPUT";                  monitor dlyInput;
 double dly;               assign dly to "{DEV}:DLY";                            monitor dly;
@@ -144,14 +137,18 @@ int rtry;                 assign rtry to "{DEV}:RETRY";                         
 int rtryMax;              assign rtryMax to "{DEV}:RETRYMAX";                   monitor rtryMax;
 
 /* Command and status PVs */
+//TODO: clean up this section SXU
 int startGapAdjustment;   assign startGapAdjustment to "{DEV}:GO";              monitor startGapAdjustment;
 int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
 int stop;                 assign stop to "{DEV}:STOP";                          monitor stop;
 int dmov;                 assign dmov to "{DEV}:GAP_DMOV";                      monitor dmov;
 int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
 int autoBrake;            assign autoBrake to "{DEV}:AUTOBRAKE";                monitor autoBrake;
+/* HGVPU command and status PVs */
+int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
 int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
 int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
+string message1;          assign message1 to "{DEV}:Message1.VAL";
 
 /* Debug and simulation PVs */
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
@@ -325,16 +322,17 @@ ss setGap
       //TODO: reorganize this:
       desiredTaper = (desiredGap + desiredTaper) < 7.1 ? 0 : desiredTaper;
      
-      //TODO: Discuss with SLAC and select option below:
-      /* Option 1, symetrical taper around center*/
-      //desiredUsGap = desiredGap - desiredTaper/2.0;
-      //desiredDsGap = desiredGap + desiredTaper/2.0;
-      /* Option 2, desired gap set at US side, taper adjusts only DS side */
-      desiredUsGap = desiredGap;
-      desiredDsGap = desiredGap + desiredTaper;
+      /* Calculating position based on scaling factor from ANL */
+      /* Desired gap set at US side, gap adjusted for taper on DS side */
+      //desiredUsGap = desiredGap;
+      //desiredDsGap = desiredGap + desiredTaper;
       /* Desired value for motor per side */
-      desiredUsMotorPosition = desiredUsGap * EndMotFactor + desiredDsGap * (1.0 - EndMotFactor);
-      desiredDsMotorPosition = desiredDsGap * EndMotFactor + desiredUsGap * (1.0 - EndMotFactor);
+      //desiredUsMotorPosition = (desiredUsGap * EndMotFactor + desiredDsGap * (1.0 - EndMotFactor))/2.0;
+      //desiredDsMotorPosition = (desiredDsGap * EndMotFactor + desiredUsGap * (1.0 - EndMotFactor))/2.0;
+
+      /* Calculating new motor positions based on distances between strongback end and motor position*/
+      desiredUsMotorPosition = (desiredGap/2.0) + (distToUsMtr/distEndToEnd)*(desiredTaper/2.0);
+      desiredDsMotorPosition = (desiredGap/2.0) + (distToDsMtr/distEndToEnd)*(desiredTaper/2.0);
       
       usaMotorAmountToMove = desiredUsMotorPosition - usaMotorGap;
       uswMotorAmountToMove = desiredUsMotorPosition - uswMotorGap;
@@ -343,8 +341,10 @@ ss setGap
       
       /* Calculate factor for retries */
       if ( fabs(actualGap - desiredGap ) < 0.1 )
+        /* If small adjustment, move motor to end point */
         moveFraction = 1.0;
       else
+        /* Otherwis do fraction of the move */
         moveFraction = moveFrac;
 
       /* Calculate new motor positions */
@@ -353,34 +353,21 @@ ss setGap
       dsaPos = dsaMotorRbk + moveFraction * dsaMotorAmountToMove;
       dswPos = dswMotorRbk + moveFraction * dswMotorAmountToMove;
 
-      if ( DIRECT_CONTROL == 0 ) { 
-        /* Write values to motor control */ 
-        usaMotorVal = usaPos;
-        pvPut(usaMotorVal);
-        uswMotorVal = uswPos;
-        pvPut(uswMotorVal);
-        dsaMotorVal = dsaPos;
-        pvPut(dsaMotorVal);
-        dswMotorVal = dswPos;
-        pvPut(dswMotorVal);
-      }
-      else {
-        /* Scale new positions to raw value and push to motor */ 
-        usaPos_raw = (int) usaPos * motorResolution;
-        uswPos_raw = (int) uswPos * motorResolution;
-        dsaPos_raw = (int) dsaPos * motorResolution;
-        dswPos_raw = (int) dswPos * motorResolution;
-        moveVelo_raw = (int) (moveVelo/motorResolution) * scalingFactorVelo;
-        acclDccl_raw = (int) ((moveVelo * motorResolution) / acclDccl) * scalingFactorAD;
+      /* Scale new positions to raw value and push to motor */ 
+      usaPos_raw = (int) usaPos * motorResolution;
+      uswPos_raw = (int) uswPos * motorResolution;
+      dsaPos_raw = (int) dsaPos * motorResolution;
+      dswPos_raw = (int) dswPos * motorResolution;
+      moveVelo_raw = (int) (moveVelo/motorResolution) * scalingFactorVelo;
+      acclDccl_raw = (int) ((moveVelo * motorResolution) / acclDccl) * scalingFactorAD;
   
-        /* Create a string to send to controller to start motor move */
-        sprintf(stringOut, "iii:1=%d", uswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        sprintf(stringOut, "jjj:1=%d", dswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        sprintf(stringOut, "kkk:1=%d", dsaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        sprintf(stringOut, "lll:1=%d", usaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        sprintf(stringOut, "aaa:1=%d", acclDccl_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      }
+      /* Create a string to send to controller to start motor move */
+      sprintf(stringOut, "iii:1=%d", uswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "jjj:1=%d", dswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "kkk:1=%d", dsaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "lll:1=%d", usaPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "aaa:1=%d", acclDccl_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
 
       /* Enable motors and disable breaks */
       sprintf(stringOut, "BRKRLS:0");
@@ -432,16 +419,10 @@ ss setGap
       %%waitEpicsMotors(ssId, pVar);
       if (debugLevel) printf("setGap:move: Wait complete\n");
       
-      if ( DIRECT_CONTROL == 0 ) {
-        /* Trigger defered move */ 
-        triggerDefer = 1;
-        pvPut(triggerDefer,SYNC);
-      }
-      else {
-        /* Send comand to start move */
-        sprintf(stringOut, "GS");
-        %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      }
+      /* Send comand to start move */
+      sprintf(stringOut, "GOSUB(1)");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+
     } state moving
   }
 
@@ -518,6 +499,10 @@ ss setGap
       /* Calibrate motors at final position */
       calibMotors = 1;
       pvPut(calibMotors);
+
+      /* Write message to a PV */
+      sprintf(message1, "Device At Destination");
+      pvPut(message1);
     } state idle
   }
 
