@@ -1,0 +1,221 @@
+'Initialization
+'Disable limit switches for testing on bench
+'EIGN(W,0)
+'Clear all faults
+ZS
+
+'SET BAUDS
+CBAUD=1000000
+BAUD(0)=9600
+MP
+VT=1000  'default velocity
+ADT=1000 'defualt acceleration
+'Time for timer 0 in motor 1
+t=10
+'Time for timer 1 in all other motors
+tt=50
+www=400
+'Master motor watchdog
+IF CADDR==1
+   'Set Interrupt2 on Timer0 to execute subroutine 69
+   ITR(2,4,0,0,69)
+   EITR(2)
+   ITRE
+   TMR(0,t)
+   TMR(1,tt):0
+'Slave motor watchdog
+ELSE
+   WAIT=200
+   'Set Interrupt3 on Timer1 to execute subroutine 70
+   ITR(3,4,1,0,70)
+   EITR(3)
+   ITRE
+ENDIF
+'Keep main program from finishing and disabling interrupts
+PAUSE
+'End program execution
+END
+
+
+'Start   sync   move   subroutine 4 motors
+C1
+
+  'Run   main   move   program   only   on   controller   1
+  IF (CADDR==1)
+    ZS:0
+    BRKRLS:0 'Release the brakes
+    'Based   on   variable   select   a   subroutine
+    'Move   4   motors
+    'iii   =   position   of   motor1
+    'jjj   =   position   of   motor2
+    'kkk   =   position   of   motor3
+    'lll   =   position   of   motor4
+    'vvv   =   velocity   of   coordinated   move
+    'aaa   =   acceleration   of   coordinated   move
+    PT:1=PA:1 PT:2=PA:2 PT:3=PA:3 PT:4=PA:4
+    MP:0
+    G:0
+
+    VTS=vvv
+    ADTS=aaa
+
+    PTS (iii;1,jjj;2,kkk;3)   'max   3   motors   in   this   command
+    PTSS (lll;4)   'another motor added to move by PTSS
+    IF  PTSD !=0
+       GS
+       US(1) ' sync motion starts
+       'Wait   until   motion   complete
+       WHILE ( B(7,15)==1)
+         IF B(2,4)==1 'CAN error on master
+            S
+            BRKENG
+            OFF
+            BREAK
+         ENDIF
+         IF B(0,0):1==0 BREAK ENDIF 'Drive:1 not READY
+         IF B(0,0):2==0 BREAK ENDIF 'Drive:2 not READY
+         IF B(0,0):3==0 BREAK ENDIF 'Drive:3 not READY
+         IF B(0,0):4==0 BREAK ENDIF 'Drive:4 not READY
+         WAIT=25
+       LOOP
+       'If no CAN error detected on a master issue a global STOP
+       IF (B(2,4)==0)
+          'If trajcetory was ended and no errors then wait to issue a STOP
+          IF (B(0,0):1==1)&(B(0,0):2==1)&(B(0,0):3==1)&(B(0,0):4==1)
+             WAIT=www
+          ENDIF
+          S:0
+       'If CAN error detecetd issue a local STOP and engage local BRAKE
+       ELSE
+          S
+          BRKENG
+          OFF
+       ENDIF
+       UR(1)  'sync motion ended
+    ENDIF
+    BRKENG:0 'Engage brakes
+    WAIT=50
+    OFF:0 'Servo OFF, disable current
+  ENDIF
+RETURN
+
+'Start   sync   move   subroutine
+C2
+  'Run   main   move   program   only   on   controller   1
+  IF (CADDR==1)
+    ZS:0
+    'BRKRLS:0
+    'Based   on   variable   select   a   subroutine
+    'Move   4   motors
+    'iii   =   position   of   motor1
+    'jjj   =   position   of   motor2
+    'kkk   =   position   of   motor3
+    'lll   =   position   of   motor4
+    'vvv   =   velocity   of   coordinated   move
+    'aaa   =   acceleration   of   coordinated   move
+    PT:1=PA:1 PT:2=PA:2 PT:3=PA:3 PT:4=PA:4
+    MP:0
+    G:0
+
+    VTS=vvv
+    ADTS=aaa
+
+    PTS (iii;1,jjj;2)
+    IF  PTSD !=0
+       GS
+       US(1)
+       'Wait   until   motion   complete
+       WHILE ( B(7,15)==1)
+         IF B(2,4):1==1  'CAN error on master
+            S
+            BRKENG
+         ENDIF
+         IF B(0,0):1==0 BREAK ENDIF
+         IF B(0,0):2==0 BREAK ENDIF
+         WAIT=25
+       LOOP
+       WAIT=www
+       S:0
+       UR(1)
+    ENDIF
+    BRKENG:0
+    WAIT=50
+    OFF:0
+  ENDIF
+RETURN
+
+
+C3
+  'Run   main   move   program   only   on   controller   1
+  IF (CADDR==1)
+    ZS:0
+    'BRKRLS:0
+    'Based   on   variable   select   a   subroutine
+    'Move   4   motors
+    'iii   =   position   of   motor1
+    'jjj   =   position   of   motor2
+    'kkk   =   position   of   motor3
+    'lll   =   position   of   motor4
+    'vvv   =   velocity   of   coordinated   move
+    'aaa   =   acceleration   of   coordinated   move
+    PT:1=PA:1 PT:2=PA:2 PT:3=PA:3 PT:4=PA:4
+    MP:0
+    G:0
+
+    VTS=vvv
+    ADTS=aaa
+
+    PTS (kkk;3,lll;4)
+    IF  PTSD !=0
+       GS
+       US(1)
+       'Wait   until   motion   complete
+       WHILE ( B(7,15)==1)
+         IF B(2,4):1==1  'CAN error on master
+            S
+            BRKENG
+         ENDIF
+         IF B(0,0):3==0 BREAK ENDIF
+         IF B(0,0):4==0 BREAK ENDIF
+         WAIT=25
+       LOOP
+       WAIT=www
+       S:0
+       UR(1)
+    ENDIF
+    BRKENG:0
+    WAIT=50
+    OFF:0
+  ENDIF
+RETURN
+
+'Called when master timer [Timer0] times out
+C69
+   'Reset master timer
+   TMR(0,t)
+   'Reset slave timers
+   TMR(1,tt):0
+RETURNI
+
+
+'Called when slave timer [Timer1] times out
+C70
+   S     'BRAKE
+   US(0) 'indicate failure
+   UR(1) 'sync ended
+   BRKENG
+   OFF
+RETURNI
+
+'Debugging position
+C100
+   Riii
+   RPA:1
+   Rjjj
+   RPA:2
+   Rkkk
+   RPA:3
+   Rlll
+   RPA:4
+   PRINT(#13)
+RETURN
