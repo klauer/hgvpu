@@ -57,7 +57,7 @@ record(calc,"$(U):USMotorSet") {
   field(CALC,"0.5*(A*C+B*(1.0-C))")
   field(INPA,"$(U):USGapSet.VAL NPP NMS")
   field(INPB,"$(U):DSGapSet.VAL NPP NMS")
-  field(INPC,"$(U):EndMotFactor.VAL NPP NMS")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
   field(EGU,"mm")
   field(PREC,"4")
   field(FLNK,"$(U):DSMotorSet")
@@ -67,7 +67,7 @@ record(calc,"$(U):DSMotorSet") {
   field(CALC,"0.5*(A*C+B*(1.0-C))")
   field(INPA,"$(U):DSGapSet.VAL NPP NMS")
   field(INPB,"$(U):USGapSet.VAL NPP NMS")
-  field(INPC,"$(U):EndMotFactor.VAL NPP NMS")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
   field(EGU,"mm")
   field(PREC,"4")
 }

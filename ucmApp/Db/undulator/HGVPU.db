@@ -4,27 +4,26 @@ record(stringout,"$(U):Version") {
   field(VAL,"1.0")
 }
 #######################################################
-
-record(ai,"$(U):EndMotFactor") {
-  field(DESC,"End to Motor Conv Factor")
-  field(ASG,"SYSTEM")
+record(ai,"$(U):StrongbackLength"){
+  field(DESC,"Length of Strongback Between Linear Encoders")
   field(PINI,"YES")
-  field(INP,"0.76670")
-  field(PREC,"5")
+  field(EGU,"mm")
+  field(VAL,"3419.05")
 }
-record(ai,"$(U):LinMotFactor") {
-  field(DESC,"Linear to Motor Conv Factor")
-  field(ASG,"SYSTEM")
+record(ai,"$(U):EndToMotor"){
+  field(DESC,"Distance Between Strongback End and Motor")
   field(PINI,"YES")
-  field(INP,"0.76670")
-  field(PREC,"5")
+  field(EGU,"mm")
+  field(VAL,"798.525")
 }
-record(ai,"$(U):MotEndFactor") {
-  field(DESC,"Motor to End Conv Factor")
+record(calc,"$(U):LinMotFactor") {
+  field(DESC,"Linear Encoder to Motor Conv Factor")
   field(ASG,"SYSTEM")
   field(PINI,"YES")
-  field(INP,"1.437386")
-  field(PREC,"5")
+  field(PREC,"6")
+  field(INPA,"$(U):EndToMotor")
+  field(INPB,"$(U):StrongbackLength")
+  field(CALC,"1-A/B")
 }
 ########################################################
 record(fanout,"$(U):StartProcess") {
