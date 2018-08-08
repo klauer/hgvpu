@@ -49,7 +49,7 @@ DB += hgvpuMotion.db
 #DB += IDMonitors.db
 #DB += IDerrors.db
 #DB += ID_FPGArev.db
-#DB += FagorEncoders.db
+#DB += FagorEncoders.template
 #DB += tews_LinearSSI.db
 
 DB += camMotion.db
