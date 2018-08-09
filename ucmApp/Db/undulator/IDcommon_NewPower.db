@@ -172,29 +172,6 @@ record(bo,"$(U):DeviceTaper") {
   field(ONAM,"ON")
   field(OSV,"MINOR")
 }
-########################################################
-# Device Bounds checking
-record(calc,"$(U):UpperBoundCheck") {
-  field(DESC,"Check Upper Bound")
-  field(CALC,"MAX(A,B)>C)?1:0")
-  field(INPA,"$(U):USGap.VAL NPP NMS")
-  field(INPB,"$(U):DSGap.VAL NPP NMS")
-  field(INPC,"$(U):GapDes.DRVH PP NMS")
-}
-record(calc,"$(U):LowerBoundCheck") {
-  field(DESC,"Check Lower Bound")
-  field(CALC,"MIN(A,B)<C)?1:0")
-  field(INPA,"$(U):USGap.VAL NPP NMS")
-  field(INPB,"$(U):DSGap.VAL NPP NMS")
-  field(INPC,"$(U):GapDes.DRVL PP NMS")
-}
-record(calc,"$(U):TaperBoundCheck") {
-  field(DESC,"Check Taper Bound")
-  field(CALC,"ABS(A)>(B+C)?1:0")
-  field(INPA,"$(U):Taper.VAL NPP NMS")
-  field(INPB,"$(U):MaxTaper.VAL NPP NMS")
-  field(INPC,"0.005")
-}
 ####################################################
 ###record(ai,"$(U):GapSet") {
 ###  field(DESC,"Set Gap of the ID")

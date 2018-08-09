@@ -1,324 +1,327 @@
-
-record(ao, "$(U):MaxSymmetry") {
-  field(DESC, "ID Max Symmetry Allowed")
-  field(ASG, "SYSTEM")
-  field(DOL, "0.05")
-  field(OMSL, "closed_loop")
-  field(PREC, "3")
-  field(EGU, "mm")
-  field(DRVH, "0.100")
-  field(DRVL, "0.0")
-  field(HOPR, "0.100")
-  field(LOPR, "0.0")
+#######################################################
+record(ao,"$(U):MaxSymmetry") {
+  field(DESC,"ID Max Symmetry Allowed")
+  field(ASG,"SYSTEM")
+  field(VAL,"0.050")
+  field(PREC,"3")
+  field(EGU,"mm")
+  field(DRVH,"0.100")
+  field(DRVL,"0.0")
 }
-
-record(ao, "$(U):NormalSymmetry") {
-  field(DESC, "ID Operting Symmetry")
-  field(ASG, "SYSTEM")
-  field(DOL, "0.02")
-  field(OMSL, "closed_loop")
-  field(PREC, "3")
-  field(EGU, "mm")
-  field(DRVH, "0.020")
-  field(DRVL, "0.0")
-  field(HOPR, "0.020")
-  field(LOPR, "0.0")
+record(ao,"$(U):NormalSymmetry") {
+  field(DESC,"ID Operting Symmetry")
+  field(ASG,"SYSTEM")
+  field(VAL,"0.020")
+  field(PREC,"3")
+  field(EGU,"mm")
+  field(DRVH,"0.020")
+  field(DRVL,"0.0")
 }
-
 #######################################################
 # Not sure yet if we need ResetMotorCheck
-record(seq, "$(U):ProcessChecks") {
-  field(DESC, "Start Processing Check")
-  field(ASG, "SYSTEM")
-  field(SCAN, ".2 second")
-  field(DOL1, "1")
-  field(LNK1, "$(U):MotorsErrorCheck.PROC PP")
-  field(DLY2, "0.2")
-  field(LNK2, "$(U):DeviceBoundsCheck.PROC PP")
-  field(DOL5, "1")
-  field(DLY5, "0.01")
-  field(LNK5, "$(U):ResetMotorCheck.PROC PP")
+record(seq,"$(U):ProcessChecks") {
+  field(DESC,"Start Processing Check")
+  field(ASG,"SYSTEM")
+  field(SCAN,".2 second")
+  field(DOL1,"1")
+  field(LNK1,"$(U):MotorsErrorCheck.PROC PP")
+  field(DLY2,"0.2")
+  field(DOL2,"1")
+  field(LNK2,"$(U):DeviceBoundsCheck.PROC PP")
+  field(DOL3,"1")
+  field(DLY3,"0.01")
+  field(LNK3,"$(U):ResetMotorCheck.PROC PP")
+}
+########################################################
+record(calcout,"$(U):MotorsErrorCheck") {
+  field(DESC,"Check Motor Limits")
+  field(ASG,"SYSTEM")
+  field(CALC,"A?1:B?2:C?3:D?4:E?5:F?6:G?7:H?8:0")
+  field(INPA,"$(U):USWMotor.LLS NPP NMS")
+  field(INPB,"$(U):USAMotor.LLS NPP NMS")
+  field(INPC,"$(U):DSWMotor.LLS NPP NMS")
+  field(INPD,"$(U):DSAMotor.LLS NPP NMS")
+  field(INPE,"$(U):USWMotor.HLS NPP NMS")
+  field(INPF,"$(U):USAMotor.HLS NPP NMS")
+  field(INPG,"$(U):DSWMotor.HLS NPP NMS")
+  field(INPH,"$(U):DSAMotor.HLS NPP NMS")
+  field(OOPT,"Transition To Non-zero")
+  field(DOPT,"Use CALC")
+  field(OUT,"$(U):MotorsError.PROC PP NMS")
+}
+record(seq,"$(U):MotorsError") {
+  field(DESC,"Action for Motors Error")
+  field(DOL1,"1")
+  field(LNK1,"$(U):StopMotors.PROC PP NMS")
+  field(DOL2,"1")
+  field(LNK2,"$(U):MotorsErrorMsg.PROC PP NMS")
+  field(DOL3,"0")
+  field(LNK3,"$(U):DeviceActive.VAL PP NMS")
+  field(DOL4,"1")
+  field(LNK4,"$(U):UndulatorError.VAL PP NMS")
+  field(DOL5,"1")
+  field(LNK5,"$(U):CallMessage.PROC PP NMS")
+}
+record(mbbi,"$(U):MotorsErrorMsg") {
+  field(DTYP,"Soft Channel")
+  field(INP,"$(U):MotorsErrorCheck.VAL NPP NMS")
+  field(ONST,"USW Low Mtr Lmt")
+  field(TWST,"USA Low Mtr Lmt")
+  field(THST,"DSW Low Mtr Lmt")
+  field(FRST,"DSA Low Mtr Lmt")
+  field(FVST,"USW HI Mtr Lmt")
+  field(SXST,"USA HI Mtr Lmt")
+  field(SVST,"DSW HI Mtr Lmt")
+  field(EIST,"DSA HI Mtr Lmt")
+  field(FLNK,"$(U):MotorErrorMsg")
+}
+record(scalcout,"$(U):MotorErrorMsg") {
+  field(DESC,"Motor Limit Messages")
+  field(CALC,"AA")
+  field(INAA,"$(U):MotorsErrorMsg NPP NMS")
+  field(OOPT,"Every Time")
+  field(OUT,"$(U):Message1.VAL PP NMS")
+}
+########################################################
+record(calcout,"$(U):EncoderCheck") {
+  field(DESC,"Check Encoder Error")
+  field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
+  field(CALC,"A")
+  field(INPA,"$(U):LinearEncoderCheck.VAL NPP NMS")
+  field(OOPT,"Transition To Non-zero")
+  field(DOPT,"Use CALC")
+  field(OUT,"$(U):EncoderError.PROC PP NMS")
+}
+
+record(seq,"$(U):EncoderError") {
+  field(DESC,"Action for Encoder Errors")
+  field(DOL1,"1")
+  field(LNK1,"$(U):StopMotors.PROC PP NMS")
+  field(DOL2,"1")
+  field(LNK2,"$(U):EncoderErrorMsg.PROC PP NMS")
+  field(DOL3,"0")
+  field(LNK3,"$(U):DeviceActive.VAL PP NMS")
+  field(DOL4,"1")
+  field(LNK4,"$(U):UndulatorError.VAL PP NMS")
+  field(DOL5,"1")
+  field(LNK5,"$(U):CallMessage.PROC PP NMS")
+}
+
+record(scalcout,"$(U):EncoderErrorMsg") {
+  field(DESC,"Generates messages")
+  field(CALC,"AA")
+  field(AA,"Encoder Failed !")
+  field(OOPT,"Every Time")
+  field(OUT,"$(U):Message1.VAL PP NMS")
 }
 
 ########################################################
-record(calcout, "$(U):MotorsErrorCheck") {
-  field(DESC, "Check Motor Limits")
-  field(ASG, "SYSTEM")
-  field(CALC, "A?1:B?2:C?3:D?4:E?5:F?6:G?7:H?8:0")
-  field(INPA, "$(U):USWMotor.LLS NPP NMS")
-  field(INPB, "$(U):USAMotor.LLS NPP NMS")
-  field(INPC, "$(U):DSWMotor.LLS NPP NMS")
-  field(INPD, "$(U):DSAMotor.LLS NPP NMS")
-  field(INPE, "$(U):USWMotor.HLS NPP NMS")
-  field(INPF, "$(U):USAMotor.HLS NPP NMS")
-  field(INPG, "$(U):DSWMotor.HLS NPP NMS")
-  field(INPH, "$(U):DSAMotor.HLS NPP NMS")
-  field(OUT, "$(U):MotorsError.PROC PP NMS")
-  field(OOPT, "Transition To Non-zero")
-  field(DOPT, "Use CALC")
-}
-
-record(seq, "$(U):MotorsError") {
-  field(DESC, "Action for Motors Error")
-  field(DOL1, "1")
-  field(LNK1, "$(U):StopMotors.PROC PP NMS")
-  field(DOL3, "1")
-  field(LNK3, "$(U):MotorsErrorMsg.PROC PP NMS")
-  field(DOL4, "0")
-  field(LNK4, "$(U):DeviceActive.VAL PP NMS")
-  field(DOL5, "1")
-  field(LNK5, "$(U):UndulatorError.VAL PP NMS")
-  field(DOL6, "1")
-  field(LNK6, "$(U):CallMessage.PROC PP NMS")
-}
-
-record(mbbi, "$(U):MotorsErrorMsg") {
-  field(DTYP, "Soft Channel")
-  field(INP, "$(U):MotorsErrorCheck.VAL NPP NMS")
-  field(ONST, "USW Low Mtr Lmt")
-  field(TWST, "USA Low Mtr Lmt")
-  field(THST, "DSW Low Mtr Lmt")
-  field(FRST, "DSA Low Mtr Lmt")
-  field(FVST, "USW HI Mtr Lmt")
-  field(SXST, "USA HI Mtr Lmt")
-  field(SVST, "DSW HI Mtr Lmt")
-  field(EIST, "DSA HI Mtr Lmt")
-  field(FLNK, "$(U):MotorErrorMsg")
-}
-
-record(scalcout, "$(U):MotorErrorMsg") {
-  field(DESC, "Motor Limit Messages")
-  field(CALC, "AA")
-  field(INAA, "$(U):MotorsErrorMsg NPP NMS")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
-}
-
-########################################################
-record(calcout, "$(U):EncoderCheck") {
-  field(DESC, "Check Encoder Error")
-  field(CALC, "A")
-  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
-  field(INPA, "$(U):LinearEncoderCheck.VAL NPP NMS")
-  field(OUT, "$(U):EncoderError.PROC PP NMS")
-  field(OOPT, "Transition To Non-zero")
-  field(DOPT, "Use CALC")
-}
-
-record(seq, "$(U):EncoderError") {
-  field(DESC, "Action for Encoder Errors")
-  field(DOL1, "1")
-  field(LNK1, "$(U):StopMotors.PROC PP NMS")
-  field(DOL2, "1")
-  field(LNK2, "$(U):EncoderErrorMsg.PROC PP NMS")
-  field(DOL3, "0")
-  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
-  field(DOL4, "1")
-  field(LNK4, "$(U):UndulatorError.VAL PP NMS")
-  field(DOL5, "1")
-  field(LNK5, "$(U):CallMessage.PROC PP NMS")
-}
-
-record(scalcout, "$(U):EncoderErrorMsg") {
-  field(DESC, "Generates messages")
-  field(CALC, "AA")
-  field(AA, "Encoder Failed !")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
-}
-
-########################################################
-record(calcout, "$(U):ResetMotorCheck") {
-  field(DESC, "Reset Motors for large Diff")
-  field(ASG, "SYSTEM")
-  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
-  field(CALC, "A=0?B+(C<<1)+(D<<2)+(E<<3):0")
-  #TODO::::::::
-  field(INPA, "$(U):ResetBusy.VAL NPP NMS")
-  field(INPB, "$(U):USWMotorDiff.VAL PP NMS")
-  field(INPC, "$(U):USAMotorDiff.VAL PP NMS")
-  field(INPD, "$(U):DSWMotorDiff.VAL PP NMS")
-  field(INPE, "$(U):DSAMotorDiff.VAL PP NMS")
-  field(OUT, "$(U):ResetMotorsSQ PP NMS")
-  field(OOPT, "When Non-zero")
-  field(DOPT, "Use CALC")
+record(calcout,"$(U):ResetMotorCheck") {
+  field(DESC,"Reset Motors for large Diff")
+  field(ASG,"SYSTEM")
+  field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
+  field(CALC,"A=0?B+(C<<1)+(D<<2)+(E<<3):0")
+  field(INPA,"$(U):DeviceActive.VAL NPP NMS")
+  field(INPB,"$(U):USWMotorDiff.VAL PP NMS")
+  field(INPC,"$(U):USAMotorDiff.VAL PP NMS")
+  field(INPD,"$(U):DSWMotorDiff.VAL PP NMS")
+  field(INPE,"$(U):DSAMotorDiff.VAL PP NMS")
+  field(OOPT,"When Non-zero")
+  field(DOPT,"Use CALC")
+  field(OUT,"$(U):ResetMotorsSQ PP NMS")
 }
 record(ao,"$(U):AllowedMotorReset") {
   field(DESC,"Value for Motor Reset")
   field(ASG,"SYSTEM")
-  field(DOL,"0.25")
-  field(OMSL,"closed_loop")
+  field(VAL,"0.25")
   field(PREC,"2")
   field(EGU,"mm")
   field(DRVH,"10.0")
   field(DRVL,"0.0")
-  field(HOPR,"10.0")
-  field(LOPR,"0.0")
 }
-record(calc, "$(U):USWMotorDiff") {
-  field(DESC, "USW Motor Difference")
-  field(CALC, "ABS(A-B)>F?1:0")
-  field(INPA, "$(U):USWMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):USWMotor.RBV NPP NMS")
-  field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
+record(calc,"$(U):USWMotorDiff") {
+  field(DESC,"USW Motor Difference")
+  field(CALC,"ABS(A-B)>F?1:0")
+  field(INPA,"$(U):USWMotorGap.VAL NPP NMS")
+  field(INPB,"$(U):USWMotor.RBV NPP NMS")
+  field(INPF,"$(U):AllowedMotorReset.VAL NPP NMS")
 }
-record(calc, "$(U):USAMotorDiff") {
-  field(DESC, "USA Motor Difference")
-  field(CALC, "ABS(A-B)>F?1:0")
-  field(INPA, "$(U):USAMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):USAMotor.RBV NPP NMS")
-  field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
+record(calc,"$(U):USAMotorDiff") {
+  field(DESC,"USA Motor Difference")
+  field(CALC,"ABS(A-B)>F?1:0")
+  field(INPA,"$(U):USAMotorGap.VAL NPP NMS")
+  field(INPB,"$(U):USAMotor.RBV NPP NMS")
+  field(INPF,"$(U):AllowedMotorReset.VAL NPP NMS")
 }
-record(calc, "$(U):DSWMotorDiff") {
-  field(DESC, "DSW Motor Difference")
-  field(CALC, "ABS(A-B)>F?1:0")
-  field(INPA, "$(U):DSWMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):DSWMotor.RBV NPP NMS")
-  field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
+record(calc,"$(U):DSWMotorDiff") {
+  field(DESC,"DSW Motor Difference")
+  field(CALC,"ABS(A-B)>F?1:0")
+  field(INPA,"$(U):DSWMotorGap.VAL NPP NMS")
+  field(INPB,"$(U):DSWMotor.RBV NPP NMS")
+  field(INPF,"$(U):AllowedMotorReset.VAL NPP NMS")
 }
-record(calc, "$(U):DSAMotorDiff") {
-  field(DESC, "DSA Motor Difference")
-  field(CALC, "ABS(A-B)>F?1:0")
-  field(INPA, "$(U):DSAMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):DSAMotor.RBV NPP NMS")
-  field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
+record(calc,"$(U):DSAMotorDiff") {
+  field(DESC,"DSA Motor Difference")
+  field(CALC,"ABS(A-B)>F?1:0")
+  field(INPA,"$(U):DSAMotorGap.VAL NPP NMS")
+  field(INPB,"$(U):DSAMotor.RBV NPP NMS")
+  field(INPF,"$(U):AllowedMotorReset.VAL NPP NMS")
 }
-record(seq, "$(U):ResetMotorsSQ") {
-  field(DESC, "Reset Motors Values")
-  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
-  field(DOL1, "0")
-  field(LNK1, "$(U):AmountToMove.DISV PP NMS")
-  field(DOL4, "1")
-  field(DLY4, "0.1")
-  field(LNK4, "$(U):CalibrateMotors.PROC PP NMS")
-  field(DOL5, "1")
-  field(DLY5, "0.05")
-  field(LNK5, "$(U):AmountToMove.DISV PP NMS")
+record(seq,"$(U):ResetMotorsSQ") {
+  field(DESC,"Reset Motors Values")
+  field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
+#!#  field(DOL1,"0")
+#!#  field(LNK1,"$(U):AmountToMove.DISV PP NMS")
+  field(DOL2,"1")
+  field(DLY2,"0.1")
+  field(LNK2,"$(U):CalibrateMotors.PROC PP NMS")
+#!#  field(DOL3,"1")
+#!#  field(DLY3,"0.05")
+#!#  field(LNK3,"$(U):AmountToMove.DISV PP NMS")
 }
 ########################################################
-# Needed only for 4 motor ID
-record(calc, "$(U):SymmetryCheck") {
-  field(DESC, "Check ID Symmetry Bound")
-  field(CALC, "A>B?1:0")
-  field(INPA, "$(U):GapSymmetry.VAL NPP NMS")
-  field(INPB, "$(U):MaxSymmetry.VAL NPP NMS")
-  field(PREC, "3")
+# Device Bounds checking
+record(calcout,"$(U):DeviceBoundsCheck") {
+  field(DESC,"Check Device within Bounds")
+  field(ASG,"SYSTEM")
+  field(CALC,"A<<3|B<<2|C<<1|D")
+  field(INPA,"$(U):UpperBoundCheck.VAL PP NMS")
+  field(INPB,"$(U):LowerBoundCheck.VAL PP NMS")
+  field(INPC,"$(U):TaperBoundCheck.VAL PP NMS")
+  field(INPD,"$(U):SymmetryBoundCheck.VAL PP NMS")
+  field(OOPT,"Transition To Non-zero")
+  field(DOPT,"Use CALC")
+  field(OUT,"$(U):DeviceError.PROC PP NMS")
+  field(FLNK,"$(U):DeviceRecoveryCheck")
+}
+record(calc,"$(U):UpperBoundCheck") {
+  field(DESC,"Check Upper Bound")
+  field(CALC,"MAX(A,B)>C)?1:0")
+  field(INPA,"$(U):USGap.VAL NPP NMS")
+  field(INPB,"$(U):DSGap.VAL NPP NMS")
+  field(INPC,"$(U):GapDes.DRVH PP NMS")
+}
+record(calc,"$(U):LowerBoundCheck") {
+  field(DESC,"Check Lower Bound")
+  field(CALC,"MIN(A,B)<C)?1:0")
+  field(INPA,"$(U):USGap.VAL NPP NMS")
+  field(INPB,"$(U):DSGap.VAL NPP NMS")
+  field(INPC,"$(U):GapDes.DRVL PP NMS")
+}
+record(calc,"$(U):TaperBoundCheck") {
+  field(DESC,"Check Taper Bound")
+  field(CALC,"ABS(A)>(B+C)?1:0")
+  field(INPA,"$(U):Taper.VAL NPP NMS")
+  field(INPB,"$(U):MaxTaper.VAL NPP NMS")
+  field(INPC,"0.005")
+}
+record(calc,"$(U):SymmetryBoundCheck") {
+  field(DESC,"Check ID Symmetry Bound")
+  field(CALC,"A>B?1:0")
+  field(INPA,"$(U):GapSymmetry.VAL NPP NMS")
+  field(INPB,"$(U):MaxSymmetry.VAL NPP NMS")
+  field(PREC,"3")
+}
+record(seq,"$(U):DeviceError") {
+  field(DESC,"Action for Out of Bounds")
+  field(DOL1,"1")
+  field(LNK1,"$(U):Stop.VAL PP NMS")
+  field(DOL2,"1")
+  field(LNK2,"$(U):DeviceErrMsg.PROC PP NMS")
+  field(DOL3,"0")
+  field(LNK3,"$(U):DeviceActive.VAL PP NMS")
+  field(DOL4,"1")
+  field(LNK4,"$(U):UndulatorError.VAL PP NMS")
+  field(DOL5,"1")
+  field(LNK5,"$(U):CallMessage.PROC PP NMS")
 }
 
-record(calcout, "$(U):DeviceBoundsCheck") {
-  field(DESC, "Check Device within Bounds")
-  field(ASG, "SYSTEM")
-  field(CALC, "A<<3|B<<2|C<<1|D")
-  field(INPA, "$(U):UpperBoundCheck.VAL PP NMS")
-  field(INPB, "$(U):LowerBoundCheck.VAL PP NMS")
-  field(INPC, "$(U):TaperBoundCheck.VAL PP NMS")
-  field(INPD, "$(U):SymmetryCheck.VAL PP NMS")
-  field(OUT, "$(U):DeviceError.PROC PP NMS")
-  field(OOPT, "Transition To Non-zero")
-  field(DOPT, "Use CALC")
-  field(FLNK, "$(U):DeviceRecoveryCheck")
+record(mbbi,"$(U):DeviceErrMsg") {
+  field(DTYP,"Soft Channel")
+  field(INP,"$(U):DeviceBoundsCheck.VAL NPP NMS")
+  field(ONST,"Symmetry 2 Big")
+  field(TWST,"Taper 2 Big")
+  field(THST,"Taper/Sym 2 Big")
+  field(FRST,"Lower Bound Vio")
+  field(FVST,"Lower/Sym Bnd")
+  field(SXST,"Low/Taper Bnd")
+  field(SVST,"Low/Taper/Sym")
+  field(EIST,"Past Upper Bnd")
+  field(NIST,"Upper/Sym Bnd")
+  field(TEST,"Upper/Taper Bnd")
+  field(ELST,"Upper/Taper/Sym")
+  field(TVST,"Upper/Lower Bnd")
+  field(TTST,"Upper/Lower/Sym")
+  field(FTST,"Max/Min/Tapr")
+  field(FFST,"ID Bound Error")
+  field(FLNK,"$(U):DeviceErrorMsg")
 }
 
-record(seq, "$(U):DeviceError") {
-  field(DESC, "Action for Out of Bounds")
-  field(DOL1, "1")
-  field(LNK1, "$(U):StopMotors.PROC PP NMS")
-  field(DOL2, "1")
-  field(LNK2, "$(U):DeviceErrMsg.PROC PP NMS")
-  field(DOL3, "0")
-  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
-  field(DOL4, "1")
-  field(LNK4, "$(U):UndulatorError.VAL PP NMS")
-  field(DOL5, "1")
-  field(LNK5, "$(U):CallMessage.PROC PP NMS")
+record(scalcout,"$(U):DeviceErrorMsg") {
+  field(DESC,"Generates messages")
+  field(CALC,"AA")
+  field(INAA,"$(U):DeviceErrMsg.VAL NPP NMS")
+  field(OOPT,"Every Time")
+  field(OUT,"$(U):Message1.VAL PP NMS")
 }
 
-record(mbbi, "$(U):DeviceErrMsg") {
-  field(DTYP, "Soft Channel")
-  field(INP, "$(U):DeviceBoundsCheck.VAL NPP NMS")
-  field(ONST, "Symmetry 2 Big")
-  field(TWST, "Taper 2 Big")
-  field(THST, "Taper/Sym 2 Big")
-  field(FRST, "Lower Bound Vio")
-  field(FVST, "Lower/Sym Bnd")
-  field(SXST, "Low/Taper Bnd")
-  field(SVST, "Low/Taper/Sym")
-  field(EIST, "Past Upper Bnd")
-  field(NIST, "Upper/Sym Bnd")
-  field(TEST, "Upper/Taper Bnd")
-  field(ELST, "Upper/Taper/Sym")
-  field(TVST, "Upper/Lower Bnd")
-  field(TTST, "Upper/Lower/Sym")
-  field(FTST, "Max/Min/Tapr")
-  field(FFST, "ID Bound Error")
-  field(FLNK, "$(U):DeviceErrorMsg")
+record(scalcout,"$(U):CallMessage") {
+  field(DESC,"Generates Call Message")
+  field(CALC,"AA")
+  field(AA,"Call System Manager!!")
+  field(OOPT,"Every Time")
+  field(OUT,"$(U):Message2.VAL PP NMS")
 }
 
-record(scalcout, "$(U):DeviceErrorMsg") {
-  field(DESC, "Generates messages")
-  field(CALC, "AA")
-  field(INAA, "$(U):DeviceErrMsg.VAL NPP NMS")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
+record(calcout,"$(U):DeviceRecoveryCheck") {
+  field(DESC,"Device Recovery Check")
+  field(CALC,"A||B&&(!C)")
+  field(INPA,"$(U):DeviceBoundsCheck.VAL NPP NMS")
+  field(INPB,"$(U):MotorsErrorCheck.VAL NPP NMS")
+  field(INPC,"$(U):EncoderCheck.VAL NPP NMS")
+  field(OOPT,"Transition To Zero")
+  field(DOPT,"Use CALC")
+  field(OUT,"$(U):DeviceRecovered.PROC PP NMS")
 }
 
-record(scalcout, "$(U):CallMessage") {
-  field(DESC, "Generates Call Message")
-  field(CALC, "AA")
-  field(AA, "Call System Manager!!")
-  field(OUT, "$(U):Message2.VAL PP NMS")
-  field(OOPT, "Every Time")
+record(seq,"$(U):DeviceRecovered") {
+  field(DESC,"Action for Recovery")
+  field(DOL1,"1")
+  field(LNK1,"$(U):DeviceRecoverMsg.PROC PP NMS")
+  field(DOL2,"0")
+  field(LNK2,"$(U):UndulatorError.VAL PP NMS")
+  field(DOL3,"0")
+  field(LNK3,"$(U):DeviceActive.VAL PP NMS")
+  field(DOL5,"3")
+  field(LNK5,"$(U):MakeMessage2.A PP NMS")
 }
 
-record(calcout, "$(U):DeviceRecoveryCheck") {
-  field(DESC, "Device Recovery Check")
-  field(CALC, "A||B&&(!C)")
-  field(INPA, "$(U):DeviceBoundsCheck.VAL NPP NMS")
-  field(INPB, "$(U):MotorsErrorCheck.VAL NPP NMS")
-  field(INPC, "$(U):EncoderCheck.VAL NPP NMS")
-  field(OUT, "$(U):DeviceRecovered.PROC PP NMS")
-  field(OOPT, "Transition To Zero")
-  field(DOPT, "Use CALC")
-}
-
-record(seq, "$(U):DeviceRecovered") {
-  field(DESC, "Action for Recovery")
-  field(DOL1, "1")
-  field(LNK1, "$(U):DeviceRecoverMsg.PROC PP NMS")
-  field(DOL2, "0")
-  field(LNK2, "$(U):UndulatorError.VAL PP NMS")
-  field(DOL3, "0")
-  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
-  field(DOL5, "3")
-  field(LNK5, "$(U):MakeMessage2.A PP NMS")
-}
-
-record(scalcout, "$(U):DeviceRecoverMsg") {
-  field(DESC, "Generates messages")
-  field(CALC, "AA")
-  field(AA, "Device Recovered!")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
+record(scalcout,"$(U):DeviceRecoverMsg") {
+  field(DESC,"Generates messages")
+  field(CALC,"AA")
+  field(AA,"Device Recovered!")
+  field(OUT,"$(U):Message1.VAL PP NMS")
+  field(OOPT,"Every Time")
 }
 
 ########################################################
 # If the scan rate of this record gets changed then you
 # MUST change the StallCheckAmount as well otherwise you
 # risk a motor stall not being detected.
-record(calcout, "$(U):StallCheck") {
-  field(DESC, "Check for Motor Stalls")
-  field(ASG, "SYSTEM")
-  field(SCAN, "1 second")
-  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
-  field(CALC, "K?A+(B<<1)+(C<<2)+(D<<3):0")
-  field(INPA, "$(U):USWStallCheck.VAL PP NMS")
-  field(INPB, "$(U):USAStallCheck.VAL PP NMS")
-  field(INPC, "$(U):DSWStallCheck.VAL PP NMS")
-  field(INPD, "$(U):DSAStallCheck.VAL PP NMS")
-  field(INPK, "$(U):MotorsMoving.VAL NPP NMS")
-  field(OUT, "$(U):DeviceStallSQ.PROC PP NMS")
-  field(OOPT, "When Non-zero")
-  field(DOPT, "Use CALC")
+record(calcout,"$(U):StallCheck") {
+  field(DESC,"Check for Motor Stalls")
+  field(ASG,"SYSTEM")
+  field(SCAN,"1 second")
+  field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
+  field(CALC,"K?A+(B<<1)+(C<<2)+(D<<3):0")
+  field(INPA,"$(U):USWStallCheck.VAL PP NMS")
+  field(INPB,"$(U):USAStallCheck.VAL PP NMS")
+  field(INPC,"$(U):DSWStallCheck.VAL PP NMS")
+  field(INPD,"$(U):DSAStallCheck.VAL PP NMS")
+  field(INPK,"$(U):MotorsMoving.VAL NPP NMS")
+  field(OUT,"$(U):DeviceStallSQ.PROC PP NMS")
+  field(OOPT,"When Non-zero")
+  field(DOPT,"Use CALC")
 }
 # Motor stall check amount
 # How far to allow the motor to move if gap does not change
@@ -336,102 +339,102 @@ record(ao,"$(U):StallCheckAmount") {
   field(HOPR,"1.0")
   field(LOPR,"0.0")
 }
-record(calc, "$(U):USWStallCheck") {
-  field(DESC, "Check for Motor Stalls")
-  field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):USWStallCheck.LC NPP NMS")
-  field(INPB, "$(U):USWStallCheck.LD NPP NMS")
-  field(INPC, "$(U):USWMotorGap.VAL NPP NMS")
-  field(INPD, "$(U):USWMotor.RBV NPP NMS")
-  field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
+record(calc,"$(U):USWStallCheck") {
+  field(DESC,"Check for Motor Stalls")
+  field(CALC,"ABS(D-B-C+A)>L?1:0")
+  field(INPA,"$(U):USWStallCheck.LC NPP NMS")
+  field(INPB,"$(U):USWStallCheck.LD NPP NMS")
+  field(INPC,"$(U):USWMotorGap.VAL NPP NMS")
+  field(INPD,"$(U):USWMotor.RBV NPP NMS")
+  field(INPL,"$(U):StallCheckAmount.VAL NPP NMS")
 }
-record(calc, "$(U):USAStallCheck") {
-  field(DESC, "Check for Motor Stalls")
-  field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):USAStallCheck.LC NPP NMS")
-  field(INPB, "$(U):USAStallCheck.LD NPP NMS")
-  field(INPC, "$(U):USAMotorGap.VAL NPP NMS")
-  field(INPD, "$(U):USAMotor.RBV NPP NMS")
-  field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
+record(calc,"$(U):USAStallCheck") {
+  field(DESC,"Check for Motor Stalls")
+  field(CALC,"ABS(D-B-C+A)>L?1:0")
+  field(INPA,"$(U):USAStallCheck.LC NPP NMS")
+  field(INPB,"$(U):USAStallCheck.LD NPP NMS")
+  field(INPC,"$(U):USAMotorGap.VAL NPP NMS")
+  field(INPD,"$(U):USAMotor.RBV NPP NMS")
+  field(INPL,"$(U):StallCheckAmount.VAL NPP NMS")
 }
-record(calc, "$(U):DSWStallCheck") {
-  field(DESC, "Check for Motor Stalls")
-  field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):DSWStallCheck.LC NPP NMS")
-  field(INPB, "$(U):DSWStallCheck.LD NPP NMS")
-  field(INPC, "$(U):DSWMotorGap.VAL NPP NMS")
-  field(INPD, "$(U):DSWMotor.RBV NPP NMS")
-  field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
+record(calc,"$(U):DSWStallCheck") {
+  field(DESC,"Check for Motor Stalls")
+  field(CALC,"ABS(D-B-C+A)>L?1:0")
+  field(INPA,"$(U):DSWStallCheck.LC NPP NMS")
+  field(INPB,"$(U):DSWStallCheck.LD NPP NMS")
+  field(INPC,"$(U):DSWMotorGap.VAL NPP NMS")
+  field(INPD,"$(U):DSWMotor.RBV NPP NMS")
+  field(INPL,"$(U):StallCheckAmount.VAL NPP NMS")
 }
-record(calc, "$(U):DSAStallCheck") {
-  field(DESC, "Check for Motor Stalls")
-  field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):DSAStallCheck.LC NPP NMS")
-  field(INPB, "$(U):DSAStallCheck.LD NPP NMS")
-  field(INPC, "$(U):DSAMotorGap.VAL NPP NMS")
-  field(INPD, "$(U):DSAMotor.RBV NPP NMS")
-  field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
+record(calc,"$(U):DSAStallCheck") {
+  field(DESC,"Check for Motor Stalls")
+  field(CALC,"ABS(D-B-C+A)>L?1:0")
+  field(INPA,"$(U):DSAStallCheck.LC NPP NMS")
+  field(INPB,"$(U):DSAStallCheck.LD NPP NMS")
+  field(INPC,"$(U):DSAMotorGap.VAL NPP NMS")
+  field(INPD,"$(U):DSAMotor.RBV NPP NMS")
+  field(INPL,"$(U):StallCheckAmount.VAL NPP NMS")
 }
-record(seq, "$(U):DeviceStallSQ") {
-  field(DESC, "Action for Motor Stalls")
-  field(DOL1, "1")
-  field(LNK1, "$(U):StopMotors.PROC PP NMS")
-  field(DOL2, "1")
-  field(LNK2, "$(U):DeviceStallMsg.PROC PP NMS")
-  field(DOL3, "0")
-  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
+record(seq,"$(U):DeviceStallSQ") {
+  field(DESC,"Action for Motor Stalls")
+  field(DOL1,"1")
+  field(LNK1,"$(U):StopMotors.PROC PP NMS")
+  field(DOL2,"1")
+  field(LNK2,"$(U):DeviceStallMsg.PROC PP NMS")
+  field(DOL3,"0")
+  field(LNK3,"$(U):DeviceActive.VAL PP NMS")
 }
-record(scalcout, "$(U):DeviceStallMsg") {
-  field(DESC, "Generates messages")
-  field(CALC, "AA")
-  field(AA, "Device Stalled !")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
+record(scalcout,"$(U):DeviceStallMsg") {
+  field(DESC,"Generates messages")
+  field(CALC,"AA")
+  field(AA,"Device Stalled !")
+  field(OUT,"$(U):Message1.VAL PP NMS")
+  field(OOPT,"Every Time")
 }
 ########################################################
-record(calc, "$(U):USWLinearEncCheck") {
-  field(DESC, "Check Encoder Bounds")
-  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):USWLinearEncCheck.LB NPP NMS")
-  field(INPB, "$(U):USWLinearEncoder.VAL NPP NMS")
-  field(INPC, "60.5")
-  field(INPD, "3.5")
-  field(HIGH, "1")
-  field(HSV, "MAJOR")
-  field(SCAN, "1 second")
+record(calc,"$(U):USWLinearEncCheck") {
+  field(DESC,"Check Encoder Bounds")
+  field(CALC,"B>C|B<D|(ABS(A-B)>1)")
+  field(INPA,"$(U):USWLinearEncCheck.LB NPP NMS")
+  field(INPB,"$(U):USWLinearEncoder.VAL NPP NMS")
+  field(INPC,"60.5")
+  field(INPD,"3.5")
+  field(HIGH,"1")
+  field(HSV,"MAJOR")
+  field(SCAN,"1 second")
 }
-record(calc, "$(U):USALinearEncCheck") {
-  field(DESC, "Check Encoder Bounds")
-  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):USALinearEncCheck.LB NPP NMS")
-  field(INPB, "$(U):USALinearEncoder.VAL NPP NMS")
-  field(INPC, "60.5")
-  field(INPD, "3.5")
-  field(HIGH, "1")
-  field(HSV, "MAJOR")
-  field(SCAN, "1 second")
+record(calc,"$(U):USALinearEncCheck") {
+  field(DESC,"Check Encoder Bounds")
+  field(CALC,"B>C|B<D|(ABS(A-B)>1)")
+  field(INPA,"$(U):USALinearEncCheck.LB NPP NMS")
+  field(INPB,"$(U):USALinearEncoder.VAL NPP NMS")
+  field(INPC,"60.5")
+  field(INPD,"3.5")
+  field(HIGH,"1")
+  field(HSV,"MAJOR")
+  field(SCAN,"1 second")
 }
-record(calc, "$(U):DSWLinearEncCheck") {
-  field(DESC, "Check Encoder Bounds")
-  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):DSWLinearEncCheck.LB NPP NMS")
-  field(INPB, "$(U):DSWLinearEncoder.VAL NPP NMS")
-  field(INPC, "60.5")
-  field(INPD, "3.5")
-  field(HIGH, "1")
-  field(HSV, "MAJOR")
-  field(SCAN, "1 second")
+record(calc,"$(U):DSWLinearEncCheck") {
+  field(DESC,"Check Encoder Bounds")
+  field(CALC,"B>C|B<D|(ABS(A-B)>1)")
+  field(INPA,"$(U):DSWLinearEncCheck.LB NPP NMS")
+  field(INPB,"$(U):DSWLinearEncoder.VAL NPP NMS")
+  field(INPC,"60.5")
+  field(INPD,"3.5")
+  field(HIGH,"1")
+  field(HSV,"MAJOR")
+  field(SCAN,"1 second")
 }
-record(calc, "$(U):DSALinearEncCheck") {
-  field(DESC, "Check Encoder Bounds")
-  field(CALC, "B>C|B<D|(ABS(A-B)>1)")
-  field(INPA, "$(U):DSALinearEncCheck.LB NPP NMS")
-  field(INPB, "$(U):DSALinearEncoder.VAL NPP NMS")
-  field(INPC, "60.5")
-  field(INPD, "3.5")
-  field(HIGH, "1")
-  field(HSV, "MAJOR")
-  field(SCAN, "1 second")
+record(calc,"$(U):DSALinearEncCheck") {
+  field(DESC,"Check Encoder Bounds")
+  field(CALC,"B>C|B<D|(ABS(A-B)>1)")
+  field(INPA,"$(U):DSALinearEncCheck.LB NPP NMS")
+  field(INPB,"$(U):DSALinearEncoder.VAL NPP NMS")
+  field(INPC,"60.5")
+  field(INPD,"3.5")
+  field(HIGH,"1")
+  field(HSV,"MAJOR")
+  field(SCAN,"1 second")
 }
 ########################################################
 
