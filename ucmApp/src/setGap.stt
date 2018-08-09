@@ -126,7 +126,7 @@ double dswMotorGap;       assign dswMotorGap to "{DEV}:DSWMotorGap";            
 double motorResolution;   assign motorResolution to "{DEV}:USAMotor.MRES";
 
 /* Move precision and retry */
-double deadband;          assign deadband to "{DEV}:DEADBAND";
+double deadband;          assign deadband to "{DEV}:DeadbandGap";
 double moveFrac;          assign moveFrac to "{DEV}:MOVEFRAC";
 double moveVelo;          assign moveVelo to "{DEV}:MOVEVELO";
 //TODO: Create record for this acceleration paramter 
@@ -138,17 +138,21 @@ int rtryMax;              assign rtryMax to "{DEV}:RETRYMAX";                   
 
 /* Command and status PVs */
 //TODO: clean up this section SXU
-int startGapAdjustment;   assign startGapAdjustment to "{DEV}:GO";              monitor startGapAdjustment;
 int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
-int stop;                 assign stop to "{DEV}:STOP";                          monitor stop;
-int dmov;                 assign dmov to "{DEV}:GAP_DMOV";                      monitor dmov;
+int stop;                 assign stop to "{DEV}:Stop";                          monitor stop;
 int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
 int autoBrake;            assign autoBrake to "{DEV}:AUTOBRAKE";                monitor autoBrake;
 /* HGVPU command and status PVs */
+int startGapAdjustment;   assign startGapAdjustment to "{DEV}:Start";           monitor startGapAdjustment;
 int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
+int dmov;                 assign dmov to "{DEV}:DeviceActive";                  monitor dmov;
 int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
 int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
+int movingDirection;      assign movingDirection to "{DEV}:MotionDirection";
+int deviceActive;         assign deviceActive to "{DEV}:DeviceActive";
 string message1;          assign message1 to "{DEV}:Message1.VAL";
+string message2;          assign message2 to "{DEV}:Message2.VAL";
+
 
 /* Debug and simulation PVs */
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
@@ -198,6 +202,8 @@ ss setGap
       pvPut(startGapAdjustment);
       dmov = 1;
       pvPut(dmov);
+      deviceActive = 0;
+      pvPut(deviceActive);
       numAxes = 4;
 
       /* Creating ABORT string */
@@ -239,6 +245,8 @@ ss setGap
       pvPut(startGapAdjustment);
       dmov = 1;
       pvPut(dmov);
+      deviceActive = 0;
+      pvPut(deviceActive);
       movingLarger = 0;
     }
 
@@ -255,13 +263,28 @@ ss setGap
 
     /* When motors are commanded to GO */
     when( startGapAdjustment == 1 ) {
+      
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
       pvGet(desiredTaper,SYNC);
-      pvGet(deadband,SYNC);
+      pvGet(eadbandGapd,SYNC);
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
       pvGet(motorResolution,SYNC);
+      
+      /* Write start message to the PV */
+      sprintf(message1, "Device Started");
+      pvPut(message1,SYNC);
+      sprintf(message2, " ");
+      pvPut(message2,SYNC);
+
+      /* Calculate direction of the move */
+      if (desiredGap > actualGap)
+        movingDirection = 1;
+      else
+        movingDirection = 0;
+      pvPut(movingDirection, SYNC);
+
       /* Clear retries and Go flag */
       rtry = 0;
       pvPut(rtry);
@@ -269,6 +292,8 @@ ss setGap
       pvPut(startGapAdjustment);
       dmov = 0;
       pvPut(dmov);
+      deviceActive = 1;
+      pvPut(deviceActive);
 
       /* If single approach and opening gap */
       if( (desiredGap > actualGap) && (singleApproach == 1) ) {
@@ -525,6 +550,8 @@ ss setGap
       /* Raise virtual axis done moving flag */
       dmov = 1;
       pvPut(dmov);
+      deviceActive = 0;
+      pvPut(deviceActive);
       /* if in single approach mode restore PVs */
       if (movingLarger == 1) {
         movingLarger = 0;
@@ -627,22 +654,32 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
 
   #define MOVING 0x4
 
+
   for (can_addr=1, count=0; can_addr <= pVar->numAxes; can_addr++) {
+    /* If Stop is issued while in for loop */
+    if ( pVar->stop == 1 )
+      return(0);
+
+    /* Create command that reads motor status word */
     sprintf(outputBuff, "RW(0):%d", can_addr);
+    /* Send command to the controller */
     status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, outputBuff,
              strlen(outputBuff), inputBuff, BUF_SIZE,
              30.0, &nwrite, &nread, &eomReason);
 
     if (status)
       printf("getMotorMoving: pasynOctetSyncIO->writeRead returned %d\n", status);
+    /* Parse return of the command */
     move_active |= (atoi(inputBuff) & MOVING) == MOVING;
     if (pVar->debugLevel) {
       printf("getMotorMoving: outputBuff='%s'\n", outputBuff);
       printf("getMotorMoving: inputBuff='%s'\n", inputBuff);
       printf("getMotorMoving: move_active= %d\n", move_active);
     }
+    /* If any motor is moving return 1  */
     if (move_active)
       return(1);
+    /* Otherwise increase the count and continue */
     else {
       count++;
       if (count>3) break;
@@ -657,6 +694,7 @@ static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
 {
   if(pVar->debugLevel)
     printf("waitEpicsMotors\n");
+  /* Read status of motors, if they are moving */
   while (getMotorMoving(ssId, pVar)) {
     epicsThreadSleep((1/5.0));
   }
