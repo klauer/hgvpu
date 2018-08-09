@@ -67,7 +67,7 @@ record(seq, "$(U):MotorsError") {
   field(DOL4, "0")
   field(LNK4, "$(U):DeviceActive.VAL PP NMS")
   field(DOL5, "1")
-  field(LNK5, "$(U):GlobalBusy.VAL PP NMS")
+  field(LNK5, "$(U):UndulatorError.VAL PP NMS")
   field(DOL6, "1")
   field(LNK6, "$(U):CallMessage.PROC PP NMS")
 }
@@ -98,7 +98,7 @@ record(scalcout, "$(U):MotorErrorMsg") {
 record(calcout, "$(U):EncoderCheck") {
   field(DESC, "Check Encoder Error")
   field(CALC, "A")
-  field(SDIS, "$(U):GlobalBusy.VAL NPP NMS")
+  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
   field(INPA, "$(U):LinearEncoderCheck.VAL NPP NMS")
   field(OUT, "$(U):EncoderError.PROC PP NMS")
   field(OOPT, "Transition To Non-zero")
@@ -114,7 +114,7 @@ record(seq, "$(U):EncoderError") {
   field(DOL3, "0")
   field(LNK3, "$(U):DeviceActive.VAL PP NMS")
   field(DOL4, "1")
-  field(LNK4, "$(U):GlobalBusy.VAL PP NMS")
+  field(LNK4, "$(U):UndulatorError.VAL PP NMS")
   field(DOL5, "1")
   field(LNK5, "$(U):CallMessage.PROC PP NMS")
 }
@@ -131,8 +131,9 @@ record(scalcout, "$(U):EncoderErrorMsg") {
 record(calcout, "$(U):ResetMotorCheck") {
   field(DESC, "Reset Motors for large Diff")
   field(ASG, "SYSTEM")
-  field(SDIS, "$(U):GlobalBusy.VAL NPP NMS")
+  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
   field(CALC, "A=0?B+(C<<1)+(D<<2)+(E<<3):0")
+  #TODO::::::::
   field(INPA, "$(U):ResetBusy.VAL NPP NMS")
   field(INPB, "$(U):USWMotorDiff.VAL PP NMS")
   field(INPC, "$(U):USAMotorDiff.VAL PP NMS")
@@ -142,7 +143,18 @@ record(calcout, "$(U):ResetMotorCheck") {
   field(OOPT, "When Non-zero")
   field(DOPT, "Use CALC")
 }
-
+record(ao,"$(U):AllowedMotorReset") {
+  field(DESC,"Value for Motor Reset")
+  field(ASG,"SYSTEM")
+  field(DOL,"0.25")
+  field(OMSL,"closed_loop")
+  field(PREC,"2")
+  field(EGU,"mm")
+  field(DRVH,"10.0")
+  field(DRVL,"0.0")
+  field(HOPR,"10.0")
+  field(LOPR,"0.0")
+}
 record(calc, "$(U):USWMotorDiff") {
   field(DESC, "USW Motor Difference")
   field(CALC, "ABS(A-B)>F?1:0")
@@ -150,7 +162,6 @@ record(calc, "$(U):USWMotorDiff") {
   field(INPB, "$(U):USWMotor.RBV NPP NMS")
   field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
 }
-
 record(calc, "$(U):USAMotorDiff") {
   field(DESC, "USA Motor Difference")
   field(CALC, "ABS(A-B)>F?1:0")
@@ -158,7 +169,6 @@ record(calc, "$(U):USAMotorDiff") {
   field(INPB, "$(U):USAMotor.RBV NPP NMS")
   field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
 }
-
 record(calc, "$(U):DSWMotorDiff") {
   field(DESC, "DSW Motor Difference")
   field(CALC, "ABS(A-B)>F?1:0")
@@ -166,7 +176,6 @@ record(calc, "$(U):DSWMotorDiff") {
   field(INPB, "$(U):DSWMotor.RBV NPP NMS")
   field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
 }
-
 record(calc, "$(U):DSAMotorDiff") {
   field(DESC, "DSA Motor Difference")
   field(CALC, "ABS(A-B)>F?1:0")
@@ -174,10 +183,9 @@ record(calc, "$(U):DSAMotorDiff") {
   field(INPB, "$(U):DSAMotor.RBV NPP NMS")
   field(INPF, "$(U):AllowedMotorReset.VAL NPP NMS")
 }
-
 record(seq, "$(U):ResetMotorsSQ") {
   field(DESC, "Reset Motors Values")
-  field(SDIS, "$(U):GlobalBusy.VAL NPP NMS")
+  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
   field(DOL1, "0")
   field(LNK1, "$(U):AmountToMove.DISV PP NMS")
   field(DOL4, "1")
@@ -187,7 +195,6 @@ record(seq, "$(U):ResetMotorsSQ") {
   field(DLY5, "0.05")
   field(LNK5, "$(U):AmountToMove.DISV PP NMS")
 }
-
 ########################################################
 # Needed only for 4 motor ID
 record(calc, "$(U):SymmetryCheck") {
@@ -221,7 +228,7 @@ record(seq, "$(U):DeviceError") {
   field(DOL3, "0")
   field(LNK3, "$(U):DeviceActive.VAL PP NMS")
   field(DOL4, "1")
-  field(LNK4, "$(U):GlobalBusy.VAL PP NMS")
+  field(LNK4, "$(U):UndulatorError.VAL PP NMS")
   field(DOL5, "1")
   field(LNK5, "$(U):CallMessage.PROC PP NMS")
 }
@@ -279,7 +286,7 @@ record(seq, "$(U):DeviceRecovered") {
   field(DOL1, "1")
   field(LNK1, "$(U):DeviceRecoverMsg.PROC PP NMS")
   field(DOL2, "0")
-  field(LNK2, "$(U):GlobalBusy.VAL PP NMS")
+  field(LNK2, "$(U):UndulatorError.VAL PP NMS")
   field(DOL3, "0")
   field(LNK3, "$(U):DeviceActive.VAL PP NMS")
   field(DOL5, "3")
@@ -302,36 +309,33 @@ record(calcout, "$(U):StallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(ASG, "SYSTEM")
   field(SCAN, "1 second")
-  field(SDIS, "$(U):GlobalBusy.VAL NPP NMS")
+  field(SDIS, "$(U):UndulatorError.VAL NPP NMS")
   field(CALC, "K?A+(B<<1)+(C<<2)+(D<<3):0")
   field(INPA, "$(U):USWStallCheck.VAL PP NMS")
   field(INPB, "$(U):USAStallCheck.VAL PP NMS")
   field(INPC, "$(U):DSWStallCheck.VAL PP NMS")
   field(INPD, "$(U):DSAStallCheck.VAL PP NMS")
   field(INPK, "$(U):MotorsMoving.VAL NPP NMS")
-  field(OUT, "$(U):DeviceStall.PROC PP NMS")
+  field(OUT, "$(U):DeviceStallSQ.PROC PP NMS")
   field(OOPT, "When Non-zero")
   field(DOPT, "Use CALC")
 }
-
-record(seq, "$(U):DeviceStall") {
-  field(DESC, "Action for Motor Stalls")
-  field(DOL1, "1")
-  field(LNK1, "$(U):StopMotors.PROC PP NMS")
-  field(DOL2, "1")
-  field(LNK2, "$(U):DeviceStallMsg.PROC PP NMS")
-  field(DOL3, "0")
-  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
+# Motor stall check amount
+# How far to allow the motor to move if gap does not change
+# The motor will move at 1.55mm/sec in order to move from
+# min to max gap in 1 minute.
+record(ao,"$(U):StallCheckAmount") {
+  field(DESC,"Value for Stall Check")
+  field(ASG,"SYSTEM")
+  field(DOL,"0.5")
+  field(OMSL,"closed_loop")
+  field(PREC,"2")
+  field(EGU,"mm")
+  field(DRVH,"1.0")
+  field(DRVL,"0.0")
+  field(HOPR,"1.0")
+  field(LOPR,"0.0")
 }
-
-record(scalcout, "$(U):DeviceStallMsg") {
-  field(DESC, "Generates messages")
-  field(CALC, "AA")
-  field(AA, "Device Stalled !")
-  field(OUT, "$(U):Message1.VAL PP NMS")
-  field(OOPT, "Every Time")
-}
-
 record(calc, "$(U):USWStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
@@ -341,7 +345,6 @@ record(calc, "$(U):USWStallCheck") {
   field(INPD, "$(U):USWMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
-
 record(calc, "$(U):USAStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
@@ -351,7 +354,6 @@ record(calc, "$(U):USAStallCheck") {
   field(INPD, "$(U):USAMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
-
 record(calc, "$(U):DSWStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
@@ -361,7 +363,6 @@ record(calc, "$(U):DSWStallCheck") {
   field(INPD, "$(U):DSWMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
-
 record(calc, "$(U):DSAStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
@@ -371,8 +372,23 @@ record(calc, "$(U):DSAStallCheck") {
   field(INPD, "$(U):DSAMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
-
-
+record(seq, "$(U):DeviceStallSQ") {
+  field(DESC, "Action for Motor Stalls")
+  field(DOL1, "1")
+  field(LNK1, "$(U):StopMotors.PROC PP NMS")
+  field(DOL2, "1")
+  field(LNK2, "$(U):DeviceStallMsg.PROC PP NMS")
+  field(DOL3, "0")
+  field(LNK3, "$(U):DeviceActive.VAL PP NMS")
+}
+record(scalcout, "$(U):DeviceStallMsg") {
+  field(DESC, "Generates messages")
+  field(CALC, "AA")
+  field(AA, "Device Stalled !")
+  field(OUT, "$(U):Message1.VAL PP NMS")
+  field(OOPT, "Every Time")
+}
+########################################################
 record(calc, "$(U):USWLinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
   field(CALC, "B>C|B<D|(ABS(A-B)>1)")
@@ -384,7 +400,6 @@ record(calc, "$(U):USWLinearEncCheck") {
   field(HSV, "MAJOR")
   field(SCAN, "1 second")
 }
-
 record(calc, "$(U):USALinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
   field(CALC, "B>C|B<D|(ABS(A-B)>1)")
@@ -396,7 +411,6 @@ record(calc, "$(U):USALinearEncCheck") {
   field(HSV, "MAJOR")
   field(SCAN, "1 second")
 }
-
 record(calc, "$(U):DSWLinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
   field(CALC, "B>C|B<D|(ABS(A-B)>1)")
@@ -408,7 +422,6 @@ record(calc, "$(U):DSWLinearEncCheck") {
   field(HSV, "MAJOR")
   field(SCAN, "1 second")
 }
-
 record(calc, "$(U):DSALinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
   field(CALC, "B>C|B<D|(ABS(A-B)>1)")
@@ -420,4 +433,5 @@ record(calc, "$(U):DSALinearEncCheck") {
   field(HSV, "MAJOR")
   field(SCAN, "1 second")
 }
+########################################################
 

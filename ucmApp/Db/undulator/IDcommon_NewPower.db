@@ -42,7 +42,7 @@ record(calc,"$(U):USGapDes") {
   field(INPA,"$(U):GapDes.VAL CP NMS")
   field(EGU,"mm")
   field(PREC,"4")
-  field(FLNK,"$(U):DSGapDes")
+  field(FLNK,"$(U):DSGapDes.PROC")
 }
 record(calc,"$(U):DSGapDes") {
   field(DESC,"Downstream Desired Gap")
@@ -51,7 +51,7 @@ record(calc,"$(U):DSGapDes") {
   field(INPB,"$(U):TaperDes.VAL CP NMS")
   field(EGU,"mm")
   field(PREC,"4")
-  field(FLNK,"$(U):CheckGap")
+  field(FLNK,"$(U):CheckGap.PROC")
 }
 record(calcout,"$(U):CheckGap") {
   field(DESC,"Checks If New Desired Gap/Taper is Invalid")
@@ -72,6 +72,37 @@ record(scalcout,"$(U):CheckGapMsg") {
   field(OOPT,"Every Time")
   field(OUT,"$(U):Message1.VAL PP NMS")
 }
+########################################################
+# Start undulator motion  button
+record(bi,"$(U):Start") {
+  field(DESC,"Start Moving The Undulator")
+  field(VAL,"0")
+  field(ZNAM,"Stby")
+  field(ONAM,"Go")
+}
+########################################################
+# Stop ID motion button
+record(bi,"$(U):Stop") {
+  field(DESC,"Stop The ID")
+  field(ASG,"$(U)_ACTION")
+  field(ONAM,"Stop")
+}
+########################################################
+# Tells if the Undulator is actively doing something
+########################################################
+record(bo,"$(U):DeviceActive") {
+  field(DESC,"Device Active")
+  field(ZNAM,"Done")
+  field(ONAM,"Moving")
+  field(OSV,"MAJOR")
+}
+########################################################
+record(bi,"$(U):MotionDirection") {
+  field(DESC,"Motion Direction Status")
+  field(ASG,"SYSTEM")
+  field(ZNAM,"Closing")
+  field(ONAM,"Opening")
+}
 #######################################################
 record(stringin,"$(U):Device") {
   field(DESC,"Device Identifier String")
@@ -81,48 +112,6 @@ record(stringout,"$(U):Message1") {
 }
 record(stringout,"$(U):Message2") {
   field(DESC,"Energy Conversion Status")
-}
-#######################################################
-record(ao,"$(U):MaxTaper") {
-  field(DESC,"ID Max Taper Allowed")
-  field(ASG,"SYSTEM")
-  field(DOL,"0.200")
-  field(OMSL,"closed_loop")
-  field(PREC,"3")
-  field(EGU,"mm")
-  field(DRVH,"0.199")
-  field(DRVL,"-0.199")
-  field(HOPR,"0.199")
-  field(LOPR,"-0.199")
-}
-#######################################################
-# Motor stall check amount
-# How far to allow the motor to move if gap does not change
-# The motor will move at 1.55mm/sec in order to move from
-# min to max gap in 1 minute.
-record(ao,"$(U):StallCheckAmount") {
-  field(DESC,"Value for Stall Check")
-  field(ASG,"SYSTEM")
-  field(DOL,"0.5")
-  field(OMSL,"closed_loop")
-  field(PREC,"2")
-  field(EGU,"mm")
-  field(DRVH,"1.0")
-  field(DRVL,"0.0")
-  field(HOPR,"1.0")
-  field(LOPR,"0.0")
-}
-record(ao,"$(U):AllowedMotorReset") {
-  field(DESC,"Value for Motor Reset")
-  field(ASG,"SYSTEM")
-  field(DOL,"0.25")
-  field(OMSL,"closed_loop")
-  field(PREC,"2")
-  field(EGU,"mm")
-  field(DRVH,"10.0")
-  field(DRVL,"0.0")
-  field(HOPR,"10.0")
-  field(LOPR,"0.0")
 }
 #######################################################
 # How close to the target position to move before 
@@ -148,111 +137,63 @@ record(calc,"$(U):PositionAccuracy") {
   field(PREC,"4")
   field(EGU,"mm")
 }
-########################################################
-# Start undulator motion  button
-record(bi,"$(U):GO") {
-  field(DESC,"Start Moving The Undulator")
-  field(VAL,"0")
-  field(ZNAM,"Stby")
-  field(ONAM,"Go")
-}
-########################################################
-# Stop ID motion button
-record(bi,"$(U):Stop") {
-  field(DESC,"Stop The ID")
-  field(ASG,"$(U)_ACTION")
-  field(ONAM,"Stop")
-}
-########################################################
-# Tells if the ID is actively doing something
-########################################################
-record(bo,"$(U):DeviceActive") {
-  field(DESC,"Device Active")
-  field(ZNAM,"Done")
-  field(ONAM,"Active")
-  field(OSV,"MAJOR")
-}
 #######################################################
-# tells if the ID is moving or not and provides a CA put
-# callback from BusyRecord
-########################################################
-record(bo,"$(U):Busy") {
-  field(DESC,"ID Busy Moving")
-  field(ZNAM,"Done Moving")
-  field(ONAM,"Moving")
-  field(OSV,"MAJOR")
-  field(FLNK, "$(U):ClearBusy.PROC PP NMS")
+record(ao,"$(U):MaxTaper") {
+  field(DESC,"Max Taper Allowed")
+  field(ASG,"SYSTEM")
+  field(VAL,"0.200")
+  field(PREC,"3")
+  field(EGU,"mm")
+  field(DRVH,"0.200")
+  field(DRVL,"-0.200")
 }
-record(bo,"$(U):ClearBusy") {
-  field(SDIS, "$(U):Busy")
-  field(DISV, "1")
-  field(OUT, "$(U):BusyRecord CA")
-}
-record(busy,"$(U):BusyRecord") {
-  field(DESC,"ID Busy Moving")
-  field(ZNAM,"Done Moving")
-  field(ONAM,"Moving")
-  field(OSV,"MAJOR")
-}
-###############################################
-record(calcout,"$(U):ResetBusy") {
-  field(DESC,"Reset Busy when done")
-  field(CALC,"A||B||(!C)")
-  field(INPA,"$(U):MotorsMoving.VAL CP NMS")
-  field(INPB,"$(U):DeviceActive.VAL CP NMS")
-  field(INPC,"$(U):Busy.VAL NPP NMS")
-  field(OUT,"$(U):Busy.VAL PP NMS")
-  field(OOPT,"When Zero")
-  field(DOPT,"Use CALC")
+record(ao,"$(U):TaperThreshold") {
+  field(DESC,"Min Taper Which Sets Taper Flag")
+  field(ASG,"SYSTEM")
+  field(VAL,"0.010")
+  field(PREC,"3")
+  field(EGU,"mm")
+  field(DRVH,"0.100")
+  field(DRVL,"-0.100")
 }
 ########################################################
-record(calc,"$(U):DeviceTaper") {
+record(calcout,"$(U):DeviceTaperCheck") {
   field(DESC,"Device in Taper State")
-  field(SCAN,"2 second")
-  field(CALC,"ABS(A-B)>C&&ABS(A-B)>D?1:0")
-  field(INPA,"$(U):USGap NPP NMS")
-  field(INPB,"$(U):DSGap NPP NMS")
-  field(INPC,"$(U):PositionAccuracy NPP NMS")
-  field(INPD,"0.050")
-  field(FLNK,"$(U):Taper")
+  field(CALC,"ABS(A)>B&&ABS(A)>C?1:0")
+  field(INPA,"$(U):Taper CP NMS")
+  field(INPB,"$(U):PositionAccuracy NPP NMS")
+  field(INPC,"$(U):TaperThreshold NPP NMS")
+  field(OOPT,"On Change")
+  field(OUT,"$(U):DeviceTaper.VAL PP NMS")
 }
-record(bo,"$(U):Taper") {
-  field(DESC,"ID Taper Flag")
-  field(OMSL,"closed_loop")
-  field(DOL,"$(U):DeviceTaper")
+record(bo,"$(U):DeviceTaper") {
+  field(DESC,"Taper Flag")
   field(ZNAM,"OFF")
   field(ONAM,"ON")
   field(OSV,"MINOR")
 }
 ########################################################
-record(bi,"$(U):MotionDirection") {
-  field(DESC,"Motion Direction Status")
-  field(ASG,"SYSTEM")
-  field(ZNAM,"Closing")
-  field(ONAM,"Opening")
-}
-########################################################
 # Device Bounds checking
 record(calc,"$(U):UpperBoundCheck") {
-  field(DESC,"Check Upper ID Bound")
+  field(DESC,"Check Upper Bound")
   field(CALC,"MAX(A,B)>C)?1:0")
   field(INPA,"$(U):USGap.VAL NPP NMS")
   field(INPB,"$(U):DSGap.VAL NPP NMS")
   field(INPC,"$(U):GapDes.DRVH PP NMS")
 }
 record(calc,"$(U):LowerBoundCheck") {
-  field(DESC,"Check Lower ID Bound")
+  field(DESC,"Check Lower Bound")
   field(CALC,"MIN(A,B)<C)?1:0")
   field(INPA,"$(U):USGap.VAL NPP NMS")
   field(INPB,"$(U):DSGap.VAL NPP NMS")
   field(INPC,"$(U):GapDes.DRVL PP NMS")
 }
 record(calc,"$(U):TaperBoundCheck") {
-  field(DESC,"Check ID Taper Bound")
+  field(DESC,"Check Taper Bound")
   field(CALC,"ABS(A)>(B+C)?1:0")
-  field(INPA,"$(U):TaperGap.VAL NPP NMS")
+  field(INPA,"$(U):Taper.VAL NPP NMS")
   field(INPB,"$(U):MaxTaper.VAL NPP NMS")
-  field(INPC,"0.2")
+  field(INPC,"0.005")
 }
 ####################################################
 ###record(ai,"$(U):GapSet") {
@@ -541,7 +482,7 @@ record(calc,"$(U):TaperBoundCheck") {
 ###}
 ###record(seq,"$(U):DeviceStart") {
 ###  field(DESC,"Start Device Action")
-###  field(SDIS,"$(U):GlobalBusy.VAL NPP NMS")
+###  field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
 ###  field(DOL1, "1")
 ###  field(LNK1,"$(U):BusyRecord PP NMS")
 ###  field(DOL2,"1")
@@ -612,7 +553,7 @@ record(calc,"$(U):TaperBoundCheck") {
 ###  field(PREC,"3")
 ###  field(EGU,"mm")
 ###}
-###record(bi,"$(U):GlobalBusy") {
+###record(bi,"$(U):UndulatorError") {
 ###  field(DESC,"Device Problem")
 ###  field(ASG,"SYSTEM")
 ###  field(PINI,"YES")
@@ -719,4 +660,37 @@ record(calc,"$(U):TaperBoundCheck") {
 ###  field(INP,"$(U):USWMotorGap.VAL NPP NMS")
 ###  field(PREC,"4")
 ###  field(EGU,"mm")
+###}
+##########################################################
+#### tells if the ID is moving or not and provides a CA put
+#### callback from BusyRecord
+###########################################################
+###record(bo,"$(U):Busy") {
+###  field(DESC,"ID Busy Moving")
+###  field(ZNAM,"Done Moving")
+###  field(ONAM,"Moving")
+###  field(OSV,"MAJOR")
+###  field(FLNK, "$(U):ClearBusy.PROC PP NMS")
+###}
+###record(bo,"$(U):ClearBusy") {
+###  field(SDIS, "$(U):Busy")
+###  field(DISV, "1")
+###  field(OUT, "$(U):BusyRecord CA")
+###}
+###record(busy,"$(U):BusyRecord") {
+###  field(DESC,"ID Busy Moving")
+###  field(ZNAM,"Done Moving")
+###  field(ONAM,"Moving")
+###  field(OSV,"MAJOR")
+###}
+##################################################
+###record(calcout,"$(U):ResetBusy") {
+###  field(DESC,"Reset Busy when done")
+###  field(CALC,"A||B||(!C)")
+###  field(INPA,"$(U):MotorsMoving.VAL CP NMS")
+###  field(INPB,"$(U):DeviceActive.VAL CP NMS")
+###  field(INPC,"$(U):Busy.VAL NPP NMS")
+###  field(OUT,"$(U):Busy.VAL PP NMS")
+###  field(OOPT,"When Zero")
+###  field(DOPT,"Use CALC")
 ###}

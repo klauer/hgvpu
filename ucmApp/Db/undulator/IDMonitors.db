@@ -409,9 +409,9 @@ record(ao,"$(U):MaximumTaper") {
   field(DRVH,"5000")
   field(DRVL,"0")
   field(EGU,"Encoder Counts")
-  field(FLNK,"$(U):MaxTaperRd.PROC PP NMS")
+  field(FLNK,"$(U):MaximumTaperRd.PROC PP NMS")
 }
-record(ai,"$(U):MaxTaperRd") {
+record(ai,"$(U):MaximumTaperRd") {
   field(DESC,"Max ID Taper Read")
   field(DTYP,"asynInt32")
   field(INP,"@asyn(internalIO14,0x8000a8)")

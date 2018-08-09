@@ -1,8 +1,12 @@
+#######################################################
 record(stringout,"$(U):Version") {
   field(DESC,"Software Version Information")
   field(PINI,"YES")
-  field(VAL,"1.0")
+  field(VAL,"2.0")
 }
+#######################################################
+# Device measurements for calculating the weight of
+# encoder readback on motor position
 #######################################################
 record(ai,"$(U):StrongbackLength"){
   field(DESC,"Length of Strongback Between Linear Encoders")
@@ -16,6 +20,9 @@ record(ai,"$(U):EndToMotor"){
   field(EGU,"mm")
   field(VAL,"798.525")
 }
+#######################################################
+# Weight of the encoder readback on motor position
+#######################################################
 record(calc,"$(U):LinMotFactor") {
   field(DESC,"Linear Encoder to Motor Conv Factor")
   field(ASG,"SYSTEM")
@@ -26,8 +33,8 @@ record(calc,"$(U):LinMotFactor") {
   field(CALC,"1-A/B")
 }
 ########################################################
-record(fanout,"$(U):StartProcess") {
-  field(DESC,"Start Processing Encoders")
+record(fanout,"$(U):ProcessLinearEncoders") {
+  field(DESC,"Start Processing Linear Encoders")
   field(ASG,"SYSTEM")
   field(SCAN,".1 second")
   field(LNK1,"$(U):USWLinearEncoder.PROC")
@@ -43,7 +50,6 @@ record(fanout,"$(U):ProcessMotorGap") {
   field(LNK2,"$(U):USAMotorGap.PROC")
   field(LNK3,"$(U):DSWMotorGap.PROC")
   field(LNK4,"$(U):DSAMotorGap.PROC")
-  field(LNK6,"$(U):ProcessGap.PROC")
 }
 record(calc,"$(U):USWMotorGap") {
   field(DESC,"US Wall Gap at Motor")
@@ -81,7 +87,7 @@ record(calc,"$(U):DSAMotorGap") {
   field(PREC,"4")
   field(EGU,"mm")
 }
-
+#######################################################
 record(calc,"$(U):USWGap") {
   field(DESC,"US Wall End Encoder")
   field(CALC,"A")
@@ -152,7 +158,6 @@ record(calc,"$(U):GapSymmetry") {
   field(PREC,"4")
   field(EGU,"mm")
 }
-
 ########################################################
 record(calc, "$(U):WallTaper") {
   field(DESC,"Wall side taper")
@@ -187,4 +192,3 @@ record(calc, "$(U):DSSymmetry") {
   field(EGU,"mm")
 }
 ########################################################
-
