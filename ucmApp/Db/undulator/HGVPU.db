@@ -127,19 +127,19 @@ record(calc,"$(U):DSGap") {
   field(EGU,"mm")
 }
 record(calc,"$(U):Gap") {
-  field(DESC,"Average ID Gap")
+  field(DESC,"Average Undulator Gap")
   field(CALC,"(A+B)/2.0")
   field(INPA,"$(U):USGap.VAL CP MS")
   field(INPB,"$(U):DSGap.VAL CP MS")
   field(PREC,"4")
   field(EGU,"mm")
-  field(FLNK,"$(U):TaperGap")
+  field(FLNK,"$(U):Taper")
 }
-record(calc,"$(U):TaperGap") {
-  field(DESC,"Taper ID Gap Readout")
+record(calc,"$(U):Taper") {
+  field(DESC,"Undulator Taper Readout")
   field(CALC,"B-A")
-  field(INPA,"$(U):USGap.VAL CP MS")
-  field(INPB,"$(U):DSGap.VAL CP MS")
+  field(INPA,"$(U):USGap.VAL NPP MS")
+  field(INPB,"$(U):DSGap.VAL NPP MS")
   field(PREC,"4")
   field(EGU,"mm")
   field(FLNK,"$(U):GapSymmetry")
@@ -156,7 +156,7 @@ record(calc,"$(U):GapSymmetry") {
 ########################################################
 record(calc, "$(U):WallTaper") {
   field(DESC,"Wall side taper")
-  field(CALC,"B-a")
+  field(CALC,"B-A")
   field(INPA,"$(U):USWGap CP NMS")
   field(INPB,"$(U):DSWGap CP NMS")
   field(PREC,"4")

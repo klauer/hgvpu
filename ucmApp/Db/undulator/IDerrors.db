@@ -335,44 +335,44 @@ record(scalcout, "$(U):DeviceStallMsg") {
 record(calc, "$(U):USWStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):OldUSWMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):OldUSWMotor.VAL NPP NMS")
-  field(INPC, "$(U):OldUSWMotorGap.VAL PP NMS")
-  field(INPD, "$(U):OldUSWMotor.VAL PP NMS")
+  field(INPA, "$(U):USWStallCheck.LC NPP NMS")
+  field(INPB, "$(U):USWStallCheck.LD NPP NMS")
+  field(INPC, "$(U):USWMotorGap.VAL NPP NMS")
+  field(INPD, "$(U):USWMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
 
 record(calc, "$(U):USAStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):OldUSAMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):OldUSAMotor.VAL NPP NMS")
-  field(INPC, "$(U):OldUSAMotorGap.VAL PP NMS")
-  field(INPD, "$(U):OldUSAMotor.VAL PP NMS")
+  field(INPA, "$(U):USAStallCheck.LC NPP NMS")
+  field(INPB, "$(U):USAStallCheck.LD NPP NMS")
+  field(INPC, "$(U):USAMotorGap.VAL NPP NMS")
+  field(INPD, "$(U):USAMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
 
 record(calc, "$(U):DSWStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):OldDSWMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):OldDSWMotor.VAL NPP NMS")
-  field(INPC, "$(U):OldDSWMotorGap.VAL PP NMS")
-  field(INPD, "$(U):OldDSWMotor.VAL PP NMS")
+  field(INPA, "$(U):DSWStallCheck.LC NPP NMS")
+  field(INPB, "$(U):DSWStallCheck.LD NPP NMS")
+  field(INPC, "$(U):DSWMotorGap.VAL NPP NMS")
+  field(INPD, "$(U):DSWMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
 
 record(calc, "$(U):DSAStallCheck") {
   field(DESC, "Check for Motor Stalls")
   field(CALC, "ABS(D-B-C+A)>L?1:0")
-  field(INPA, "$(U):OldDSAMotorGap.VAL NPP NMS")
-  field(INPB, "$(U):OldDSAMotor.VAL NPP NMS")
-  field(INPC, "$(U):OldDSAMotorGap.VAL PP NMS")
-  field(INPD, "$(U):OldDSAMotor.VAL PP NMS")
+  field(INPA, "$(U):DSAStallCheck.LC NPP NMS")
+  field(INPB, "$(U):DSAStallCheck.LD NPP NMS")
+  field(INPC, "$(U):DSAMotorGap.VAL NPP NMS")
+  field(INPD, "$(U):DSAMotor.RBV NPP NMS")
   field(INPL, "$(U):StallCheckAmount.VAL NPP NMS")
 }
 
-########################################################
+
 record(calc, "$(U):USWLinearEncCheck") {
   field(DESC, "Check Encoder Bounds")
   field(CALC, "B>C|B<D|(ABS(A-B)>1)")

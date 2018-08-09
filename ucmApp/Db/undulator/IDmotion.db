@@ -28,6 +28,8 @@ record(dfanout,"$(U):StopMotors") {
   field(OUTE,"$(U):GapMotor.STOP PP")
 }
 ########################################################
+# Set Velocity on all motors
+########################################################
 record(ao,"$(U):MotorVelocity") {
   field(DESC,"Set Motors Velocity")
   field(ASG,"SYSTEM")
@@ -48,6 +50,8 @@ record(dfanout,"$(U):SetMotorVelocity") {
   field(OUTD,"$(U):DSAMotor.VELO PP")
 }
 ########################################################
+# Control SET field on all motors
+########################################################
 record(bo,"$(U):MotorsSet") {
   field(DESC,"Set Motor")
   field(ASG,"SYSTEM")
@@ -63,6 +67,8 @@ record(dfanout,"$(U):SetMotors") {
   field(OUTC,"$(U):DSWMotor.SET PP")
   field(OUTD,"$(U):DSAMotor.SET PP")
 }
+########################################################
+# Control SPMG field on all motors
 ########################################################
 record(mbbo,"$(U):MotorsSPMG") {
   field(DESC,"Set Motor SPMG")
@@ -87,6 +93,8 @@ record(dfanout,"$(U):SetMotorsSPMG") {
   field(OUTD,"$(U):DSAMotor.SPMG PP")
 }
 ########################################################
+# Move all motors to the same value (no synchronization)
+########################################################
 record(ao,"$(U):MotorsGap") {
   field(DESC,"Set Motors Gap")
   field(ASG,"SYSTEM")
@@ -102,6 +110,8 @@ record(dfanout,"$(U):SetMotorsGap") {
   field(OUTC,"$(U):DSWMotor.VAL PP")
   field(OUTD,"$(U):DSAMotor.VAL PP")
 }
+########################################################
+# Calibrates motor with encoder based position
 ########################################################
 record(seq,"$(U):CalibrateMotors") {
   field(DESC,"Calibrate Motors <= End")
@@ -132,5 +142,42 @@ record(seq,"$(U):CalibrateMotors") {
   field(DLYA,"0.1")
   field(DOLA,"3")
   field(LNKA,"$(U):MotorsSPMG.VAL PP NMS")
+}
+########################################################
+# Allows a gap move without pressing the start button
+# ScanGapCheck presses the start button
+########################################################
+record(ai,"$(U):ScanGap") {
+  field(DESC,"ID Gap Scan Input")
+  field(PREC,"3")
+  field(EGU,"mm")
+  field(FLNK,"$(U):ScanGapSQ.PROC")
+}
+record(seq,"$(U):ScanGapSQ") {
+  field(DESC,"Start the Gap Scan")
+  field(DOL1,"$(U):ScanGap.VAL NPP NMS")
+  field(LNK1,"$(U):GapSet.VAL PP NMS")
+  field(DOL2,"1")
+  field(DLY2,".05")
+  field(LNK2,"$(U):ScanGapCheck.PROC PP NMS")
+}
+record(calcout,"$(U):ScanGapCheck") {
+  field(DESC,"Start Device if Good Gap")
+  field(CALC,"!A")
+  field(INPA,"$(U):GapCheck.VAL NPP NMS")
+  field(OUT,"$(U):Start.VAL PP NMS")
+  field(OOPT,"When Non-zero")
+  field(DOPT,"Use CALC")
+}
+##############################################################
+record(seq,"$(U):FullOpen") {
+  field(DESC,"Fully Open Device ")
+  field(DOL1,"$(U):GapDes.DRVH NPP NMS")
+  field(LNK1,"$(U):ScanGap.VAL PP")
+}
+record(seq,"$(U):FullClose") {
+  field(DESC,"Fully Close Device ")
+  field(DOL1,"$(U):GapDes.DRVL NPP NMS")
+  field(LNK1,"$(U):ScanGap.VAL PP NMS")
 }
 
