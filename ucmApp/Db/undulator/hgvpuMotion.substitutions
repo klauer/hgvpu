@@ -70,11 +70,14 @@ pattern { U      }
         { "$(U)" }
 }
 
-file FagorEncoders.db
-{
-pattern { U      }
-        { "$(U)" }
-}
+##########################################
+# This is already included in IDerrors.db
+##########################################
+#file FagorEncoders.template
+#{
+#pattern { U      }
+#        { "$(U)" }
+#}
 
 file tews_LinearSSI.db
 {

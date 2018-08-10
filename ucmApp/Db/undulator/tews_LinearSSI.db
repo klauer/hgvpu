@@ -59,7 +59,7 @@ record(calc,"$(U):USGapEncoder") {
 record(calc,"$(U):USGapEncoder_Err") {
   field(DESC,"US Gap Amosin Encoder Error Bit")
   field(INPA,"$(U):USGapEncoder_RAW CP MS")
-  field(CALC, "A&2")
+  field(CALC, "(A&2)?1:0")
 }
 record(ai,"$(U):DSGapEncoder_RAW") {
   field(DESC,"DS Gap Amosin Encoder raw counts")
@@ -81,7 +81,7 @@ record(calc,"$(U):DSGapEncoder") {
 record(calc,"$(U):DSGapEncoder_Err") {
   field(DESC,"DS Gap Amosin Encoder Error Bit")
   field(INPA,"$(U):DSGapEncoder_RAW CP MS")
-  field(CALC, "A&2")
+  field(CALC, "(A&2)?1:0")
 }
 
 #############################################
