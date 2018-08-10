@@ -33,12 +33,12 @@ char stringIn[200];
 char abortCommand[200];
 char *asynPort;
 char *pasynUser;
-int sg_status;
-int am_status;
-int n;
 int initStatus = 0;
-int numAxes;
-int movingLarger;
+int numAxes = 4;
+int movingLarger = 0;
+/* Status for asyn operations */
+int sg_status = 0;
+int am_status = 0;
 
 /* HXU strongback distances in mm */
 /* distance beetween upstream end and downstream end */
@@ -60,32 +60,32 @@ double MotEndFactor = 1.437386;
 
 
 /* Positions and new values */
-double desiredGapTemp;
-double deadbandTemp;
-double desiredUsGap;
-double desiredDsGap;
-double desiredUsMotorPosition;
-double desiredDsMotorPosition;
-double usaMotorAmountToMove;
-double uswMotorAmountToMove;
-double dsaMotorAmountToMove;
-double dswMotorAmountToMove;
-double moveFraction;
+double desiredGapTemp = 0;
+double deadbandTemp = 0;
+double desiredUsGap = 0;
+double desiredDsGap = 0;
+double desiredUsMotorPosition = 0;
+double desiredDsMotorPosition = 0;
+double usaMotorAmountToMove = 0;
+double uswMotorAmountToMove = 0;
+double dsaMotorAmountToMove = 0;
+double dswMotorAmountToMove = 0;
+double moveFraction = 0.9;
 
-double usaPos;
-double uswPos;
-double dsaPos;
-double dswPos;
-int usaPos_raw;
-int uswPos_raw;
-int dsaPos_raw;
-int dswPos_raw;
-int moveVelo_raw;
-int acclDccl_raw;
+double usaPos = 0;
+double uswPos = 0;
+double dsaPos = 0;
+double dswPos = 0;
+int usaPos_raw = 0;
+int uswPos_raw = 0;
+int dsaPos_raw = 0;
+int dswPos_raw = 0;
+int moveVelo_raw = 0;
+int acclDccl_raw = 0;
 
-int sampleRate;
-double scalingFactorVelo;
-double scalingFactorAD;
+int sampleRate = 0;
+double scalingFactorVelo = 0;
+double scalingFactorAD = 0;
 
 /* Setpoint PVs */
 double desiredGap;        assign desiredGap   to "{DEV}:GAP_DES";
@@ -114,10 +114,10 @@ double uswMotorVal;       assign uswMotorVal to "{DEV}:USWMotor.VAL";           
 double dsaMotorVal;       assign dsaMotorVal to "{DEV}:DSAMotor.VAL";           monitor dsaMotorVal;
 double dswMotorVal;       assign dswMotorVal to "{DEV}:DSWMotor.VAL";           monitor dswMotorVal;
 /* Motor position readback */
-double usaMotorRbk;       assign usaMotorRbk to "{DEV}:USAMotor.RBK";           monitor usaMotorRbk;
-double uswMotorRbk;       assign uswMotorRbk to "{DEV}:USWMotor.RBK";           monitor uswMotorRbk;
-double dsaMotorRbk;       assign dsaMotorRbk to "{DEV}:DSAMotor.RBK";           monitor dsaMotorRbk;
-double dswMotorRbk;       assign dswMotorRbk to "{DEV}:DSWMotor.RBK";           monitor dswMotorRbk;
+double usaMotorRbv;       assign usaMotorRbv to "{DEV}:USAMotor.RBV";           monitor usaMotorRbv;
+double uswMotorRbv;       assign uswMotorRbv to "{DEV}:USWMotor.RBV";           monitor uswMotorRbv;
+double dsaMotorRbv;       assign dsaMotorRbv to "{DEV}:DSAMotor.RBV";           monitor dsaMotorRbv;
+double dswMotorRbv;       assign dswMotorRbv to "{DEV}:DSWMotor.RBV";           monitor dswMotorRbv;
 /* Motor position calculated from encoder */
 double usaMotorGap;       assign usaMotorGap to "{DEV}:USAMotorGap";            monitor usaMotorGap;
 double uswMotorGap;       assign uswMotorGap to "{DEV}:USWMotorGap";            monitor uswMotorGap;
@@ -139,13 +139,14 @@ int rtryMax;              assign rtryMax to "{DEV}:RETRYMAX";                   
 /* Command and status PVs */
 //TODO: clean up this section SXU
 int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
-int stop;                 assign stop to "{DEV}:Stop";                          monitor stop;
 int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
-int autoBrake;            assign autoBrake to "{DEV}:AUTOBRAKE";                monitor autoBrake;
+
 /* HGVPU command and status PVs */
 int startGapAdjustment;   assign startGapAdjustment to "{DEV}:Start";           monitor startGapAdjustment;
+int stop;                 assign stop to "{DEV}:Stop";                          monitor stop;
 int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
-int dmov;                 assign dmov to "{DEV}:DeviceActive";                  monitor dmov;
+int undulatorError;       assign undulatorError to "{DEV}:UndulatorError";      monitor undulatorError;
+//int deviceActive;         assign deviceActive to "{DEV}:DeviceActive";          monitor deviceActive;
 int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
 int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
 int movingDirection;      assign movingDirection to "{DEV}:MotionDirection";
@@ -157,7 +158,7 @@ string message2;          assign message2 to "{DEV}:Message2.VAL";
 /* Debug and simulation PVs */
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
 int simMode;              assign simMode to "{DEV}:SimMode.VAL";                monitor simMode;
-string setGapState;       assign setGapState to "{DEV}:SETGAP_STATE.VAL";
+string setGapState;       assign setGapState to "{DEV}:SeqProgramState.VAL";
 string abortState;        assign abortState to "{DEV}:ABORT_STATE.VAL";
 
 
@@ -168,7 +169,7 @@ ss setGap
   state init {
     entry {
       if (debugLevel) printf("setGap:init: entry\n");
-      n = sprintf(setGapState, "setGap:init");
+      sprintf(setGapState, "setGap:init");
       pvPut(setGapState, SYNC);
       sg_status = 0;
       /* Initialization of variables and PVs */
@@ -177,37 +178,14 @@ ss setGap
       pvPut(stop);
       rtry = 0;
       pvPut(rtry);
-
-      desiredUsGap=0;
-      desiredDsGap=0;
-      desiredUsMotorPosition=0;
-      desiredDsMotorPosition=0;
-      usaMotorAmountToMove=0;
-      uswMotorAmountToMove=0;
-      dsaMotorAmountToMove=0;
-      dswMotorAmountToMove=0;
-      moveFraction=0.9;
-      usaPos=0;
-      uswPos=0;
-      dsaPos=0;
-      dswPos=0;
-      usaPos_raw=0;
-      uswPos_raw=0;
-      dsaPos_raw=0;
-      dswPos_raw=0;
-      moveVelo_raw=0;
-      acclDccl_raw=0;
-      movingLarger = 0;
       startGapAdjustment = 0;
       pvPut(startGapAdjustment);
-      dmov = 1;
-      pvPut(dmov);
       deviceActive = 0;
       pvPut(deviceActive);
       numAxes = 4;
 
       /* Creating ABORT string */
-      n = sprintf(abortCommand, "S:0");
+      sprintf(abortCommand, "S:0");
 
       /* Connecting to ASYN port for motors */
       asynPort = macValueGet("PORT");
@@ -220,9 +198,13 @@ ss setGap
       /* Retrive sampling rate of the motor */
       sprintf(stringOut, "RSAMP:1");
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sampleRate = atoi(stringIn);
+      if (sg_status != 0)
+        sampleRate = 8000;
+      else
+        sampleRate = atoi(stringIn);
+      
       /* Set scaling factor for velocity and acceleration */
-      scalingFactorVelo = 65536 / sampleRate;
+      scalingFactorVelo = 65536.0 / sampleRate;
       scalingFactorAD = scalingFactorVelo / sampleRate;
 
       if (initStatus == 0) initStatus = 1;
@@ -230,7 +212,7 @@ ss setGap
     }
 
     /* Continue to idle state */
-    when () {
+    when() {
     } state idle
   }
 
@@ -238,13 +220,11 @@ ss setGap
   state idle {
     entry {
       if (debugLevel) printf("setGap:idle: entry\n");
-      n = sprintf(setGapState, "setGap:idle");
+      sprintf(setGapState, "setGap:idle");
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
       startGapAdjustment = 0;
       pvPut(startGapAdjustment);
-      dmov = 1;
-      pvPut(dmov);
       deviceActive = 0;
       pvPut(deviceActive);
       movingLarger = 0;
@@ -261,13 +241,23 @@ ss setGap
       if (debugLevel) printf("setGap:idle: going to 'stop'\n");
     } state stop
 
-    /* When motors are commanded to GO */
-    when( startGapAdjustment == 1 ) {
+    /* Device is in not safe state for operation, clear start flage and return to idle state */
+    when((startGapAdjustment == 1) && ((undulatorError == 1) || (checkGap == 1))) {
+      sprintf(message2,"Device not ready to move!");
+      pvPut(message2,SYNC);
+      /* Undulator in state unfit for move */
+      startGapAdjustment = 0;
+      pvPut(startGapAdjustment,SYNC);
+
+    } state idle
+
+    /* When motors are commanded to Start and no errors reported from undulator */
+    when((startGapAdjustment == 1) && (undulatorError == 0) && (checkGap == 0)) {
       
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
       pvGet(desiredTaper,SYNC);
-      pvGet(eadbandGapd,SYNC);
+      pvGet(deadband,SYNC);
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
       pvGet(motorResolution,SYNC);
@@ -290,8 +280,6 @@ ss setGap
       pvPut(rtry);
       startGapAdjustment = 0;
       pvPut(startGapAdjustment);
-      dmov = 0;
-      pvPut(dmov);
       deviceActive = 1;
       pvPut(deviceActive);
 
@@ -313,7 +301,7 @@ ss setGap
   state calcMove {
     entry {
       if (debugLevel) printf("setGap:calcMove: entry'\n");
-      n = sprintf(setGapState, "setGap:calcMove");
+      sprintf(setGapState, "setGap:calcMove");
       pvPut(setGapState, SYNC);
     }
 
@@ -344,9 +332,6 @@ ss setGap
       /* Wait for sync to complete and monitors to update */
       epicsThreadSleep(0.3);
 
-      //TODO: reorganize this:
-      desiredTaper = (desiredGap + desiredTaper) < 7.1 ? 0 : desiredTaper;
-     
       /* Calculating position based on scaling factor from ANL */
       /* Desired gap set at US side, gap adjusted for taper on DS side */
       //desiredUsGap = desiredGap;
@@ -373,18 +358,18 @@ ss setGap
         moveFraction = moveFrac;
 
       /* Calculate new motor positions */
-      usaPos = usaMotorRbk + moveFraction * usaMotorAmountToMove;
-      uswPos = uswMotorRbk + moveFraction * uswMotorAmountToMove;
-      dsaPos = dsaMotorRbk + moveFraction * dsaMotorAmountToMove;
-      dswPos = dswMotorRbk + moveFraction * dswMotorAmountToMove;
+      usaPos = usaMotorRbv + moveFraction * usaMotorAmountToMove;
+      uswPos = uswMotorRbv + moveFraction * uswMotorAmountToMove;
+      dsaPos = dsaMotorRbv + moveFraction * dsaMotorAmountToMove;
+      dswPos = dswMotorRbv + moveFraction * dswMotorAmountToMove;
 
       /* Scale new positions to raw value and push to motor */ 
-      usaPos_raw = (int) usaPos * motorResolution;
-      uswPos_raw = (int) uswPos * motorResolution;
-      dsaPos_raw = (int) dsaPos * motorResolution;
-      dswPos_raw = (int) dswPos * motorResolution;
-      moveVelo_raw = (int) (moveVelo/motorResolution) * scalingFactorVelo;
-      acclDccl_raw = (int) ((moveVelo * motorResolution) / acclDccl) * scalingFactorAD;
+      usaPos_raw = (int) (usaPos * motorResolution);
+      uswPos_raw = (int) (uswPos * motorResolution);
+      dsaPos_raw = (int) (dsaPos * motorResolution);
+      dswPos_raw = (int) (dswPos * motorResolution);
+      moveVelo_raw = (int) ((moveVelo/motorResolution) * scalingFactorVelo);
+      acclDccl_raw = (int) (((moveVelo/motorResolution) / acclDccl) * scalingFactorAD);
   
       /* Create a string to send to controller to start motor move */
       sprintf(stringOut, "iii:1=%d", uswPos_raw); %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
@@ -419,7 +404,7 @@ ss setGap
                                   fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
                                   fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
-      n = sprintf(setGapState, "setGap:move");
+      sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
     }
 
@@ -429,10 +414,10 @@ ss setGap
     } state idle
 
     /* If stop is issued */
-    when(stop == 1){} state stop
+    when(stop == 1) {} state stop
 
-    when( (usaMotorAmountToMove < deadband) && (uswMotorAmountToMove < deadband) &&
-          (dsaMotorAmountToMove < deadband) && (dswMotorAmountToMove < deadband) ) {
+    when( (fabs(usaMotorAmountToMove) < deadband) && (fabs(uswMotorAmountToMove) < deadband) &&
+          (fabs(dsaMotorAmountToMove) < deadband) && (fabs(dswMotorAmountToMove) < deadband) ) {
       epicsThreadSleep(1.5);
       if (debugLevel) printf("setGap:move: All absolute moves less than deadband. Going to moveComplete\n");
     } state moveComplete
@@ -455,7 +440,7 @@ ss setGap
   state moving {
     entry {
       if (debugLevel) printf("setGap:moving: entry\n");
-      n = sprintf(setGapState, "setGap:moving");
+      sprintf(setGapState, "setGap:moving");
       pvPut(setGapState, SYNC);
     }
 
@@ -465,10 +450,10 @@ ss setGap
     } state idle
 
     /* If stop is issued */
-    when(stop == 1){} state stop
+    when(stop == 1) {} state stop
 
     /* When moving */
-    when(delay(0.2)){
+    when(delay(0.2)) {
       /*Wait while motors are moving */
       %%waitEpicsMotors(ssId, pVar);
       /* When move done, start a timeout for servoing */
@@ -484,7 +469,7 @@ ss setGap
   state moveComplete {
     entry {
       if (debugLevel) printf("setGap:moveComplete: entry'\n");
-      n = sprintf(setGapState, "setGap:moveComplete");
+      sprintf(setGapState, "setGap:moveComplete");
       pvPut(setGapState, SYNC);
     }
 
@@ -494,7 +479,7 @@ ss setGap
     } state idle
 
     /* If stop is issued */
-    when(stop == 1){} state stop
+    when(stop == 1) {} state stop
 
     /* When in single approach */
     when( movingLarger == 1) {
@@ -506,21 +491,23 @@ ss setGap
 
     /* On complete move */
     when() {
-      /* If automatic brake engagement is turned on */
-      if (autoBrake) {
-        /* Issue a global stop */
+      /* Issue a global stop */
+      sprintf(stringOut, "S:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      epicsThreadSleep(0.2);
+      if ( sg_status != 0 ) {
         sprintf(stringOut, "S:0");
         %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
         epicsThreadSleep(0.2);
-        if ( sg_status != 0 ) {
-          sprintf(stringOut, "S:0");
-          %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-          epicsThreadSleep(0.2);
-        }
-        /* Engage brakes on all motors */
-        sprintf(stringOut, "BRKENG:0");
-        %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       }
+      /* Engage brakes on all motors */
+      sprintf(stringOut, "BRKENG:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      epicsThreadSleep(0.2);
+      /* Turn Off motor current */
+      sprintf(stringOut, "OFF:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+
       /* Calibrate motors at final position */
       calibMotors = 1;
       pvPut(calibMotors);
@@ -535,21 +522,24 @@ ss setGap
   state stop {
     entry{
       if (debugLevel) printf("setGap:stop: entry'\n");
-      n = sprintf(setGapState, "setGap:stop");
+      sprintf(setGapState, "setGap:stop");
       pvPut(setGapState, SYNC);
     }
 
     /* On STOP flag */
-    when (){
+    when() {
       /* Send out an Abort all axes command */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
       epicsThreadSleep(0.2);
       sprintf(stringOut, "BRKENG:0");
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      epicsThreadSleep(0.2);
+      /* Turn Off motor current */
+      sprintf(stringOut, "OFF:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+
       /* Raise virtual axis done moving flag */
-      dmov = 1;
-      pvPut(dmov);
       deviceActive = 0;
       pvPut(deviceActive);
       /* if in single approach mode restore PVs */
@@ -585,7 +575,7 @@ ss abortMove {
 
   state monitorAbort {
     entry{
-      n = sprintf(abortState, "abortMove:monitorAbort");
+      sprintf(abortState, "abortMove:monitorAbort");
       pvPut(abortState, SYNC);
    }
 
@@ -595,7 +585,7 @@ ss abortMove {
     } state am_init
 
     /* When Abort is triggered */
-    when ((abort==1) && delay(0.1)) {
+    when((abort == 1) && delay(0.1)) {
       /* Issue an abort command on controller */
       %%pVar->am_status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
       if (debugLevel) printf("abortMove: sent command '%s'\n", abortCommand);
@@ -608,6 +598,11 @@ ss abortMove {
       /* Engage break if abort command recieved */
       sprintf(stringOut, "BRKENG:0");
       %%pVar->am_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->abortState);
+      epicsThreadSleep(0.2);
+      /* Turn Off motor current */
+      sprintf(stringOut, "OFF:0");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+
       /* Set stop PV for main stateSet to interrupt move */
       stop = 1;
       pvPut(stop);
@@ -696,7 +691,7 @@ static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
     printf("waitEpicsMotors\n");
   /* Read status of motors, if they are moving */
   while (getMotorMoving(ssId, pVar)) {
-    epicsThreadSleep((1/5.0));
+    epicsThreadSleep((1/10.0));
   }
 
  return(0);
