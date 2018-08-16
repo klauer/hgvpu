@@ -14,19 +14,27 @@ ucmSoft_DBD += base.dbd
 ucmSoft_DBD += iocAdmin.dbd
 ucmSoft_DBD += asSupport.dbd
 ucmSoft_DBD += caPutLog.dbd
-#ucmSoft_DBD += genSubRecord.dbd
+ucmSoft_DBD += asyn.dbd
+ucmSoft_DBD += drvAsynSerialPort.dbd
+ucmSoft_DBD += motorSupport.dbd
+ucmSoft_DBD += motorSimSupport.dbd
+ucmSoft_DBD += devSmartMotorAsynSupport.dbd
+ucmSoft_DBD += calcSupport.dbd
+ucmSoft_DBD += busySupport.dbd
+ucmSoft_DBD += setGap.dbd
 
 # ucmIoc.dbd will be made up from these files:
 #
 ifeq ($(OS_CLASS),RTEMS)
 DBD += ucmIoc.dbd
-ucmIoc_DBD += ucmSoft.dbd
+ucmIoc_DBD += base.dbd
+ucmIoc_DBD += iocAdmin.dbd
+ucmIoc_DBD += asSupport.dbd
+ucmIoc_DBD += caPutLog.dbd
 ucmIoc_DBD += asyn.dbd
 ucmIoc_DBD += drvAsynSerialPort.dbd
-# ucmIoc_DBD += devSmartMotorMotor.dbd
 ucmIoc_DBD += motorSupport.dbd
 ucmIoc_DBD += motorSimSupport.dbd
-#ucmIoc_DBD += devSoftMotor.dbd
 ucmIoc_DBD += devSmartMotorAsynSupport.dbd
 ucmIoc_DBD += tyGSOctal.dbd
 ucmIoc_DBD += IP520.dbd
@@ -34,7 +42,6 @@ ucmIoc_DBD += ip330Support.dbd
 ucmIoc_DBD += ipUnidigSupport.dbd
 ucmIoc_DBD += drvIpac.dbd
 ucmIoc_DBD += ucmSupport.dbd
-#ucmIoc_DBD += genPolySub.dbd
 ucmIoc_DBD += devA16Vme.dbd
 ucmIoc_DBD += calcSupport.dbd
 ucmIoc_DBD += busySupport.dbd
@@ -67,19 +74,29 @@ ifeq ($(OS_CLASS),RTEMS)
 muon_SRCS += ntpProvider.cc
 endif
 
-USR_LIBS  += devIocStats
-USR_LIBS  += autosave
-USR_LIBS  += caPutLog
-#USR_LIBS  += genSub
-USR_LIBS  += calc
-USR_LIBS  += sscan
-USR_LIBS  += busy
-USR_LIBS += asyn
+#!#USR_LIBS  += devIocStats
+#!#USR_LIBS  += autosave
+#!#USR_LIBS  += caPutLog
+#!##USR_LIBS  += genSub
+#!#USR_LIBS  += calc
+#!#USR_LIBS  += sscan
+#!#USR_LIBS  += busy
+#!#USR_LIBS += asyn
  
+ucmSoft_LIBS += SmartMotorAsyn
+ucmSoft_LIBS += softMotor
+ucmSoft_LIBS += motorSimSupport
+ucmSoft_LIBS += motor
+ucmSoft_LIBS += devIocStats
+ucmSoft_LIBS += autosave
+ucmSoft_LIBS += caPutLog
+ucmSoft_LIBS += calc
+ucmSoft_LIBS += sscan
+ucmSoft_LIBS += busy
+ucmSoft_LIBS += asyn
+
 # Add in VME drivers.
 ifeq ($(OS_CLASS),RTEMS)
-
-# ucmIoc_LIBS += SmartMotor
 ucmIoc_LIBS += SmartMotorAsyn
 ucmIoc_LIBS += softMotor
 ucmIoc_LIBS += motorSimSupport
@@ -89,9 +106,15 @@ ucmIoc_LIBS += IP520
 ucmIoc_LIBS += ip330
 ucmIoc_LIBS += ipUnidig
 ucmIoc_LIBS += Ipac
-#ucmIoc_LIBS += genPolySub
 ucmIoc_LIBS += a16Vme
 ucmIoc_LIBS += softGlue
+ucmIoc_LIBS += devIocStats
+ucmIoc_LIBS += autosave
+ucmIoc_LIBS += caPutLog
+ucmIoc_LIBS += calc
+ucmIoc_LIBS += sscan
+ucmIoc_LIBS += busy
+ucmIoc_LIBS += asyn
 endif
 
 # Build SNL programs
