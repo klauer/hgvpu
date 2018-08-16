@@ -1,7 +1,7 @@
 record(dfanout,"$(U):Step") {
   field(DESC,"Open undulator for TWV value step")
   field(ASG,"SYSTEM")
-  field(DOL,"1")
+  field(VAL,"1")
   field(OUTA,"$(U):USWMotor.TWF PP")
   field(OUTB,"$(U):USAMotor.TWF PP")
   field(OUTC,"$(U):DSWMotor.TWF PP")
@@ -20,12 +20,34 @@ record(calc,"$(U):MotorsMoving") {
 record(dfanout,"$(U):StopMotors") {
   field(DESC,"STOP all Motors")
   field(ASG,"SYSTEM")
-  field(DOL,"1")
+  field(VAL,"1")
   field(OUTA,"$(U):USWMotor.STOP PP")
   field(OUTB,"$(U):USAMotor.STOP PP")
   field(OUTC,"$(U):DSWMotor.STOP PP")
   field(OUTD,"$(U):DSAMotor.STOP PP")
   field(OUTE,"$(U):GapMotor.STOP PP")
+}
+########################################################
+record(longin, "$(U):Retries") {
+  field(DESC,"Current Number of Retries")
+  field(ASG,"SYSTEM")
+  field(HIGH,"$(MAX_RETRIES)")
+  field(HSV,"MAJOR")
+}
+record(longin, "$(U):MaxRetries") {
+  field(DESC,"Maximum Number of Retries")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"$(MAX_RETRIES)")
+}
+########################################################
+record(ao, "$(U):MoveFraction") {
+  field(DESC,"Fraction Of Move To Perform")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"$(FRAC)")
+  field(DRVH,"1.0")
+  field(DRVL,"0.0")
 }
 ########################################################
 # Set Velocity on all motors
@@ -34,7 +56,7 @@ record(ao,"$(U):MotorVelocity") {
   field(DESC,"Set Motors Velocity")
   field(ASG,"SYSTEM")
   field(PINI,"YES")
-  field(DOL,"$(S)")
+  field(VAL,"$(VELO)")
   field(DRVL,"0.005")
   field(DRVH,"5")
   field(OUT,"$(U):SetMotorVelocity PP")
@@ -43,11 +65,31 @@ record(ao,"$(U):MotorVelocity") {
 }
 record(dfanout,"$(U):SetMotorVelocity") {
   field(DESC,"Set all Motors Velocity")
-  field(DOL,"$(U):MotorVelocity.VAL")
   field(OUTA,"$(U):USWMotor.VELO PP")
   field(OUTB,"$(U):USAMotor.VELO PP")
   field(OUTC,"$(U):DSWMotor.VELO PP")
   field(OUTD,"$(U):DSAMotor.VELO PP")
+}
+########################################################
+# Set Acceleration on all motors
+########################################################
+record(ao,"$(U):MotorAccl") {
+  field(DESC,"Set Motors Acceleration")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"$(ACCL)")
+  field(DRVL,"0.005")
+  field(DRVH,"5")
+  field(OUT,"$(U):SetMotorAccl PP")
+  field(PREC,"3")
+  field(EGU,"s")
+}
+record(dfanout,"$(U):SetMotorAccl") {
+  field(DESC,"Set all Motors Velocity")
+  field(OUTA,"$(U):USWMotor.ACCL PP")
+  field(OUTB,"$(U):USAMotor.ACCL PP")
+  field(OUTC,"$(U):DSWMotor.ACCL PP")
+  field(OUTD,"$(U):DSAMotor.ACCL PP")
 }
 ########################################################
 # Control SET field on all motors

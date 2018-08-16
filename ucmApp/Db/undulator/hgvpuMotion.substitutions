@@ -4,26 +4,26 @@ pattern { U      }
         { "$(U)" }
 }
 
-file HGVPU_masterMotorStatus.db
-{
-pattern { AXIS  , PORT, ADDR }
-        { "USW" , S7  , 0    }
-}
+###file HGVPU_masterMotorStatus.db
+###{
+###pattern { AXIS  , PORT, ADDR }
+###        { "USW" , S7  , 0    }
+###}
 
 file HGVPU_real_motor.db
 {
-pattern {  AXIS , PORT, ADDR, DESC     , DIR, DLLM, DHLM, MRES  , VELO, VBAS, VMAX, ACCL, TWV, SREV }
-        {  "USW", S7  , 0   , "Motor 1", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
-        {  "DSW", S7  , 1   , "Motor 2", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
-        {  "DSA", S7  , 2   , "Motor 3", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
-        {  "USA", S7  , 3   , "Motor 4", Pos, 0   , 0   , 0.0001, 0.5 , 0.01, 3.67, 1   , 0.1, 4000 }
+pattern {  AXIS , PORT, ADDR, DESC     , DLLM, DHLM, MRES   , VELO, VBAS, VMAX, ACCL, TWV }
+        {  "USW", S7  , 0   , "Motor 1", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "DSW", S7  , 1   , "Motor 2", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "DSA", S7  , 2   , "Motor 3", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "USA", S7  , 3   , "Motor 4", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
 } 
 
-file HGVPU_virt_motor.db
-{
-pattern { AXIS , PORT, ADDR, DESC       , DIR, DLLM, DHLM, MRES   , PREC, EGU, VELO, VBAS, VMAX, ACCL, TWV, RRES, RDBL     , DEST     }
-        { "Gap", S7  , 4   , "Gap Motor", Pos, 0   , 0   , 1.27e-5, 4   , mm , 0.5 , 0.01, 3.67, 1   , 0.1, 1   , "Gap.VAL", "GapSet" } 
-} 
+###file HGVPU_virt_motor.db
+###{
+###pattern { AXIS , PORT, ADDR, DESC       , DIR, DLLM, DHLM, MRES   , PREC, EGU, VELO, VBAS, VMAX, ACCL, TWV, RRES, RDBL     , DEST     }
+###        { "Gap", S7  , 4   , "Gap Motor", Pos, 0   , 0   , 1.27e-5, 4   , mm , 0.5 , 0.01, 3.67, 1   , 0.1, 1   , "Gap.VAL", "GapSet" } 
+###} 
 
 file AnimaticsSmartMotor_extra.db
 {
@@ -48,8 +48,8 @@ pattern { PORT    , PORT1        }
 
 file IDmotion.db
 {
-pattern { PORT   , S   }
-        { "idmon", 5.0 }
+pattern { PORT   , VELO, ACCL, FRAC, MAX_RETRIES }
+        { "idmon", 0.5 , 1.0 , 0.9 , 10          }
 }
 
 file IDMonitors.db

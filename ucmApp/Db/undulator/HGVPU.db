@@ -4,18 +4,24 @@ record(stringout,"$(U):Version") {
   field(PINI,"YES")
   field(VAL,"2.0")
 }
+record(stringin,"$(U):Device") {
+  field(DESC,"Device Identifier String")
+}
+record(stringin,"$(U):Location") {
+  field(DESC,"Device Location String")
+}
 #######################################################
 # Device measurements for calculating the weight of
 # encoder readback on motor position
 #######################################################
 record(ai,"$(U):StrongbackLength"){
-  field(DESC,"Length of Strongback Between Linear Encoders")
+  field(DESC,"Length Between Linear Encoders")
   field(PINI,"YES")
   field(EGU,"mm")
   field(VAL,"3419.05")
 }
 record(ai,"$(U):EndToMotor"){
-  field(DESC,"Distance Between Strongback End and Motor")
+  field(DESC,"Distance Between Encoder and Motor")
   field(PINI,"YES")
   field(EGU,"mm")
   field(VAL,"798.525")
@@ -193,6 +199,20 @@ record(calc, "$(U):DSSymmetry") {
 }
 ########################################################
 record(stringin, "$(U):SeqProgramState"){
-  field(DESC, "State of sequnce program controlling the gap")
+  field(DESC, "State of seq. program for the gap")
 }
-
+#######################################################
+record(bo,"$(U):DebugLevel") {
+  field(DESC,"Sequencer Debug Flag")
+  field(PINI,"YES")
+  field(ZNAM,"Normal")
+  field(ONAM,"Debug ON")
+}
+#######################################################
+record(bo,"$(U):SimMode") {
+  field(DESC,"Sequencer Simulation Flag")
+  field(PINI,"YES")
+  field(VAL,"0")
+  field(ZNAM,"Normal")
+  field(ONAM,"Simulation")
+}

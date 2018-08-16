@@ -1,51 +1,48 @@
 
 record(motor, "$(U):$(AXIS)Motor") {
+  field(DESC, "$(DESC)")
+  field(ASG,  "MC_MAINT")
   field(SCAN, "Passive")
   field(DTYP, "asynMotor")
-  field(DISS, "NO_ALARM")
-  field(DIR, "$(DIR)")
+  field(OUT,  "@asyn($(PORT),$(ADDR))")
+  field(DIR,  "Pos")
+  field(URIP, "No")
+  field(PREC, "4")
+  field(EGU,  "mm")
+  field(MRES, "$(MRES)")
+  field(RDBD, "$(MRES)")
+  field(FOFF, "Frozen")
+  field(PRIO, "HIGH")
+  field(RTRY, "0")
   field(VELO, "$(VELO)")
   field(VBAS, "$(VBAS)")
   field(VMAX, "$(VMAX)")
-  field(URIP, "No")
-  field(PREC, "4")
-  field(EGU, "mm")
-  field(MRES, "$(MRES)")
-  field(OUT, "@asyn($(PORT),$(ADDR))")
-  field(TWV, "$(TWV)")
-  field(ASG, "MC_MAINT")
-  field(FOFF, "Frozen")
-  field(PRIO, "HIGH")
-  field(OMSL, "closed_loop")
-  field(RTRY, "0")
-  field(DESC, "$(DESC)")
   field(ACCL, "$(ACCL)")
-  field(SREV, "$(SREV)")
-  field(UREV, "0.0508")
   field(DHLM, "$(DHLM)")
   field(DLLM, "$(DLLM)")
-  field(RDBD, "$(MRES)")
+  field(TWV,  "$(TWV)")
+  info(autosaveFields_pass0, "DVAL")
 }
 
-record(longin, "$(U):$(AXIS)Motor:StatusW2") {
-  field(DESC, "SmartMotor Status Word 2")
-  field(SCAN, "I/O Intr")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),$(ADDR))STATUS_WORD2")
-}
-
-record(longin, "$(U):$(AXIS)Motor:StatusW3") {
-  field(DESC, "SmartMotor Status Word 3")
-  field(SCAN, "I/O Intr")
-  field(DTYP, "asynInt32")
-  field(INP, "@asyn($(PORT),$(ADDR))STATUS_WORD3")
-}
-
-
-record(ai, "$(U):$(AXIS)Motor:StatusW0") {
-  field(DESC, "Smart motor status")
-  field(DTYP, "asynInt32")
-  field(SCAN, "I/O Intr")
-  field(INP, "@asyn($(PORT),$(ADDR))SMART_STATUS")
-}
-
+###record(longin, "$(U):$(AXIS)Motor:StatusW2") {
+###  field(DESC, "SmartMotor Status Word 2")
+###  field(SCAN, "I/O Intr")
+###  field(DTYP, "asynInt32")
+###  field(INP, "@asyn($(PORT),$(ADDR))STATUS_WORD2")
+###}
+###
+###record(longin, "$(U):$(AXIS)Motor:StatusW3") {
+###  field(DESC, "SmartMotor Status Word 3")
+###  field(SCAN, "I/O Intr")
+###  field(DTYP, "asynInt32")
+###  field(INP, "@asyn($(PORT),$(ADDR))STATUS_WORD3")
+###}
+###
+###
+###record(ai, "$(U):$(AXIS)Motor:StatusW0") {
+###  field(DESC, "Smart motor status")
+###  field(DTYP, "asynInt32")
+###  field(SCAN, "I/O Intr")
+###  field(INP, "@asyn($(PORT),$(ADDR))SMART_STATUS")
+###}
+###

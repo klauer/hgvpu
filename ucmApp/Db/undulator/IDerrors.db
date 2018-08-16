@@ -20,7 +20,7 @@ record(ao,"$(U):NormalSymmetry") {
 #######################################################
 record(calcout,"$(U):UndulatorError") {
   field(DESC,"Calcualtion of Undulator Errors")
-  field(CALC,"(A>0)||(B>0)||(C>0)||((D>0)")
+  field(CALC,"(A>0)||(B>0)||(C>0)||(D>0)")
   field(INPA,"$(U):MotorsErrorCheck NPP NMS")
   field(INPB,"$(U):EncoderCheck NPP NMS")
   field(INPC,"$(U):FpgaMonitorsCheck NPP NMS")
@@ -248,7 +248,7 @@ record(calc,"$(U):FpgaEncoderChecks") {
   field(HSV,"MAJOR")
 }
 record(calc,"$(U):FpgaPowerChecks") {
-  field(DESC,"Check Power Supplies Status and Motor Flag")
+  field(DESC,"Check Power Supplies")
   field(CALC,"(!A)||(!B)||(!C)||(!D)")
   field(INPA,"$(U):5VDCMon.VAL NPP NMS")
   field(INPB,"$(U):24VDCMon.VAL NPP NMS")

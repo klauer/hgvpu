@@ -54,7 +54,7 @@ record(calc,"$(U):DSGapDes") {
   field(FLNK,"$(U):CheckGap.PROC")
 }
 record(calcout,"$(U):CheckGap") {
-  field(DESC,"Checks If New Desired Gap/Taper is Invalid")
+  field(DESC,"Checks If Desired Gap/Taper is Valid")
   field(CALC,"(A<C||B<C||A>D||B>D)?1:0")
   field(INPA,"$(U):USGapDes.VAL NPP NMS")
   field(INPB,"$(U):DSGapDes.VAL NPP NMS")
@@ -104,9 +104,6 @@ record(bi,"$(U):MotionDirection") {
   field(ONAM,"Opening")
 }
 #######################################################
-record(stringin,"$(U):Device") {
-  field(DESC,"Device Identifier String")
-}
 record(stringout,"$(U):Message1") {
   field(DESC,"ID Control Status")
 }
@@ -145,7 +142,7 @@ record(ao,"$(U):MaxTaper") {
   field(PREC,"3")
   field(EGU,"mm")
   field(DRVH,"0.200")
-  field(DRVL,"-0.200")
+  field(DRVL,"0.000")
 }
 record(ao,"$(U):TaperThreshold") {
   field(DESC,"Min Taper Which Sets Taper Flag")
@@ -153,8 +150,8 @@ record(ao,"$(U):TaperThreshold") {
   field(VAL,"0.010")
   field(PREC,"3")
   field(EGU,"mm")
-  field(DRVH,"0.100")
-  field(DRVL,"-0.100")
+  field(DRVH,"0.050")
+  field(DRVL,"0.000")
 }
 ########################################################
 record(calcout,"$(U):DeviceTaperCheck") {
