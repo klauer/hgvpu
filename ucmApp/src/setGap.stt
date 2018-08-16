@@ -13,6 +13,7 @@ program setGap
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <epicsString.h>
 #include <epicsStdio.h>
 #include <asynOctetSyncIO.h>
@@ -24,6 +25,8 @@ program setGap
 static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *reply, char *stateName);
 static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
+static int getTimeStamp(SS_ID ssId, char *timeStampString);
+static int logToIOCshell(SS_ID ssId, char *logMessage);
 }%
 
 /** SNL variables  **/
@@ -168,7 +171,9 @@ ss setGap
   /* Initialize state */
   state init {
     entry {
-      if (debugLevel) printf("setGap:init: entry\n");
+      pvGet(debugLevel,SYNC);
+      if (debugLevel) logToIOCshell(ssId, "setGap:init: entry");
+
       sprintf(setGapState, "setGap:init");
       pvPut(setGapState, SYNC);
       sg_status = 0;
@@ -191,7 +196,7 @@ ss setGap
       asynPort = macValueGet("PORT");
       %%pVar->sg_status = pasynOctetSyncIO->connect(pVar->asynPort, 0, (asynUser **)&pVar->pasynUser, NULL);
       if (sg_status != 0) {
-        printf("trajectoryScan error in pasynOctetSyncIO->connect\n");
+        logToIOCshell(ssId, "trajectoryScan error in pasynOctetSyncIO->connect");
         printf("   sg_status=%d, port=%s\n", sg_status, asynPort);
       }
 
@@ -208,7 +213,7 @@ ss setGap
       scalingFactorAD = scalingFactorVelo / sampleRate;
 
       if (initStatus == 0) initStatus = 1;
-      if (debugLevel) printf("setGap:init: done; going to 'idle'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:init: done; going to 'idle'");
     }
 
     /* Continue to idle state */
@@ -219,7 +224,7 @@ ss setGap
   /* Idle state and on change of EPICS PVs preform action */
   state idle {
     entry {
-      if (debugLevel) printf("setGap:idle: entry\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: entry");
       sprintf(setGapState, "setGap:idle");
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
@@ -238,7 +243,7 @@ ss setGap
 
     /* If stop is issued */
     when(stop == 1) {
-      if (debugLevel) printf("setGap:idle: going to 'stop'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: going to 'stop'");
     } state stop
 
     /* Device is in not safe state for operation, clear start flage and return to idle state */
@@ -293,14 +298,14 @@ ss setGap
         deadband = 0.5;
         movingLarger = 1;
       }
-      if (debugLevel) printf("setGap:idle: going to 'calcMove'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: going to 'calcMove'");
     } state calcMove
   }
 
   /* State for calculating new motor positions */
   state calcMove {
     entry {
-      if (debugLevel) printf("setGap:calcMove: entry'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: entry'");
       sprintf(setGapState, "setGap:calcMove");
       pvPut(setGapState, SYNC);
     }
@@ -321,7 +326,7 @@ ss setGap
 
     /* When in single approach and gap above modified desired gap */
     when( (movingLarger == 1) && (actualGap > (desiredGap - 0.5))) {
-      if (debugLevel) printf("setGap:calcMove: single approach, above desired gap");
+      if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: single approach, above desired gap");
     } state moveComplete
 
     /* Calculate new positions */
@@ -399,7 +404,7 @@ ss setGap
   state move {
     entry {
       if (debugLevel){
-        printf("setGap:move: entry\n");
+        logToIOCshell(ssId, "setGap:move: entry");
         printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",
                                   fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
                                   fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
@@ -419,15 +424,15 @@ ss setGap
     when( (fabs(usaMotorAmountToMove) < deadband) && (fabs(uswMotorAmountToMove) < deadband) &&
           (fabs(dsaMotorAmountToMove) < deadband) && (fabs(dswMotorAmountToMove) < deadband) ) {
       epicsThreadSleep(1.5);
-      if (debugLevel) printf("setGap:move: All absolute moves less than deadband. Going to moveComplete\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: All absolute moves less than deadband. Going to moveComplete");
     } state moveComplete
 
     /* Send command to start motion */
     when( delay(0.3) ) {
-      if (debugLevel) printf("setGap:move: Waiting for motion complete\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: Waiting for motion complete");
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
-      if (debugLevel) printf("setGap:move: Wait complete\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: Wait complete");
       
       /* Send comand to start move */
       sprintf(stringOut, "GOSUB(1)");
@@ -439,7 +444,7 @@ ss setGap
   /* State while motors are moving */
   state moving {
     entry {
-      if (debugLevel) printf("setGap:moving: entry\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:moving: entry");
       sprintf(setGapState, "setGap:moving");
       pvPut(setGapState, SYNC);
     }
@@ -468,7 +473,7 @@ ss setGap
   /* State when motors finish move */
   state moveComplete {
     entry {
-      if (debugLevel) printf("setGap:moveComplete: entry'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:moveComplete: entry'");
       sprintf(setGapState, "setGap:moveComplete");
       pvPut(setGapState, SYNC);
     }
@@ -521,7 +526,7 @@ ss setGap
   /* Stop state */
   state stop {
     entry{
-      if (debugLevel) printf("setGap:stop: entry'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:stop: entry'");
       sprintf(setGapState, "setGap:stop");
       pvPut(setGapState, SYNC);
     }
@@ -588,7 +593,7 @@ ss abortMove {
     when((abort == 1) && delay(0.1)) {
       /* Issue an abort command on controller */
       %%pVar->am_status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
-      if (debugLevel) printf("abortMove: sent command '%s'\n", abortCommand);
+      if (debugLevel) logToIOCshell(ssId, "abortMove: sent command '%s'");
       epicsThreadSleep(0.2);
       if (am_status != 0 ) {
         /* If problem with writing abort command to controller, try again */
@@ -688,13 +693,38 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
 {
   if(pVar->debugLevel)
-    printf("waitEpicsMotors\n");
+    logToIOCshell(ssId, "waitEpicsMotors");
   /* Read status of motors, if they are moving */
   while (getMotorMoving(ssId, pVar)) {
     epicsThreadSleep((1/10.0));
   }
 
  return(0);
+}
+
+/* Create a timestamp with current time */
+
+static int getTimeStamp(SS_ID ssId, char *timeStampString)
+{
+  struct timeval preciseCurrentTime;
+  time_t currentTime_sec;
+  struct tm *currentTime;
+  char tmp_buff[32];
+  size_t size;
+
+  gettimeofday(&preciseCurrentTime, NULL);
+  currentTime_sec = preciseCurrentTime.tv_sec;
+  currentTime = localtime(&currentTime_sec);
+  size = strftime(tmp_buff, sizeof tmp_buff, "%Y-%m-%d_%H:%M:%S", currentTime);
+  snprintf(timeStampString, (size + 8) , "%s.%06ld", tmp_buff, preciseCurrentTime.tv_usec);
+  return(0);
+}
+
+static int logToIOCshell(SS_ID ssId, char *logMessage) {
+  char timestamp[32];
+  getTimeStamp(ssId, timestamp);
+  printf("%s : %s\n",timestamp, logMessage);
+  return(0);
 }
 
 }%
