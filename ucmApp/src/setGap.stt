@@ -91,8 +91,16 @@ double scalingFactorVelo = 0;
 double scalingFactorAD = 0;
 
 /* Setpoint PVs */
-double desiredGap;        assign desiredGap   to "{DEV}:GAP_DES";
-double desiredTaper;      assign desiredTaper to "{DEV}:TAPER_DES";
+double desiredGap;        assign desiredGap   to "{DEV}:GapDes";
+double desiredTaper;      assign desiredTaper to "{DEV}:TaperDes";
+/* Move precision and retry */
+double deadband;          assign deadband to "{DEV}:DeadbandGap";
+double moveFrac;          assign moveFrac to "{DEV}:MoveFraction";
+double moveVelo;          assign moveVelo to "{DEV}:MotorVelocity";
+double acclDccl;          assign acclDccl to "{DEV}:MotorAccl";
+int singleApproach;       assign singleApproach to "{DEV}:SingleApproach";      monitor singleApproach;
+int rtry;                 assign rtry to "{DEV}:Retries";                       monitor rtry;
+int rtryMax;              assign rtryMax to "{DEV}:MaxRetries";                 monitor rtryMax;
 
 /* Position readback PVs */
 double actualGap;         assign actualGap to "{DEV}:Gap";                      monitor actualGap;
@@ -128,28 +136,11 @@ double dsaMotorGap;       assign dsaMotorGap to "{DEV}:DSAMotorGap";            
 double dswMotorGap;       assign dswMotorGap to "{DEV}:DSWMotorGap";            monitor dswMotorGap;
 double motorResolution;   assign motorResolution to "{DEV}:USAMotor.MRES";
 
-/* Move precision and retry */
-double deadband;          assign deadband to "{DEV}:DeadbandGap";
-double moveFrac;          assign moveFrac to "{DEV}:MOVEFRAC";
-double moveVelo;          assign moveVelo to "{DEV}:MOVEVELO";
-//TODO: Create record for this acceleration paramter 
-double acclDccl;          assign acclDccl to "{DEV}:MOVEACCL";
-double dlyInput;          assign dlyInput to "{DEV}:DLYINPUT";                  monitor dlyInput;
-double dly;               assign dly to "{DEV}:DLY";                            monitor dly;
-int rtry;                 assign rtry to "{DEV}:RETRY";                         monitor rtry;
-int rtryMax;              assign rtryMax to "{DEV}:RETRYMAX";                   monitor rtryMax;
-
-/* Command and status PVs */
-//TODO: clean up this section SXU
-int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
-int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
-
 /* HGVPU command and status PVs */
 int startGapAdjustment;   assign startGapAdjustment to "{DEV}:Start";           monitor startGapAdjustment;
 int stop;                 assign stop to "{DEV}:Stop";                          monitor stop;
 int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
 int undulatorError;       assign undulatorError to "{DEV}:UndulatorError";      monitor undulatorError;
-//int deviceActive;         assign deviceActive to "{DEV}:DeviceActive";          monitor deviceActive;
 int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
 int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
 int movingDirection;      assign movingDirection to "{DEV}:MotionDirection";
@@ -162,6 +153,10 @@ string message2;          assign message2 to "{DEV}:Message2.VAL";
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
 int simMode;              assign simMode to "{DEV}:SimMode.VAL";                monitor simMode;
 string setGapState;       assign setGapState to "{DEV}:SeqProgramState.VAL";
+
+/* Abort command and status PVs */
+//TODO: clean up this section SXU
+int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
 string abortState;        assign abortState to "{DEV}:ABORT_STATE.VAL";
 
 
@@ -248,12 +243,12 @@ ss setGap
 
     /* Device is in not safe state for operation, clear start flage and return to idle state */
     when((startGapAdjustment == 1) && ((undulatorError == 1) || (checkGap == 1))) {
+      /* Reprot message on the screen */
       sprintf(message2,"Device not ready to move!");
       pvPut(message2,SYNC);
-      /* Undulator in state unfit for move */
+      /* Clear Flag */
       startGapAdjustment = 0;
       pvPut(startGapAdjustment,SYNC);
-
     } state idle
 
     /* When motors are commanded to Start and no errors reported from undulator */
@@ -265,6 +260,7 @@ ss setGap
       pvGet(deadband,SYNC);
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
+      pvGet(acclDccl,SYNC);
       pvGet(motorResolution,SYNC);
       
       /* Write start message to the PV */
@@ -461,9 +457,6 @@ ss setGap
     when(delay(0.2)) {
       /*Wait while motors are moving */
       %%waitEpicsMotors(ssId, pVar);
-      /* When move done, start a timeout for servoing */
-      dly = 0;
-      pvPut(dly);
       /* When move done, increase number of retrys */
       rtry = rtry + 1;
       pvPut(rtry);
