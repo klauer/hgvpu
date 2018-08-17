@@ -232,7 +232,7 @@ ss setGap
 
     /* writeRead() has failed in the transition leading to this state*/
     when(sg_status != 0) {
-      printf(" setGap:idle ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
+      printf(" setGap:idle ERROR: previous writeRead() returned %d. Clearing the status and returning to idle.\n", sg_status);
       sg_status = 0;
     } state idle
 
@@ -308,8 +308,8 @@ ss setGap
 
     /* writeRead() has failed in the transition leading to this state*/
     when(sg_status != 0) {
-      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
-    } state idle
+      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* Disable retry checking for time based gap setting */
     when(rtry >= rtryMax) {
@@ -417,8 +417,8 @@ ss setGap
 
     /* writeRead() has failed in the transition leading to this state*/
     when(sg_status != 0) {
-      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
-    } state idle
+      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* If stop is issued */
     when(stop == 1) {} state stop
@@ -453,8 +453,8 @@ ss setGap
 
     /* writeRead() has failed in the transition leading to this state*/
     when(sg_status != 0) {
-      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
-    } state idle
+      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* If stop is issued */
     when(stop == 1) {} state stop
@@ -479,8 +479,8 @@ ss setGap
 
     /* writeRead() has failed in the transition leading to this state*/
     when(sg_status != 0) {
-      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to idle.\n", sg_status);
-    } state idle
+      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* If stop is issued */
     when(stop == 1) {} state stop
