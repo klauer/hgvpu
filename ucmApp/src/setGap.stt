@@ -142,7 +142,7 @@ int stop;                 assign stop to "{DEV}:Stop";                          
 int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
 int undulatorError;       assign undulatorError to "{DEV}:UndulatorError";      monitor undulatorError;
 int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
-int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";    
+int triggerDefer;         assign triggerDefer to "{DEV}:GapMotor:Trig.PROC";
 int movingDirection;      assign movingDirection to "{DEV}:MotionDirection";
 int deviceActive;         assign deviceActive to "{DEV}:DeviceActive";
 string message1;          assign message1 to "{DEV}:Message1.VAL";
@@ -202,7 +202,7 @@ ss setGap
         sampleRate = 8000;
       else
         sampleRate = atoi(stringIn);
-      
+
       /* Set scaling factor for velocity and acceleration */
       scalingFactorVelo = 65536.0 / sampleRate;
       scalingFactorAD = scalingFactorVelo / sampleRate;
@@ -253,7 +253,7 @@ ss setGap
 
     /* When motors are commanded to Start and no errors reported from undulator */
     when((startGapAdjustment == 1) && (undulatorError == 0) && (checkGap == 0)) {
-      
+
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
       pvGet(desiredTaper,SYNC);
@@ -262,7 +262,7 @@ ss setGap
       pvGet(moveVelo,SYNC);
       pvGet(acclDccl,SYNC);
       pvGet(motorResolution,SYNC);
-      
+
       /* Write start message to the PV */
       sprintf(message1, "Device Started");
       pvPut(message1,SYNC);
@@ -306,19 +306,16 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(sg_status != 0) {
-      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    /* If stop is issued or writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
     } state stop
 
     /* Disable retry checking for time based gap setting */
     when(rtry >= rtryMax) {
       if (debugLevel) printf("setGap:calcMove: rtry >= rtryMax %d >= %d\n", rtry, rtryMax);
     } state moveComplete
-
-
-    /* If stop is issued */
-    when(stop == 1){} state stop
 
     /* When in single approach and gap above modified desired gap */
     when( (movingLarger == 1) && (actualGap > (desiredGap - 0.5))) {
@@ -344,12 +341,12 @@ ss setGap
       /* Calculating new motor positions based on distances between strongback end and motor position*/
       desiredUsMotorPosition = (desiredGap/2.0) + (distToUsMtr/distEndToEnd)*(desiredTaper/2.0);
       desiredDsMotorPosition = (desiredGap/2.0) + (distToDsMtr/distEndToEnd)*(desiredTaper/2.0);
-      
+
       usaMotorAmountToMove = desiredUsMotorPosition - usaMotorGap;
       uswMotorAmountToMove = desiredUsMotorPosition - uswMotorGap;
       dsaMotorAmountToMove = desiredDsMotorPosition - dsaMotorGap;
       dswMotorAmountToMove = desiredDsMotorPosition - dswMotorGap;
-      
+
       /* Calculate factor for retries */
       if ( fabs(actualGap - desiredGap ) < 0.1 )
         /* If small adjustment, move motor to end point */
@@ -364,14 +361,14 @@ ss setGap
       dsaPos = dsaMotorRbv + moveFraction * dsaMotorAmountToMove;
       dswPos = dswMotorRbv + moveFraction * dswMotorAmountToMove;
 
-      /* Scale new positions to raw value and push to motor */ 
+      /* Scale new positions to raw value and push to motor */
       usaPos_raw = (int) (usaPos * motorResolution);
       uswPos_raw = (int) (uswPos * motorResolution);
       dsaPos_raw = (int) (dsaPos * motorResolution);
       dswPos_raw = (int) (dswPos * motorResolution);
       moveVelo_raw = (int) ((moveVelo/motorResolution) * scalingFactorVelo);
       acclDccl_raw = (int) (((moveVelo/motorResolution) / acclDccl) * scalingFactorAD);
-  
+
       /* Create a string to send to controller to start motor move */
       sprintf(stringOut, "iii:1=%d", uswPos_raw);
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
@@ -415,13 +412,11 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(sg_status != 0) {
-      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    /* If stop is issued or writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
     } state stop
-
-    /* If stop is issued */
-    when(stop == 1) {} state stop
 
     when( (fabs(usaMotorAmountToMove) < deadband) && (fabs(uswMotorAmountToMove) < deadband) &&
           (fabs(dsaMotorAmountToMove) < deadband) && (fabs(dswMotorAmountToMove) < deadband) ) {
@@ -435,7 +430,7 @@ ss setGap
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
       if (debugLevel) logToIOCshell(ssId, "setGap:move: Wait complete");
-      
+
       /* Send comand to start move */
       sprintf(stringOut, "GOSUB(1)");
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
@@ -451,13 +446,11 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(sg_status != 0) {
-      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    /* If stop is issued or writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
     } state stop
-
-    /* If stop is issued */
-    when(stop == 1) {} state stop
 
     /* When moving */
     when(delay(0.2)) {
@@ -477,13 +470,11 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(sg_status != 0) {
-      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    /* If stop is issued or writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
     } state stop
-
-    /* If stop is issued */
-    when(stop == 1) {} state stop
 
     /* When in single approach */
     when( movingLarger == 1) {
@@ -532,6 +523,10 @@ ss setGap
 
     /* On STOP flag */
     when() {
+
+      if (sg_status > 0)
+        logToIOCshell(ssId, "Trying to stop the motors after writeRead error! Then transition into idle");
+
       /* Send out an Abort all axes command */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
@@ -546,12 +541,6 @@ ss setGap
       /* Raise virtual axis done moving flag */
       deviceActive = 0;
       pvPut(deviceActive);
-      /* if in single approach mode restore PVs */
-      if (movingLarger == 1) {
-        movingLarger = 0;
-        desiredGap = desiredGapTemp;
-        deadband = deadbandTemp;
-      }
       /* Clear stop flag */
       stop = 0;
       pvPut(stop);
@@ -572,7 +561,7 @@ ss abortMove {
     } state am_init
 
     when() {
-      sprintf(abortCommand, "S:0"); 
+      sprintf(abortCommand, "S:0");
     } state monitorAbort
 
   }
