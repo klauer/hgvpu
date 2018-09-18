@@ -89,6 +89,9 @@ set_pass0_restoreFile("info_settings.sav")
 iocInit()
 # ====================================================================
 
+# ===================== Load Sequence Program For Gap Control ========
+iocshCmd("seq(setGap, \"DEV=${PREFIX}, PORT=M1_USW\")")
+
 # ===================== Load unique items post iocBoot ===============
 cexpsh(pathSubstitute("iocBoot/%H/st-offsets.cmd"))
 cexpsh(pathSubstitute("iocBoot/%H/st-post-unique.cmd"))
