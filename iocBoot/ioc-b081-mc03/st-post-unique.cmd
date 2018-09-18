@@ -1,3 +1,5 @@
+dbpf("USEG:LTTS:350:DebugLevel","Debug ON")
+
 dbpf("USEG:LTTS:350:Device.VAL","Long Term Test Stand")
 # dbpf("USEG:LTTS:350:Device.VAL","Floating Test Stand (CMM)")
 
@@ -11,7 +13,7 @@ dbpf("USEG:LTTS:350:EncoderError.TPRO","1")
 dbpf("USEG:LTTS:350:DeviceError.TPRO","1")
 dbpf("USEG:LTTS:350:DeviceStall.TPRO","1")
 #dbpf("USEG:LTTS:350:ProcessToMove.TPRO","1")
-dbpf("USEG:LTTS:350:CalibratMotors.TPRO","1")
+dbpf("USEG:LTTS:350:CalibrateMotors.TPRO","1")
 dbpf("USEG:LTTS:350:ResetActiveDead.TPRO","1")
 dbpf("USEG:LTTS:350:DeviceRecoverd.TPRO","1")
 dbpf("USEG:LTTS:350:DeviceStart.TPRO","1")
