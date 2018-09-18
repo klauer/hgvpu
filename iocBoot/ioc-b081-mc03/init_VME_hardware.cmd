@@ -204,7 +204,7 @@ drvAsynSerialPortConfigure("M4_USA","/IP520:0:0",0,0,0)
 ## Create serial port for Animatics Smart Motor - DS Wall ID motor
 drvAsynSerialPortConfigure("M2_DSW","/IP520:0:3",0,0,0)
 ## Create serial port for Animatics Smart Motor - Phase Shifter motor
-drvAsynSerialPortConfigure("L10","/IP520:0:4",0,0,0)
+drvAsynSerialPortConfigure("M5_PS","/IP520:0:4",0,0,0)
 
 
 # For Debugging uncomment the following:
@@ -217,8 +217,8 @@ asynSetTraceMask("M3_DSA", -1, 0x1)
 asynSetTraceIOMask("M2_DSW", -1, 2)
 asynSetTraceMask("M2_DSW", -1, 0x1)
 
-#asynSetTraceIOMask("L10", -1, 2)
-#asynSetTraceMask("L10", -1, 0x1)
+#asynSetTraceIOMask("M5_PS", -1, 2)
+#asynSetTraceMask("M5_PS", -1, 0x1)
 
 
 # ========================================================================
