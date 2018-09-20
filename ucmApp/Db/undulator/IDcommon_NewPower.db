@@ -108,8 +108,19 @@ record(stringout,"$(U):Message1") {
   field(DESC,"ID Control Status")
 }
 record(stringout,"$(U):Message2") {
-  field(DESC,"Energy Conversion Status")
+  field(DESC,"Emergency Message")
 }
+record(scalcout,"$(U):MakeMessage2") {
+  field(DESC,"Generates messages")
+  field(CALC,"A==3?EE:A==2?DD:A==0?AA:BB")
+  field(AA,"NOT USED")
+  field(BB,"NOT USED")
+  field(DD,"NOT USED")
+  field(EE,"")
+  field(OUT,"$(U):Message2.VAL PP NMS")
+  field(OOPT,"Every Time")
+}
+
 #######################################################
 # How close to the target position to move before 
 # stopping motion
@@ -355,17 +366,6 @@ record(bo,"$(U):DeviceTaper") {
 ###  field(DOL4,"1")
 ###  field(LNK4,"$(U):TaperCheck.DISV NPP NMS")
 ###}
-###record(scalcout,"$(U):MakeMessage2") {
-###  field(DESC,"Generates messages")
-###  field(CALC,"A==3?EE:A==2?DD:A==0?AA:BB")
-###  field(AA,"Energy <=> Gap Conversion OK")
-###  field(BB,"Energy <=> Gap Out of Range!!")
-###  field(DD,"Energy/Taper Out of Range!!")
-###  field(EE,"")
-###  field(OUT,"$(U):Message2.VAL PP NMS")
-###  field(OOPT,"Every Time")
-###}
-
 ########################################################
 #### Sets up the device operational limits
 ###record(ao,"$(U):DeviceLimit") {
