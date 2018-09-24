@@ -216,3 +216,13 @@ record(bo,"$(U):SimMode") {
   field(ZNAM,"Normal")
   field(ONAM,"Simulation")
 }
+
+record(bo, "$(U):SingleApproach") {
+  field(DESC,"Always Finish From Large Gap ")
+  field(PINI,"YES")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+  field(VAL, "0")
+  info(autosaveFields,"VAL")
+}
+
