@@ -175,13 +175,13 @@ ss setGap
       /* Initialization of variables and PVs */
       /*initStatus = 0;*/
       stop = 0;
-      pvPut(stop);
+      pvPut(stop, SYNC);
       rtry = 0;
-      pvPut(rtry);
+      pvPut(rtry, SYNC);
       startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
+      pvPut(startGapAdjustment, SYNC);
       deviceActive = 0;
-      pvPut(deviceActive);
+      pvPut(deviceActive, SYNC);
       numAxes = 4;
 
       /* Creating ABORT string */
@@ -224,9 +224,9 @@ ss setGap
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
       startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
+      pvPut(startGapAdjustment, SYNC);
       deviceActive = 0;
-      pvPut(deviceActive);
+      pvPut(deviceActive, SYNC);
       movingLarger = 0;
     }
 
@@ -278,11 +278,11 @@ ss setGap
 
       /* Clear retries and Go flag */
       rtry = 0;
-      pvPut(rtry);
+      pvPut(rtry, SYNC);
       startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
+      pvPut(startGapAdjustment, SYNC);
       deviceActive = 1;
-      pvPut(deviceActive);
+      pvPut(deviceActive, SYNC);
 
       /* If single approach and opening gap */
       if( (desiredGap > actualGap) && (singleApproach == 1) ) {
@@ -381,6 +381,27 @@ ss setGap
         printf("setGap:calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
       }
 
+    } state checkMove
+  }
+
+  state checkMove {
+    entry {
+      if (debugLevel){
+        logToIOCshell(ssId, "setGap:checkMove: entry");
+      }
+      sprintf(setGapState, "setGap:checkMove");
+      pvPut(setGapState, SYNC);
+    }
+
+    when( (fabs(usaMotorAmountToMove*1000) < deadband) && 
+          (fabs(uswMotorAmountToMove*1000) < deadband) &&
+          (fabs(dsaMotorAmountToMove*1000) < deadband) && 
+          (fabs(dswMotorAmountToMove*1000) < deadband) ) {
+      if (debugLevel) 
+          logToIOCshell(ssId, "setGap:checkMove: Move unnecessary; skipping");
+    } state moveComplete
+
+    when () {
       /* Create a string to send to controller to start motor move */
       sprintf(stringOut, "iii:1=%d", uswPos_raw);
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
@@ -398,7 +419,6 @@ ss setGap
       /* Enable motors and disable breaks */
       sprintf(stringOut, "BRKRLS:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-
     } state move
   }
 
@@ -463,7 +483,7 @@ ss setGap
       %%waitEpicsMotors(ssId, pVar);
       /* When move done, increase number of retrys */
       rtry = rtry + 1;
-      pvPut(rtry);
+      pvPut(rtry, SYNC);
     } state calcMove
   }
 
@@ -511,7 +531,7 @@ ss setGap
       /* Calibrate motors at final position */
       logToIOCshell(ssId, "setGap:moveComplete: Calibrating motor: L510");
       calibMotors = 1;
-      pvPut(calibMotors);
+      pvPut(calibMotors, SYNC);
 
       /* Write message to a PV */
       sprintf(message1, "Device At Destination");
@@ -546,10 +566,10 @@ ss setGap
 
       /* Raise virtual axis done moving flag */
       deviceActive = 0;
-      pvPut(deviceActive);
+      pvPut(deviceActive, SYNC);
       /* Clear stop flag */
       stop = 0;
-      pvPut(stop);
+      pvPut(stop, SYNC);
 
       sprintf(message1, "Device Stopped");
       pvPut(message1,SYNC);
