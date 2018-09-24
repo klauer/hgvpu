@@ -234,7 +234,15 @@ asynSetTraceMask("M2_DSW", -1, 0x1)
 # -------------------------------------------------------------------------
 
 # Undulator motors
-iocshCmd("SmartCreateController(S7,M1_USW,4,1,100,1000)")
+iocshCmd("SmartCreateController(M_USW,M1_USW,1,0,100,1000)")
+iocshCmd("SmartCreateController(M_USA,M4_USA,1,0,100,1000)")
+iocshCmd("SmartCreateController(M_DSA,M3_DSA,1,0,100,1000)")
+iocshCmd("SmartCreateController(M_DSW,M2_DSW,1,0,100,1000)")
+
+iocshCmd("SmartSetCANAddress(M_USW,0,1)")
+iocshCmd("SmartSetCANAddress(M_USA,0,4)")
+iocshCmd("SmartSetCANAddress(M_DSA,0,3)")
+iocshCmd("SmartSetCANAddress(M_DSW,0,2)")
 
 # ========================================================================
 # Initialize the FPGA
