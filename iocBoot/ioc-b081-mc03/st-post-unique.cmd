@@ -25,8 +25,8 @@ dbpf("USEG:LTTS:350:RepeatStop.DISA","1")
 dbpf("USEG:LTTS:350:GapMotor.VELO","0.5")
 dbpf("USEG:LTTS:350:GapMotor.VAL","100")
 
-dbpf("USEG:LTTS:350:ASYNHGU.AOUT","BRKENG:0")
-dbpf("USEG:LTTS:350:ASYNHGU.AOUT","ZS:0")
+dbpf("USEG:LTTS:350:M1_ASYN.AOUT","BRKENG:0")
+dbpf("USEG:LTTS:350:M1_ASYN.AOUT","ZS:0")
 
 dbpf("USEG:LTTS:350:MotorStopPwr.VAL","0")
 dbpf("USEG:LTTS:350:FPGAIntlckLatch.VAL","0")

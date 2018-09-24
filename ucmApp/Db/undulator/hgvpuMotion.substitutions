@@ -87,7 +87,10 @@ pattern { PORT    , USW_OFF, USA_OFF, DSW_OFF, DSA_OFF, USG_OFF    , DSG_OFF    
 
 file asynRecord.db
 {
-pattern { P          , R    , PORT, ADDR, IMAX, OMAX }
-        { "$(U):ASYN", "HGU", S7  , 0   , 0   , 0    }
+pattern { P      , R        , PORT  , ADDR, IMAX, OMAX }
+        { "$(U):", "M1_ASYN", M1_USW, 0   , 0   , 0    }
+        { "$(U):", "M2_ASYN", M2_DSW, 0   , 0   , 0    }
+        { "$(U):", "M3_ASYN", M3_DSA, 0   , 0   , 0    }
+        { "$(U):", "M4_ASYN", M4_USA, 0   , 0   , 0    }
 }
 
