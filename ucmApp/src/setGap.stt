@@ -373,10 +373,10 @@ ss setGap
       
       if (debugLevel) {
         printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
-        printf("setGap:calcMove: uswPos = %f (%d) [%f] \n", uswPos, uswPos_raw, uswPos*motorResolution);
-        printf("setGap:calcMove: dswPos = %f (%d) [%f] \n", dswPos, dswPos_raw, dswPos*motorResolution);
-        printf("setGap:calcMove: dsaPos = %f (%d) [%f] \n", dsaPos, dsaPos_raw, dsaPos*motorResolution);
-        printf("setGap:calcMove: usaPos = %f (%d) [%f] \n", usaPos, usaPos_raw, usaPos*motorResolution);
+        printf("setGap:calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
+        printf("setGap:calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
+        printf("setGap:calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
+        printf("setGap:calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
         printf("setGap:calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
         printf("setGap:calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
       }
@@ -407,9 +407,9 @@ ss setGap
     entry {
       if (debugLevel){
         logToIOCshell(ssId, "setGap:move: entry");
-        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",
-                                  fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
-                                  fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
+        // printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",
+        //                           fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
+        //                           fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
       sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
@@ -551,6 +551,8 @@ ss setGap
       stop = 0;
       pvPut(stop);
 
+      sprintf(message1, "Device Stopped");
+      pvPut(message1,SYNC);
     } state idle
   }
 }
@@ -683,11 +685,11 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
       printf("getMotorMoving: pasynOctetSyncIO->writeRead returned %d\n", status);
     /* Parse return of the command */
     move_active |= (atoi(inputBuff) & MOVING) == MOVING;
-    if (pVar->debugLevel) {
-      printf("getMotorMoving: outputBuff='%s'\n", outputBuff);
-      printf("getMotorMoving: inputBuff='%s'\n", inputBuff);
-      printf("getMotorMoving: move_active= %d\n", move_active);
-    }
+//    if (pVar->debugLevel) {
+//      printf("getMotorMoving: outputBuff='%s'\n", outputBuff);
+//      printf("getMotorMoving: inputBuff='%s'\n", inputBuff);
+//      printf("getMotorMoving: move_active= %d\n", move_active);
+//    }
     /* If any motor is moving return 1  */
     if (move_active)
       return(1);
