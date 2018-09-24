@@ -12,11 +12,11 @@ pattern { AXIS  , PORT, ADDR }
 
 file HGVPU_real_motor.db
 {
-pattern {  AXIS , PORT, ADDR, DESC     , DLLM, DHLM, MRES   , VELO, VBAS, VMAX, ACCL, TWV }
-        {  "USW", S7  , 0   , "Motor 1", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
-        {  "DSW", S7  , 1   , "Motor 2", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
-        {  "DSA", S7  , 2   , "Motor 3", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
-        {  "USA", S7  , 3   , "Motor 4", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+pattern {  AXIS , PORT , ADDR, DESC     , DLLM, DHLM, MRES   , VELO, VBAS, VMAX, ACCL, TWV }
+        {  "USW", M_USW, 0   , "Motor 1", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "DSW", M_DSW, 0   , "Motor 2", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "DSA", M_DSA, 0   , "Motor 3", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
+        {  "USA", M_USA, 0   , "Motor 4", 0   , 0   , 1.27e-5, 0.5 , 0.01, 3.67, 1   , 0.1 }
 } 
 
 ###file HGVPU_virt_motor.db
@@ -27,11 +27,11 @@ pattern {  AXIS , PORT, ADDR, DESC     , DLLM, DHLM, MRES   , VELO, VBAS, VMAX, 
 
 file AnimaticsSmartMotor_extra.db
 {
-pattern { P      , M    , PORT, ADDR }
-        { "$(U):", "USW", S7  , 0    }
-        { "$(U):", "DSW", S7  , 1    }
-        { "$(U):", "DSA", S7  , 2    }
-        { "$(U):", "USA", S7  , 3    }
+pattern { P      , M    , PORT , ADDR }
+        { "$(U)", "USW", M_USW, 0    }
+        { "$(U)", "DSW", M_DSW, 0    }
+        { "$(U)", "DSA", M_DSA, 0    }
+        { "$(U)", "USA", M_USA, 0    }
 }
 
 file IDcommon_NewPower.db
