@@ -8,22 +8,14 @@ dbpf("USEG:LTTS:350:MaximumSymm.VAL","4000")
 dbpf("USEG:LTTS:350:MaxSymmetry.VAL","0.08")
 
 dbpf("USEG:LTTS:350:CalcFPGAEncOff.VAL","1")
-dbpf("USEG:LTTS:350:MotorsError.TPRO","1")
-dbpf("USEG:LTTS:350:EncoderError.TPRO","1")
-dbpf("USEG:LTTS:350:DeviceError.TPRO","1")
-dbpf("USEG:LTTS:350:DeviceStall.TPRO","1")
+dbpf("USEG:LTTS:350:MotorsErrorSQ.TPRO","1")
+dbpf("USEG:LTTS:350:EncoderErrorSQ.TPRO","1")
+dbpf("USEG:LTTS:350:DeviceErrorSQ.TPRO","2")
+dbpf("USEG:LTTS:350:DeviceStallSQ.TPRO","1")
 #dbpf("USEG:LTTS:350:ProcessToMove.TPRO","1")
 dbpf("USEG:LTTS:350:CalibrateMotors.TPRO","1")
-dbpf("USEG:LTTS:350:ResetActiveDead.TPRO","1")
-dbpf("USEG:LTTS:350:DeviceRecoverd.TPRO","1")
-dbpf("USEG:LTTS:350:DeviceStart.TPRO","1")
-dbpf("USEG:LTTS:350:DeviceStop.TPRO","1")
-
-dbpf("USEG:LTTS:350:RepeatStop.TPRO","1")
-dbpf("USEG:LTTS:350:RepeatStop.DISA","1")
-
-dbpf("USEG:LTTS:350:GapMotor.VELO","0.5")
-dbpf("USEG:LTTS:350:GapMotor.VAL","100")
+#dbpf("USEG:LTTS:350:ResetActiveDead.TPRO","1")
+dbpf("USEG:LTTS:350:DeviceRecovered.TPRO","1")
 
 dbpf("USEG:LTTS:350:M1_ASYN.AOUT","BRKENG:0")
 dbpf("USEG:LTTS:350:M1_ASYN.AOUT","ZS:0")
@@ -34,8 +26,24 @@ dbpf("USEG:LTTS:350:FPGAIntlckLatch.VAL","1")
 dbpf("USEG:LTTS:350:FPGAIntlckLatch.VAL","0")
 dbpf("USEG:LTTS:350:MotorStopPwr.VAL","1")
 
-# Test to disable motor trigger when device is not active:
-dbpf("USEG:LTTS:350:GapMotor:Defer.SDIS","USEG:LTTS:350:DeviceActive")
-dbpf("USEG:LTTS:350:GapMotor:Defer.DISV","0")
-dbpf("USEG:LTTS:350:GapMotor:Trig.SDIS","USEG:LTTS:350:DeviceActive")
-dbpf("USEG:LTTS:350:GapMotor:Trig.DISV","0")
+# Test for disabeling Stall error at bootup
+dbpf("USEG:LTTS:350:CalibrateMotors.PROC","1")
+dbpf("USEG:LTTS:350:USWStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:DSWStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:USAStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:DSAStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:USWStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:DSWStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:USAStallCheck.PROC","1")
+dbpf("USEG:LTTS:350:DSAStallCheck.PROC","1")
+
+# Disable checking of FullGapEncoders on LTTS
+dbpf("USEG:LTTS:350:EncoderCheck.DISA","1")
+dbpf("USEG:LTTS:350:USGapLinearEncCheck.VAL","0")
+dbpf("USEG:LTTS:350:DSGapLinearEncCheck.VAL","0")
+dbpf("USEG:LTTS:350:USGapLinearEncCheck.DISA","1")
+dbpf("USEG:LTTS:350:DSGapLinearEncCheck.DISA","1")
+dbpf("USEG:LTTS:350:EncoderCheck.DISA","0")
+
+# Enable Simulation on boot and reduce number of retries
+dbpf("USEG:LTTS:350:MaxRetries","8")
