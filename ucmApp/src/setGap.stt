@@ -169,7 +169,7 @@ ss setGap
       pvGet(debugLevel,SYNC);
       if (debugLevel) logToIOCshell(ssId, "setGap:init: entry");
 
-      sprintf(setGapState, "setGap:init");
+      sprintf(setGapState, "setGap:init\n");
       pvPut(setGapState, SYNC);
       sg_status = 0;
       /* Initialization of variables and PVs */
@@ -220,7 +220,7 @@ ss setGap
   state idle {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:idle: entry");
-      sprintf(setGapState, "setGap:idle");
+      sprintf(setGapState, "setGap:idle\n");
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
       startGapAdjustment = 0;
@@ -302,7 +302,7 @@ ss setGap
   state calcMove {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: entry'");
-      sprintf(setGapState, "setGap:calcMove");
+      sprintf(setGapState, "setGap:calcMove\n");
       pvPut(setGapState, SYNC);
     }
 
@@ -389,7 +389,7 @@ ss setGap
       if (debugLevel){
         logToIOCshell(ssId, "setGap:checkMove: entry");
       }
-      sprintf(setGapState, "setGap:checkMove");
+      sprintf(setGapState, "setGap:checkMove\n");
       pvPut(setGapState, SYNC);
     }
 
@@ -431,7 +431,7 @@ ss setGap
         //                           fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
         //                           fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
-      sprintf(setGapState, "setGap:move");
+      sprintf(setGapState, "setGap:move\n");
       pvPut(setGapState, SYNC);
     }
 
@@ -449,7 +449,7 @@ ss setGap
     } state moveComplete
 
     /* Send command to start motion */
-    when( delay(0.3) ) {
+    when( delay(0.2) ) {
       if (debugLevel) logToIOCshell(ssId, "setGap:move: Waiting for motion complete");
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
@@ -466,7 +466,7 @@ ss setGap
   state moving {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:moving: entry");
-      sprintf(setGapState, "setGap:moving");
+      sprintf(setGapState, "setGap:moving\n");
       pvPut(setGapState, SYNC);
     }
 
@@ -491,7 +491,7 @@ ss setGap
   state moveComplete {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:moveComplete: entry'");
-      sprintf(setGapState, "setGap:moveComplete");
+      sprintf(setGapState, "setGap:moveComplete\n");
       pvPut(setGapState, SYNC);
     }
 
@@ -543,7 +543,7 @@ ss setGap
   state stop {
     entry{
       if (debugLevel) logToIOCshell(ssId, "setGap:stop: entry'");
-      sprintf(setGapState, "setGap:stop");
+      sprintf(setGapState, "setGap:stop\n");
       pvPut(setGapState, SYNC);
     }
 

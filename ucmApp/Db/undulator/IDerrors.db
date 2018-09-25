@@ -71,9 +71,9 @@ record(calcout,"$(U):MotorsErrorCheck") {
   field(HSV,"MAJOR")
   field(OOPT,"Transition To Non-zero")
   field(DOPT,"Use CALC")
-  field(OUT,"$(U):MotorsError.PROC PP NMS")
+  field(OUT,"$(U):MotorsErrorSQ.PROC PP NMS")
 }
-record(seq,"$(U):MotorsError") {
+record(seq,"$(U):MotorsErrorSQ") {
   field(DESC,"Action for Motors Error")
   field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
   field(DOL1,"1")
@@ -120,9 +120,9 @@ record(calcout,"$(U):EncoderCheck") {
   field(HSV,"MAJOR")
   field(OOPT,"Transition To Non-zero")
   field(DOPT,"Use CALC")
-  field(OUT,"$(U):EncoderError.PROC PP NMS")
+  field(OUT,"$(U):EncoderErrorSQ.PROC PP NMS")
 }
-record(seq,"$(U):EncoderError") {
+record(seq,"$(U):EncoderErrorSQ") {
   field(DESC,"Action for Encoder Errors")
   field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
   field(DOL1,"1")
@@ -292,7 +292,7 @@ record(calcout,"$(U):DeviceBoundsCheck") {
   field(HSV,"MAJOR")
   field(OOPT,"Transition To Non-zero")
   field(DOPT,"Use CALC")
-  field(OUT,"$(U):DeviceError.PROC PP NMS")
+  field(OUT,"$(U):DeviceErrorSQ.PROC PP NMS")
 }
 record(calc,"$(U):UpperBoundCheck") {
   field(DESC,"Check Upper Bound")
@@ -320,7 +320,7 @@ record(calc,"$(U):SymmetryBoundCheck") {
   field(INPA,"$(U):GapSymmetry.VAL NPP NMS")
   field(INPB,"$(U):MaxSymmetry.VAL NPP NMS")
 }
-record(seq,"$(U):DeviceError") {
+record(seq,"$(U):DeviceErrorSQ") {
   field(DESC,"Action for Out of Bounds")
   field(SDIS,"$(U):UndulatorError.VAL NPP NMS")
   field(DOL1,"1")
