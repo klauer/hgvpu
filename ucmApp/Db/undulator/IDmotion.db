@@ -198,7 +198,7 @@ record(ai,"$(U):ScanGap") {
 record(seq,"$(U):ScanGapSQ") {
   field(DESC,"Start the Gap Scan")
   field(DOL1,"$(U):ScanGap.VAL NPP NMS")
-  field(LNK1,"$(U):GapSet.VAL PP NMS")
+  field(LNK1,"$(U):GapDes.VAL PP NMS")
   field(DOL2,"1")
   field(DLY2,".05")
   field(LNK2,"$(U):ScanGapCheck.PROC PP NMS")
@@ -206,7 +206,7 @@ record(seq,"$(U):ScanGapSQ") {
 record(calcout,"$(U):ScanGapCheck") {
   field(DESC,"Start Device if Good Gap")
   field(CALC,"!A")
-  field(INPA,"$(U):GapCheck.VAL NPP NMS")
+  field(INPA,"$(U):CheckGap.VAL NPP NMS")
   field(OUT,"$(U):Start.VAL PP NMS")
   field(OOPT,"When Non-zero")
   field(DOPT,"Use CALC")

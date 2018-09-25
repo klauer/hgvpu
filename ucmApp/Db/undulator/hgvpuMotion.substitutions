@@ -4,11 +4,11 @@ pattern { U      }
         { "$(U)" }
 }
 
-file HGVPU_masterMotorStatus.db
-{
-pattern { AXIS  , PORT, ADDR }
-        { "USW" , S7  , 0    }
-}
+###file HGVPU_masterMotorStatus.db
+###{
+###pattern { AXIS  , PORT, ADDR }
+###        { "USW" , S7  , 0    }
+###}
 
 file HGVPU_real_motor.db
 {
