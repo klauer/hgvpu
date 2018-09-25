@@ -1,0 +1,164 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 259
+y 84
+w 400
+h 130
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 55
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 115
+y 10
+w 155
+h 25
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Undulator Motors"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 11
+y 47
+w 170
+h 25
+fgColor index 14
+bgColor index 3
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-14.0"
+buttonLabel "Upstream Wall"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all.edl"
+}
+menuLabel {
+  0 "Upstream Wall"
+}
+symbols {
+  0 "P=$(U),M=:USWMotor"
+}
+icon
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 207
+y 47
+w 170
+h 25
+fgColor index 14
+bgColor index 3
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-14.0"
+buttonLabel "Downstream Wall"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all.edl"
+}
+menuLabel {
+  0 "Downstream Wall"
+}
+symbols {
+  0 "P=$(U),M=:DSWMotor"
+}
+icon
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 11
+y 81
+w 170
+h 25
+fgColor index 14
+bgColor index 3
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-14.0"
+buttonLabel "Upstream Aisle"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all.edl"
+}
+menuLabel {
+  0 "Upstream Aisle"
+}
+symbols {
+  0 "P=$(U),M=:USAMotor"
+}
+icon
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 207
+y 81
+w 170
+h 25
+fgColor index 14
+bgColor index 3
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-14.0"
+buttonLabel "Downstream Aisle"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all.edl"
+}
+menuLabel {
+  0 "Downstream Aisle"
+}
+symbols {
+  0 "P=$(U),M=:DSAMotor"
+}
+icon
+endObjectProperties
+
