@@ -532,9 +532,18 @@ ss setGap
       calibMotors = 1;
       pvPut(calibMotors, SYNC);
 
-      /* Write message to a PV */
-      sprintf(message1, "Device At Destination");
-      pvPut(message1);
+      if (rtry >= rtryMax) {
+        deviceActive = 2;
+        pvPut(deviceActive,SYNC);
+        sprintf(message1, "Max Retries Failed");
+        pvPut(message1);
+
+      }
+      else {
+        /* Write message to a PV */
+        sprintf(message1, "Device At Destination");
+        pvPut(message1);
+      }
     } state idle
   }
 
