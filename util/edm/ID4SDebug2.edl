@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 145
-y 179
+x 2722
+y 547
 w 790
 h 500
 font "helvetica-medium-r-18.0"
@@ -503,8 +503,8 @@ major 4
 minor 7
 release 0
 x 285
-y 180
-w 100
+y 230
+w 50
 h 20
 controlPv "$(U):MaxTaper.VAL"
 format "decimal"
@@ -529,7 +529,7 @@ major 4
 minor 1
 release 1
 x 205
-y 180
+y 230
 w 80
 h 20
 font "helvetica-medium-r-14.0"
@@ -549,7 +549,7 @@ major 4
 minor 7
 release 0
 x 490
-y 180
+y 230
 w 100
 h 20
 controlPv "$(U):AllowedMotorReset.VAL"
@@ -575,7 +575,7 @@ major 4
 minor 1
 release 1
 x 405
-y 180
+y 230
 w 85
 h 20
 font "helvetica-medium-r-14.0"
@@ -707,7 +707,7 @@ major 4
 minor 1
 release 1
 x 10
-y 210
+y 260
 w 100
 h 20
 font "helvetica-medium-r-14.0"
@@ -727,7 +727,7 @@ major 4
 minor 7
 release 0
 x 115
-y 210
+y 260
 w 100
 h 20
 controlPv "$(U):NormalSymmetry.VAL"
@@ -753,8 +753,8 @@ major 4
 minor 7
 release 0
 x 340
-y 210
-w 100
+y 260
+w 50
 h 20
 controlPv "$(U):MaxSymmetry.VAL"
 format "decimal"
@@ -779,7 +779,7 @@ major 4
 minor 1
 release 1
 x 230
-y 210
+y 260
 w 100
 h 20
 font "helvetica-medium-r-14.0"
@@ -799,7 +799,7 @@ major 4
 minor 7
 release 0
 x 195
-y 250
+y 300
 w 80
 h 14
 controlPv "$(U):USWStallCheck.VAL"
@@ -825,7 +825,7 @@ major 4
 minor 7
 release 0
 x 475
-y 250
+y 300
 w 80
 h 14
 controlPv "$(U):DSWStallCheck.VAL"
@@ -851,7 +851,7 @@ major 4
 minor 7
 release 0
 x 335
-y 250
+y 300
 w 80
 h 14
 controlPv "$(U):USAStallCheck.VAL"
@@ -877,7 +877,7 @@ major 4
 minor 7
 release 0
 x 615
-y 250
+y 300
 w 80
 h 14
 controlPv "$(U):DSAStallCheck.VAL"
@@ -903,7 +903,7 @@ major 4
 minor 1
 release 1
 x 290
-y 250
+y 300
 w 40
 h 15
 font "helvetica-medium-r-14.0"
@@ -922,7 +922,7 @@ major 4
 minor 1
 release 1
 x 150
-y 250
+y 300
 w 40
 h 15
 font "helvetica-medium-r-14.0"
@@ -941,7 +941,7 @@ major 4
 minor 1
 release 1
 x 430
-y 250
+y 300
 w 40
 h 15
 font "helvetica-medium-r-14.0"
@@ -960,7 +960,7 @@ major 4
 minor 1
 release 1
 x 565
-y 250
+y 300
 w 40
 h 15
 font "helvetica-medium-r-14.0"
@@ -979,7 +979,7 @@ major 4
 minor 1
 release 1
 x 15
-y 250
+y 300
 w 120
 h 15
 font "helvetica-medium-r-14.0"
@@ -1321,7 +1321,7 @@ major 4
 minor 1
 release 1
 x 35
-y 280
+y 330
 w 75
 h 16
 font "helvetica-medium-r-14.0"
@@ -1341,7 +1341,7 @@ major 4
 minor 1
 release 1
 x 140
-y 280
+y 330
 w 107
 h 16
 font "helvetica-medium-r-14.0"
@@ -1361,7 +1361,7 @@ major 4
 minor 1
 release 1
 x 260
-y 280
+y 330
 w 106
 h 16
 font "helvetica-medium-r-14.0"
@@ -1474,7 +1474,7 @@ major 4
 minor 7
 release 0
 x 580
-y 210
+y 260
 w 100
 h 20
 controlPv "$(U):MoveFraction.VAL"
@@ -1501,7 +1501,7 @@ major 4
 minor 1
 release 1
 x 475
-y 210
+y 260
 w 100
 h 20
 font "helvetica-medium-r-14.0"
@@ -1565,7 +1565,7 @@ major 4
 minor 7
 release 0
 x 720
-y 180
+y 230
 w 35
 h 20
 controlPv "$(U):MaxRetries.VAL"
@@ -1592,7 +1592,7 @@ major 4
 minor 1
 release 1
 x 635
-y 180
+y 230
 w 80
 h 20
 font "helvetica-medium-r-14.0"
@@ -1611,7 +1611,7 @@ major 4
 minor 7
 release 0
 x 570
-y 280
+y 330
 w 170
 h 20
 controlPv "$(U):SeqProgramState.VAL"
@@ -1636,7 +1636,7 @@ major 4
 minor 1
 release 1
 x 405
-y 280
+y 330
 w 200
 h 20
 font "helvetica-medium-r-14.0"
@@ -1656,7 +1656,7 @@ major 4
 minor 0
 release 0
 x 30
-y 300
+y 350
 w 85
 h 55
 fgColor index 14
@@ -1677,7 +1677,7 @@ major 4
 minor 0
 release 0
 x 150
-y 300
+y 350
 w 85
 h 55
 fgColor index 14
@@ -1698,7 +1698,7 @@ major 4
 minor 0
 release 0
 x 270
-y 300
+y 350
 w 85
 h 55
 fgColor index 14
@@ -1719,7 +1719,7 @@ major 4
 minor 7
 release 0
 x 120
-y 180
+y 230
 w 75
 h 20
 controlPv "$(U):TaperThreshold.VAL"
@@ -1745,7 +1745,7 @@ major 4
 minor 1
 release 1
 x 15
-y 180
+y 230
 w 105
 h 20
 font "helvetica-medium-r-14.0"
@@ -1756,5 +1756,233 @@ useDisplayBg
 value {
   "Taper Thresh:"
 }
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 400
+y 260
+w 50
+h 20
+controlPv "$(U):MaxSymmetry.DRVH"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 67
+editable
+motifWidget
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 105
+y 175
+w 80
+h 20
+controlPv "$(U):USSymmetry"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 15
+y 175
+w 85
+h 20
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "USSymmetry:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 105
+y 200
+w 80
+h 20
+controlPv "$(U):DSSymmetry"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 15
+y 200
+w 85
+h 20
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "DSSymmetry:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 300
+y 175
+w 80
+h 20
+controlPv "$(U):WallTaper"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 210
+y 175
+w 85
+h 20
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Wall Taper:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 210
+y 200
+w 85
+h 20
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Aisle Taper:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 300
+y 200
+w 80
+h 20
+controlPv "$(U):AisleTaper"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 340
+y 230
+w 50
+h 20
+controlPv "$(U):MaxTaper.DRVH"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 67
+editable
+motifWidget
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
 endObjectProperties
 

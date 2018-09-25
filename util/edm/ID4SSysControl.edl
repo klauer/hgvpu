@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1053
-y 172
+x 1982
+y 90
 w 710
 h 800
 font "helvetica-medium-r-18.0"
@@ -1636,10 +1636,9 @@ fontAlign "center"
 fgColor index 20
 fgAlarm
 bgColor index 35
-visPv "CALC\\\{(A)\}($(U):DeviceTaper.VAL)"
-visInvert
-visMin "0"
-visMax "1"
+visPv "$(U):DeviceTaper.VAL"
+visMin "1"
+visMax "2"
 value {
   "< Device Tapered >"
 }
@@ -1661,10 +1660,9 @@ font "helvetica-bold-r-14.0"
 fontAlign "center"
 fgColor index 20
 bgColor index 36
-visPv "CALC\\\{(A)\}($(U):DeviceActive.VAL)"
-visInvert
-visMin "0"
-visMax "1"
+visPv "$(U):DeviceActive.VAL"
+visMin "1"
+visMax "2"
 value {
   "Device Busy"
 }
@@ -2605,24 +2603,20 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 605
-y 130
-w 55
-h 63
-font "helvetica-bold-r-18.0"
+x 585
+y 175
+w 100
+h 20
+font "helvetica-bold-r-14.0"
 fontAlign "center"
 fgColor index 20
-bgColor index 34
-useDisplayBg
+bgColor index 35
 visPv "$(U):42VDCMon.VAL"
 visMin "0"
 visMax "1"
 value {
-  "Motor"
-  "Power"
-  "OFF"
+  "Mtr Pwr OFF"
 }
-autoSize
 endObjectProperties
 
 # (Text Control)
@@ -3848,5 +3842,27 @@ offLabel "Start"
 3d
 useEnumNumeric
 font "helvetica-bold-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 580
+y 150
+w 120
+h 20
+font "helvetica-bold-r-14.0"
+fontAlign "center"
+fgColor index 20
+bgColor index 35
+visPv "$(U):UndulatorError"
+visMin "1"
+visMax "2"
+value {
+  "Undulator Error"
+}
 endObjectProperties
 

@@ -318,26 +318,6 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 313
-y 523
-w 130
-h 13
-font "helvetica-medium-r-14.0"
-fontAlign "right"
-fgColor index 19
-bgColor index 0
-useDisplayBg
-value {
-  "Encoder Process:"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
 x 25
 y 78
 w 70
@@ -1741,7 +1721,7 @@ fgColor index 20
 bgColor index 0
 useDisplayBg
 value {
-  "Motor Speeds (rev/sec)"
+  "Motor Speeds (mm/sec)"
 }
 endObjectProperties
 
@@ -2003,50 +1983,6 @@ useHexPrefix
 newPos
 objType "controls"
 noExecuteClipMask
-endObjectProperties
-
-# (Menu Button)
-object activeMenuButtonClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 250
-y 540
-w 153
-h 25
-fgColor index 19
-bgColor index 4
-inconsistentColor index 12
-topShadowColor index 2
-botShadowColor index 12
-controlPv "$(U):StartProcess.SCAN"
-indicatorPv "$(U):StartProcess.SCAN"
-font "helvetica-medium-r-14.0"
-endObjectProperties
-
-# (Message Button)
-object activeMessageButtonClass
-beginObjectProperties
-major 4
-minor 1
-release 0
-x 435
-y 540
-w 147
-h 25
-fgColor index 19
-onColor index 4
-offColor index 4
-topShadowColor index 0
-botShadowColor index 14
-controlPv "$(U):StartProcess.PROC"
-pressValue "1"
-onLabel "Process Once"
-offLabel "Process Once"
-3d
-useEnumNumeric
-font "helvetica-medium-r-14.0"
 endObjectProperties
 
 # (Choice Button)
