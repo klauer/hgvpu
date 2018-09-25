@@ -169,7 +169,7 @@ ss setGap
       pvGet(debugLevel,SYNC);
       if (debugLevel) logToIOCshell(ssId, "setGap:init: entry");
 
-      sprintf(setGapState, "setGap:init\n");
+      sprintf(setGapState, "setGap:init");
       pvPut(setGapState, SYNC);
       sg_status = 0;
       /* Initialization of variables and PVs */
@@ -220,13 +220,15 @@ ss setGap
   state idle {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:idle: entry");
-      sprintf(setGapState, "setGap:idle\n");
+      sprintf(setGapState, "setGap:idle");
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
       startGapAdjustment = 0;
       pvPut(startGapAdjustment, SYNC);
-      deviceActive = 0;
-      pvPut(deviceActive, SYNC);
+      if (deviceActive < 2) {
+        deviceActive = 0;
+        pvPut(deviceActive, SYNC);
+      }
       movingLarger = 0;
     }
 
@@ -302,7 +304,7 @@ ss setGap
   state calcMove {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: entry'");
-      sprintf(setGapState, "setGap:calcMove\n");
+      sprintf(setGapState, "setGap:calcMove");
       pvPut(setGapState, SYNC);
     }
 
@@ -325,11 +327,8 @@ ss setGap
     /* Calculate new positions */
     when() {
       /* Calibrate motor positions with linear encoder readback */
-      logToIOCshell(ssId, "setGap:CalcMove: Calibrating motor: L330");
       calibMotors = 1;
       pvPut(calibMotors,SYNC);
-      /* Wait for sync to complete and monitors to update */
-      epicsThreadSleep(0.3);
 
       /* Calculating position based on scaling factor from ANL */
       /* Desired gap set at US side, gap adjusted for taper on DS side */
@@ -373,6 +372,7 @@ ss setGap
       
       if (debugLevel) {
         printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
+        printf("setGap:calcMove: moveFraction = %f'\n", moveFraction);
         printf("setGap:calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
         printf("setGap:calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
         printf("setGap:calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
@@ -389,7 +389,7 @@ ss setGap
       if (debugLevel){
         logToIOCshell(ssId, "setGap:checkMove: entry");
       }
-      sprintf(setGapState, "setGap:checkMove\n");
+      sprintf(setGapState, "setGap:checkMove");
       pvPut(setGapState, SYNC);
     }
 
@@ -431,7 +431,7 @@ ss setGap
         //                           fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
         //                           fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
-      sprintf(setGapState, "setGap:move\n");
+      sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
     }
 
@@ -444,7 +444,7 @@ ss setGap
     when( (fabs(usaMotorAmountToMove*1000) < deadband) && (fabs(uswMotorAmountToMove*1000) < deadband) &&
           (fabs(dsaMotorAmountToMove*1000) < deadband) && (fabs(dswMotorAmountToMove*1000) < deadband) ) {
       //TODO: Why need sleep?
-      epicsThreadSleep(1.0);
+      epicsThreadSleep(0.5);
       if (debugLevel) logToIOCshell(ssId, "setGap:move: All absolute moves less than deadband. Going to moveComplete");
     } state moveComplete
 
@@ -466,7 +466,7 @@ ss setGap
   state moving {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:moving: entry");
-      sprintf(setGapState, "setGap:moving\n");
+      sprintf(setGapState, "setGap:moving");
       pvPut(setGapState, SYNC);
     }
 
@@ -491,7 +491,7 @@ ss setGap
   state moveComplete {
     entry {
       if (debugLevel) logToIOCshell(ssId, "setGap:moveComplete: entry'");
-      sprintf(setGapState, "setGap:moveComplete\n");
+      sprintf(setGapState, "setGap:moveComplete");
       pvPut(setGapState, SYNC);
     }
 
@@ -514,22 +514,21 @@ ss setGap
       /* Issue a global stop */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       if ( sg_status != 0 ) {
         sprintf(stringOut, "S:0");
         %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-        epicsThreadSleep(0.2);
+        //epicsThreadSleep(0.2);
       }
       /* Engage brakes on all motors */
       sprintf(stringOut, "BRKENG:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       /* Turn Off motor current */
       sprintf(stringOut, "OFF:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
 
       /* Calibrate motors at final position */
-      logToIOCshell(ssId, "setGap:moveComplete: Calibrating motor: L510");
       calibMotors = 1;
       pvPut(calibMotors, SYNC);
 
@@ -543,7 +542,7 @@ ss setGap
   state stop {
     entry{
       if (debugLevel) logToIOCshell(ssId, "setGap:stop: entry'");
-      sprintf(setGapState, "setGap:stop\n");
+      sprintf(setGapState, "setGap:stop");
       pvPut(setGapState, SYNC);
     }
 
@@ -556,16 +555,16 @@ ss setGap
       /* Send out an Abort all axes command */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       sprintf(stringOut, "BRKENG:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       /* Turn Off motor current */
       sprintf(stringOut, "OFF:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
 
       /* Raise virtual axis done moving flag */
-      deviceActive = 0;
+      deviceActive = 2;
       pvPut(deviceActive, SYNC);
       /* Clear stop flag */
       stop = 0;
@@ -610,16 +609,16 @@ ss abortMove {
       /* Issue an abort command on controller */
       %%pVar->am_status = writeCommand(ssId, pVar, pVar->abortCommand, pVar->abortState);
       if (debugLevel) logToIOCshell(ssId, "abortMove: sent command '%s'");
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       if (am_status != 0 ) {
         /* If problem with writing abort command to controller, try again */
         %%pVar->am_status = writeCommand(ssId, pVar, pVar->abortCommand, pVar->abortState);
-        epicsThreadSleep(0.2);
+        //epicsThreadSleep(0.2);
       }
       /* Engage break if abort command recieved */
       sprintf(stringOut, "BRKENG:0");
       %%pVar->am_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->abortState);
-      epicsThreadSleep(0.2);
+      //epicsThreadSleep(0.2);
       /* Turn Off motor current */
       sprintf(stringOut, "OFF:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);

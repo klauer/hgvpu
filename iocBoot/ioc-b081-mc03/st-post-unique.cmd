@@ -45,5 +45,3 @@ dbpf("USEG:LTTS:350:USGapLinearEncCheck.DISA","1")
 dbpf("USEG:LTTS:350:DSGapLinearEncCheck.DISA","1")
 dbpf("USEG:LTTS:350:EncoderCheck.DISA","0")
 
-# Enable Simulation on boot and reduce number of retries
-dbpf("USEG:LTTS:350:MaxRetries","8")

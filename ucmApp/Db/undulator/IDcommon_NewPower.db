@@ -90,11 +90,16 @@ record(bi,"$(U):Stop") {
 ########################################################
 # Tells if the Undulator is actively doing something
 ########################################################
-record(bo,"$(U):DeviceActive") {
+record(mbbo,"$(U):DeviceActive") {
   field(DESC,"Device Active")
-  field(ZNAM,"Done")
-  field(ONAM,"Moving")
-  field(OSV,"MAJOR")
+  field(ZRVL,"0")
+  field(ZRST,"Done")
+  field(ONVL,"1")
+  field(ONST,"Moving")
+  field(ONSV,"MINOR")
+  field(TWVL,"2")
+  field(TWST,"Faulted")
+  field(TWSV,"MAJOR")
 }
 ########################################################
 record(bi,"$(U):MotionDirection") {
