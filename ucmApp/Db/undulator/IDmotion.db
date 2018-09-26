@@ -49,6 +49,23 @@ record(ao, "$(U):MoveFraction") {
   field(DRVH,"1.0")
   field(DRVL,"0.0")
 }
+record(ao, "$(U):FinalMoveFraction") {
+  field(DESC,"Final Fraction Of Move To Perform")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"$(FRAC)")
+  field(DRVH,"1.0")
+  field(DRVL,"0.0")
+}
+record(ao, "$(U):FinalMoveRange") {
+  field(DESC,"Final Fraction Motion Range")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"0.1")
+  field(DRVH,"1.0")
+  field(DRVL,"0.0")
+  field(EGU,"mm")
+}
 ########################################################
 # Set Velocity on all motors
 ########################################################

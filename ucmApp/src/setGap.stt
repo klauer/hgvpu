@@ -97,6 +97,8 @@ double desiredTaper;      assign desiredTaper to "{DEV}:TaperDes";
 /* Move precision and retry */
 double deadband;          assign deadband to "{DEV}:DeadbandGap";
 double moveFrac;          assign moveFrac to "{DEV}:MoveFraction";
+double finalMoveFrac;     assign finalMoveFrac to "{DEV}:FinalMoveFraction";
+double finalMoveRange;    assign finalMoveRange to "{DEV}:FinalMoveRange";
 double moveVelo;          assign moveVelo to "{DEV}:MotorVelocity";
 double acclDccl;          assign acclDccl to "{DEV}:MotorAccl";
 int singleApproach;       assign singleApproach to "{DEV}:SingleApproach";      monitor singleApproach;
@@ -348,9 +350,9 @@ ss setGap
       dswMotorAmountToMove = desiredDsMotorPosition - dswMotorGap;
 
       /* Calculate factor for retries */
-      if ( fabs(actualGap - desiredGap ) < 0.1 )
+      if ( fabs(actualGap - desiredGap ) < finalMoveRange )
         /* If small adjustment, move motor to end point */
-        moveFraction = 1.0;
+        moveFraction = finalMoveFrac;
       else
         /* Otherwis do fraction of the move */
         moveFraction = moveFrac;

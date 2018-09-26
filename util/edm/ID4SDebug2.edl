@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2722
-y 547
+x 2419
+y 286
 w 790
 h 500
 font "helvetica-medium-r-18.0"
@@ -1475,7 +1475,7 @@ minor 7
 release 0
 x 580
 y 260
-w 100
+w 40
 h 20
 controlPv "$(U):MoveFraction.VAL"
 format "decimal"
@@ -1565,7 +1565,7 @@ major 4
 minor 7
 release 0
 x 720
-y 230
+y 175
 w 35
 h 20
 controlPv "$(U):MaxRetries.VAL"
@@ -1592,7 +1592,7 @@ major 4
 minor 1
 release 1
 x 635
-y 230
+y 175
 w 80
 h 20
 font "helvetica-medium-r-14.0"
@@ -1984,5 +1984,99 @@ useHexPrefix
 newPos
 objType "controls"
 noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 730
+y 260
+w 40
+h 20
+controlPv "$(U):FinalMoveFraction.VAL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 55
+editable
+motifWidget
+precision 2
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 625
+y 260
+w 100
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Fin. Move Frac:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 730
+y 235
+w 40
+h 20
+controlPv "$(U):FinalMoveRange.VAL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 55
+editable
+motifWidget
+precision 2
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 610
+y 235
+w 115
+h 20
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "Fin. Move Range:"
+}
 endObjectProperties
 
