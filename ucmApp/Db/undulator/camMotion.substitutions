@@ -30,6 +30,12 @@ pattern { U      }
         { "$(U)" }
 }
 
+file xxLinearMotion.vdb
+{
+pattern { U      }
+        { "$(U)" }
+}
+
 file xxUndulatorDispAlarmSum.template
 {
 pattern { motor }

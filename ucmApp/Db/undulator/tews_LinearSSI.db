@@ -47,11 +47,27 @@ record(ai,"$(U):USGapEncoder_RAW") {
   field(PREC,"4")
   field(EGU,"cnt")
 }
+record(ao,"$(U):USGapEncoderSlope") {
+  field(DESC,"US Gap Amosin Encoder Slope")
+  field(PREC,"4")
+  field(EGU,"mm/cts")
+  field(VAL, "0.00025")
+  field(FLNK,"$(U):USGapEncoder")
+  info(autosaveFields, "VAL")
+}
+record(ao,"$(U):USGapEncoderOffset") {
+  field(DESC,"US Gap Amosin Encoder Offset")
+  field(PREC,"6")
+  field(EGU,"mm")
+  field(FLNK,"$(U):USGapEncoder")
+  field(VAL,"$(USG_OFF)")
+  info(autosaveFields, "VAL")
+}
 record(calc,"$(U):USGapEncoder") {
   field(DESC,"US Gap Amosin Encoder Position")
-  field(INPA,"0.00025")
+  field(INPA,"$(U):USGapEncoderSlope NPP MS")
   field(INPB,"$(U):USGapEncoder_RAW CP MS")
-  field(INPC,"$(USG_OFF)")
+  field(INPC,"$(U):USGapEncoderOffset NPP MS")
   field(CALC, "A*(B>>2)+C")
   field(PREC,"4")
   field(EGU,"mm")
@@ -69,11 +85,27 @@ record(ai,"$(U):DSGapEncoder_RAW") {
   field(PREC,"4")
   field(EGU,"cnt")
 }
+record(ao,"$(U):DSGapEncoderSlope") {
+  field(DESC,"DS Gap Amosin Encoder Slope")
+  field(PREC,"4")
+  field(EGU,"mm/cts")
+  field(FLNK,"$(U):DSGapEncoder")
+  field(VAL, "0.00025")
+  info(autosaveFields, "VAL")
+}
+record(ao,"$(U):DSGapEncoderOffset") {
+  field(DESC,"DS Gap Amosin Encoder Offset")
+  field(PREC,"6")
+  field(EGU,"mm")
+  field(FLNK,"$(U):DSGapEncoder")
+  field(VAL,"$(DSG_OFF)")
+  info(autosaveFields, "VAL")
+}
 record(calc,"$(U):DSGapEncoder") {
   field(DESC,"DS Gap Amosin Encoder Position")
-  field(INPA,"0.00025")
+  field(INPA,"$(U):DSGapEncoderSlope NPP MS")
   field(INPB,"$(U):DSGapEncoder_RAW CP MS")
-  field(INPC,"$(DSG_OFF)")
+  field(INPC,"$(U):DSGapEncoderOffset NPP MS")
   field(CALC, "A*(B>>2)+C")
   field(PREC,"4")
   field(EGU,"mm")

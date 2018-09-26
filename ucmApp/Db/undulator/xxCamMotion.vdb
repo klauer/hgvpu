@@ -174,7 +174,7 @@ record(calc, "$(U):CM5NORMCALC") {
   field(ASG, "MC_MAINT")
 }
 
-record(genSub, "$(U):CM2MOVEANGLE") {
+record(aSub, "$(U):CM2MOVEANGLE") {
   field(DESC, "cam2 angle movement (CAM Degrees)")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")
@@ -283,7 +283,7 @@ record(ao, "$(U):BETA5") {
   field(EGU, "degrees")
 }
 
-record(genSub, "$(U):CM3MOVEANGLE") {
+record(aSub, "$(U):CM3MOVEANGLE") {
   field(DESC, "cam3 angular movement (CAM Degrees)")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")
@@ -306,7 +306,7 @@ record(genSub, "$(U):CM3MOVEANGLE") {
   field(FTVC, "DOUBLE")
 }
 
-record(genSub, "$(U):CM4MOVEANGLE") {
+record(aSub, "$(U):CM4MOVEANGLE") {
   field(DESC, "cam4 angular movement (CAM Degrees)")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")
@@ -325,7 +325,7 @@ record(genSub, "$(U):CM4MOVEANGLE") {
   field(FTVD, "DOUBLE")
 }
 
-record(genSub, "$(U):CM5MOVEANGLE") {
+record(aSub, "$(U):CM5MOVEANGLE") {
   field(DESC, "cam5 angular movement (CAM Degrees)")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")
@@ -1092,7 +1092,7 @@ record(calc, "$(U):BETA2RAD") {
   field(ASG, "MC_MAINT")
 }
 
-record(genSub, "$(U):USXREADCALCM") {
+record(aSub, "$(U):USXREADCALCM") {
   field(DESC, "US X readCalc (microns)")
   field(ASG, "MC_MAINT")
   field(FLNK, "$(U):USYREADCALCM")
@@ -1121,7 +1121,7 @@ record(genSub, "$(U):USXREADCALCM") {
   field(EFLG, "ALWAYS")
 }
 
-record(genSub, "$(U):USYREADCALCM") {
+record(aSub, "$(U):USYREADCALCM") {
   field(DESC, "US Y readCalc (microns)")
   field(ASG, "MC_MAINT")
   field(FLNK, "$(U):DSXREADCALCM")
@@ -1154,7 +1154,7 @@ record(genSub, "$(U):USYREADCALCM") {
   field(EFLG, "ALWAYS")
 }
 
-record(genSub, "$(U):DSXREADCALCM") {
+record(aSub, "$(U):DSXREADCALCM") {
   field(DESC, "Ds_X_ReadCALC (microns)")
   field(ASG, "MC_MAINT")
   field(FLNK, "$(U):DSYREADCALCM")
@@ -1177,7 +1177,7 @@ record(genSub, "$(U):DSXREADCALCM") {
   field(EFLG, "ALWAYS")
 }
 
-record(genSub, "$(U):DSYREADCALCM") {
+record(aSub, "$(U):DSYREADCALCM") {
   field(DESC, "$(UND) Ds_Y_ReadCALC (microns)")
   field(ASG, "MC_MAINT")
   field(FLNK, "$(U):ROLLCALC")
@@ -1200,7 +1200,7 @@ record(genSub, "$(U):DSYREADCALCM") {
   field(EFLG, "ALWAYS")
 }
 
-record(genSub, "$(U):ROLLCALC") {
+record(aSub, "$(U):ROLLCALC") {
   field(DESC, "$(UND) calc roll")
   field(ASG, "MC_MAINT")
   field(FLNK, "$(U):QXREADCALC")
@@ -1449,7 +1449,7 @@ record(bo, "$(U):CMXSTPMOTRSC") {
   field(FLNK, "$(U):CM1STOPMOTOR")
 }
 
-record(genSub, "$(U):CM1MOVEANGLE") {
+record(aSub, "$(U):CM1MOVEANGLE") {
   field(DESC, "CAM1 angular movement (CAM Degrees)")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")
@@ -1607,7 +1607,7 @@ record(longout, "$(U):CMXALTMTNSTR") {
   field(FLNK, "$(U):CMXSTRTMTION")
 }
 
-record(genSub, "$(U):BFWQUADPOSC") {
+record(aSub, "$(U):BFWQUADPOSC") {
   field(DESC, "movement about QUAD")
   field(ASG, "MC_MAINT")
   field(EFLG, "ALWAYS")

@@ -2029,7 +2029,7 @@ displayFileName {
   2 "ID4SSetup.edl"
   3 "FPGAMonitors.edl"
   4 "ID4SDebug2.edl"
-  5 "ID4SMotorDebug.edl"
+  5 "ID4SMotorExpert.edl"
 }
 menuLabel {
   0 "Gap Control"
@@ -2037,7 +2037,7 @@ menuLabel {
   2 "Device Setup"
   3 "VME FPGA Status Information"
   4 "Debug"
-  5 "Motor Parameters"
+  5 "Motor Expert"
 }
 symbols {
   0 "U=$(U)"

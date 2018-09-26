@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 1982
-y 90
+x 2756
+y 213
 w 710
 h 800
 font "helvetica-medium-r-18.0"
@@ -2190,7 +2190,7 @@ displayFileName {
   1 "ID4SSetup.edl"
   2 "FPGAMonitors.edl"
   3 "ID4SDebug2.edl"
-  4 "ID4SMotorDebug.edl"
+  4 "ID4SMotorExpert.edl"
   5 "IDStatus_HGVPU.edl"
   6 "asynRecord.edl"
 }
@@ -2199,7 +2199,7 @@ menuLabel {
   1 "Device Setup"
   2 "FPGA Status Information"
   3 "Debug"
-  4 "Motor Parameters"
+  4 "Motor Expert"
   5 "ID Status"
   6 "Asyn Record"
 }
@@ -2712,36 +2712,6 @@ value {
   "Max value:"
 }
 autoSize
-endObjectProperties
-
-# (Related Display)
-object relatedDisplayClass
-beginObjectProperties
-major 4
-minor 4
-release 0
-x 15
-y 5
-w 105
-h 20
-fgColor index 14
-bgColor index 3
-topShadowColor index 2
-botShadowColor index 12
-font "helvetica-medium-r-12.0"
-buttonLabel "Gap Motor..."
-numPvs 4
-numDsps 1
-displayFileName {
-  0 "motorx_all.edl"
-}
-menuLabel {
-  0 "Motor Expert ..."
-}
-symbols {
-  0 "P=$(U),M=:GapMotor"
-}
-icon
 endObjectProperties
 
 # (Choice Button)
