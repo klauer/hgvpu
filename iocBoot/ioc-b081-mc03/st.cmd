@@ -93,9 +93,6 @@ iocInit()
 cexpsh(pathSubstitute("iocBoot/%H/st-offsets.cmd"))
 cexpsh(pathSubstitute("iocBoot/%H/st-post-unique.cmd"))
 
-# ===================== Load Sequence Program For Gap Control ========
-iocshCmd("seq(setGap, \"DEV=${PREFIX}, PORT=M1_USW\")")
-
 # ===================== caPutLogging configuration ===================
 # Log values only on change to the iocLogServer:
 caPutLogInit("172.27.8.31:7004")
@@ -113,4 +110,6 @@ iocshCmd("create_monitor_set(\"info_settings.req\", 30, \"U=${PREFIX}\")")
 
 # ===================== Start sequence programs ======================
 getenv("CAM_MOTION") && iocshCmd("seq( &camCal, \"S=${PREFIX}\")")
+# ===================== Load Sequence Program For Gap Control ========
+iocshCmd("seq(setGap, \"DEV=${PREFIX}, PORT=M1_USW\")")
 
