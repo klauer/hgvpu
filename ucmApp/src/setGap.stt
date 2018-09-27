@@ -36,7 +36,6 @@ static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar);
 /* Configuration and communication */
 char stringOut[200];
 char stringIn[200];
-char abortCommand[200];
 char *asynPort;
 char *pasynUser;
 int initStatus = 0;
@@ -159,11 +158,6 @@ int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          
 int simMode;              assign simMode to "{DEV}:SimMode.VAL";                monitor simMode;
 string setGapState;       assign setGapState to "{DEV}:SeqProgramState.VAL";
 
-/* Abort command and status PVs */
-//TODO: clean up this section SXU
-int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
-string abortState;        assign abortState to "{DEV}:ABORT_STATE.VAL";
-
 
 /* stateSet to change gap */
 ss setGap
@@ -188,9 +182,6 @@ ss setGap
       deviceActive = 0;
       pvPut(deviceActive, SYNC);
       numAxes = 4;
-
-      /* Creating ABORT string */
-      sprintf(abortCommand, "S:0");
 
       /* Connecting to ASYN port for motors */
       asynPort = macValueGet("PORT");
@@ -591,62 +582,6 @@ ss setGap
   }
 }
 
-/* stateSet to abort move */
-ss abortMove {
-
-  state am_init {
-    /* writeRead() has failed in the transition leading to this state*/
-    when(am_status != 0) {
-      printf("abortMove:am_init ERROR: previous writeRead() returned %d. Going to am_init.\n", am_status);
-      /* Clear status flag */
-      am_status = 0;
-    } state am_init
-
-    when() {
-      sprintf(abortCommand, "S:0");
-    } state monitorAbort
-
-  }
-
-  state monitorAbort {
-    entry{
-      sprintf(abortState, "abortMove:monitorAbort");
-      pvPut(abortState, SYNC);
-   }
-
-    /* writeRead() has failed in the transition leading to this state*/
-    when(am_status != 0) {
-      printf("abortMove:monitorAbort ERROR: previous writeRead() returned %d. Going to am_init.\n", am_status);
-    } state am_init
-
-    /* When Abort is triggered */
-    when((abort == 1) && delay(0.1)) {
-      /* Issue an abort command on controller */
-      %%pVar->am_status = writeCommand(ssId, pVar, pVar->abortCommand, pVar->abortState);
-      if (debugLevel) logToIOCshell(ssId, "abortMove: sent command '%s'");
-      //epicsThreadSleep(0.2);
-      if (am_status != 0 ) {
-        /* If problem with writing abort command to controller, try again */
-        %%pVar->am_status = writeCommand(ssId, pVar, pVar->abortCommand, pVar->abortState);
-        //epicsThreadSleep(0.2);
-      }
-      /* Engage break if abort command recieved */
-      sprintf(stringOut, "BRKENG:0");
-      %%pVar->am_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->abortState);
-      //epicsThreadSleep(0.2);
-      /* Turn Off motor current */
-      sprintf(stringOut, "OFF:0");
-      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-
-      /* Set stop PV for main stateSet to interrupt move */
-      stop = 1;
-      pvPut(stop);
-      /* Clear abort PV */
-      abort=0;
-      pvPut(abort);
-    } state monitorAbort
-  }
-}
 
 %{
 
