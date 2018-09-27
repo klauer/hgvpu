@@ -716,16 +716,16 @@ static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar)
     status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, outputBuff,
              strlen(outputBuff), inputBuff, BUF_SIZE, 1.0, &nwrite, &nread, &eomReason);
 
-    if (status)
-      printf("checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
     /* Parse return of the command */
     brake_engaged = ((atoi(inputBuff) & BRAKE_ENGAGED) == BRAKE_ENGAGED);
 
     if (pVar->debugLevel) {
-      printf("checkBrakesReleased: outputBuff='%s'\n", outputBuff);
-      printf("checkBrakesReleased: inputBuff='%s'\n", inputBuff);
-      printf("checkBrakesReleased: brake_engaged= %d\n", brake_engaged);
+      if (status)
+        printf("checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
+      printf("checkBrakesReleased: outputBuff='%s' inputBuff='%s' brake_engaged=%d\n", 
+             outputBuff, inputBuff, brake_engaged);
     }
+
     /* If any motor has a brake engaged, return immediately */
     if (brake_engaged)
       return 1;
