@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 951
-y 441
+x 629
+y 150
 w 790
 h 500
 font "helvetica-medium-r-18.0"
@@ -50,7 +50,7 @@ major 4
 minor 1
 release 1
 x 15
-y 120
+y 125
 w 45
 h 20
 font "helvetica-medium-r-14.0"
@@ -69,9 +69,9 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 60
-y 120
-w 100
+x 105
+y 125
+w 80
 h 20
 controlPv "$(U):GapDes.VAL"
 format "decimal"
@@ -95,8 +95,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 230
-y 120
+x 250
+y 125
 w 100
 h 20
 controlPv "$(U):TaperDes.VAL"
@@ -121,8 +121,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 170
-y 120
+x 190
+y 125
 w 60
 h 20
 font "helvetica-medium-r-14.0"
@@ -186,8 +186,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 620
-y 120
+x 520
+y 175
 w 70
 h 20
 controlPv "$(U):DeadbandGap.VAL"
@@ -212,8 +212,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 540
-y 120
+x 440
+y 175
 w 75
 h 20
 font "helvetica-medium-r-14.0"
@@ -369,7 +369,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 10
+x 25
 y 150
 w 75
 h 20
@@ -388,7 +388,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 85
+x 105
 y 150
 w 80
 h 20
@@ -413,7 +413,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 190
+x 220
 y 150
 w 75
 h 20
@@ -432,7 +432,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 265
+x 300
 y 150
 w 80
 h 20
@@ -457,8 +457,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 435
-y 120
+x 520
+y 125
 w 100
 h 20
 controlPv "$(U):ScanGap.VAL"
@@ -483,8 +483,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 355
-y 120
+x 445
+y 125
 w 75
 h 20
 font "helvetica-medium-r-14.0"
@@ -682,7 +682,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 450
+x 435
 y 95
 w 45
 h 20
@@ -997,7 +997,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 365
+x 385
 y 150
 w 135
 h 20
@@ -1017,7 +1017,7 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 505
+x 520
 y 150
 w 80
 h 20
@@ -1376,7 +1376,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 170
+x 180
 y 95
 w 75
 h 20
@@ -1899,7 +1899,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 210
+x 220
 y 175
 w 85
 h 20
@@ -2092,8 +2092,8 @@ selectColor index 10
 inconsistentColor index 35
 topShadowColor index 37
 botShadowColor index 44
-controlPv "$(U):ClosedLoopEncoder"
-indicatorPv "$(U):ClosedLoopEncoder"
+controlPv "$(U):CloseLoopEncoder"
+indicatorPv "$(U):CloseLoopEncoder"
 font "helvetica-medium-r-14.0"
 endObjectProperties
 
@@ -2249,5 +2249,47 @@ showUnits
 newPos
 objType "controls"
 noExecuteClipMask
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 120
+w 770
+h 105
+lineColor index 14
+fillColor index 34
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 225
+w 770
+h 95
+lineColor index 14
+fillColor index 34
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 10
+y 35
+w 770
+h 85
+lineColor index 14
+fillColor index 34
 endObjectProperties
 
