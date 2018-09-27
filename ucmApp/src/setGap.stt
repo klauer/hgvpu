@@ -56,20 +56,9 @@ double distToDsMtr = 2620.525;
 /* distance between upstream motor and downstream motor */
 double distBtwnMtr = 1822.000;
 
-/* HXU specific conversion factor (from ANL database) */
-/* Device End to Motor conversion factor */
-double EndMotFactor = 0.76670;
-/* Linear Encoder to Motor conversion factor */
-double LinMotFactor = 0.76670;
-/* Motor to Device End conversion factor */
-double MotEndFactor = 1.437386;
-
-
 /* Positions and new values */
 double desiredGapTemp = 0;
 double deadbandTemp = 0;
-double desiredUsGap = 0;
-double desiredDsGap = 0;
 double desiredUsMotorPosition = 0;
 double desiredDsMotorPosition = 0;
 double usaMotorAmountToMove = 0;
@@ -77,6 +66,11 @@ double uswMotorAmountToMove = 0;
 double dsaMotorAmountToMove = 0;
 double dswMotorAmountToMove = 0;
 double moveFraction = 0.9;
+
+/* Full gap encoder feedback */
+int fullGapEncCorrection = 0;
+double currentGapFromFullGapEncoders = 0 ;
+double currentTaperFromFullGapEncoders = 0;
 
 double usaPos = 0;
 double uswPos = 0;
@@ -96,6 +90,8 @@ double scalingFactorAD = 0;
 /* Setpoint PVs */
 double desiredGap;        assign desiredGap   to "{DEV}:GapDes";
 double desiredTaper;      assign desiredTaper to "{DEV}:TaperDes";
+double desiredUsGap;      assign desiredUsGap to "{DEV}:USGapDes";
+double desiredDsGap;      assign desiredDsGap to "{DEV}:DSGapDes";
 /* Move precision and retry */
 double deadband;          assign deadband to "{DEV}:DeadbandGap";
 double moveFrac;          assign moveFrac to "{DEV}:MoveFraction";
@@ -104,8 +100,12 @@ double finalMoveRange;    assign finalMoveRange to "{DEV}:FinalMoveRange";
 double moveVelo;          assign moveVelo to "{DEV}:MotorVelocity";
 double acclDccl;          assign acclDccl to "{DEV}:MotorAccl";
 int singleApproach;       assign singleApproach to "{DEV}:SingleApproach";      monitor singleApproach;
-int rtry;                 assign rtry to "{DEV}:Retries";                       monitor rtry;
-int rtryMax;              assign rtryMax to "{DEV}:MaxRetries";                 monitor rtryMax;
+int retry;                 assign retry to "{DEV}:Retries";
+int retryMax;              assign retryMax to "{DEV}:MaxRetries";
+double correctedGapDes;      assign correctedGapDes to "{DEV}:CLCorrectedGapDes";
+double correctedTaperDes;    assign correctedTaperDes to "{DEV}:CLCorrectedTaperDes";
+double clRegionOfIntr;    assign clRegionOfIntr to "{DEV}:CLRegionOfInterest";
+int clEncSelection;       assign clEncSelection to "{DEV}:CloseLoopEncoder";
 
 /* Position readback PVs */
 double actualGap;         assign actualGap to "{DEV}:Gap";                      monitor actualGap;
@@ -117,10 +117,6 @@ double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:USSymmetry";          
 double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:DSSymmetry";          monitor calcDsSymmetry;
 
 /* Hardware position readback PVs */
-double usaHalfGapEncoder; assign usaHalfGapEncoder to "{DEV}:USALinearEncoder"; monitor usaHalfGapEncoder;
-double uswHalfGapEncoder; assign uswHalfGapEncoder to "{DEV}:USWLinearEncoder"; monitor uswHalfGapEncoder;
-double dsaHalfGapEncoder; assign dsaHalfGapEncoder to "{DEV}:DSALinearEncoder"; monitor dsaHalfGapEncoder;
-double dswHalfGapEncoder; assign dswHalfGapEncoder to "{DEV}:DSWLinearEncoder"; monitor dswHalfGapEncoder;
 double usFullGapEncoder;  assign usFullGapEncoder  to "{DEV}:USGapEncoder";     monitor usFullGapEncoder;
 double dsFullGapEncoder;  assign dsFullGapEncoder  to "{DEV}:DSGapEncoder";     monitor dsFullGapEncoder;
 
@@ -175,8 +171,8 @@ ss setGap
       /*initStatus = 0;*/
       stop = 0;
       pvPut(stop, SYNC);
-      rtry = 0;
-      pvPut(rtry, SYNC);
+      retry = 0;
+      pvPut(retry, SYNC);
       startGapAdjustment = 0;
       pvPut(startGapAdjustment, SYNC);
       deviceActive = 0;
@@ -226,6 +222,7 @@ ss setGap
         pvPut(deviceActive, SYNC);
       }
       movingLarger = 0;
+      fullGapEncCorrection = 0;
     }
 
     /* writeRead() or writeCommand() has failed in the transition leading to this state*/
@@ -255,11 +252,14 @@ ss setGap
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
       pvGet(desiredTaper,SYNC);
+      pvGet(desiredUsGap,SYNC);
+      pvGet(desiredDsGap,SYNC);
       pvGet(deadband,SYNC);
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
       pvGet(acclDccl,SYNC);
       pvGet(motorResolution,SYNC);
+      pvGet(retryMax,SYNC);
 
       /* Write start message to the PV */
       sprintf(message1, "Device Started");
@@ -275,8 +275,8 @@ ss setGap
       pvPut(movingDirection, SYNC);
 
       /* Clear retries and Go flag */
-      rtry = 0;
-      pvPut(rtry, SYNC);
+      retry = 0;
+      pvPut(retry, SYNC);
       startGapAdjustment = 0;
       pvPut(startGapAdjustment, SYNC);
       deviceActive = 1;
@@ -311,8 +311,8 @@ ss setGap
     } state stop
 
     /* Disable retry checking for time based gap setting */
-    when(rtry >= rtryMax) {
-      if (debugLevel) printf("setGap:calcMove: rtry >= rtryMax %d >= %d\n", rtry, rtryMax);
+    when(retry >= retryMax) {
+      if (debugLevel) printf("setGap:calcMove: retry >= retryMax %d >= %d\n", retry, retryMax);
     } state moveComplete
 
     /* When in single approach and gap above modified desired gap */
@@ -326,12 +326,23 @@ ss setGap
       calibMotors = 1;
       pvPut(calibMotors,SYNC);
 
-      /* Calculating position based on scaling factor from ANL */
-      /* Desired gap set at US side, gap adjusted for taper on DS side */
-      //desiredUsGap = desiredGap;
-      //desiredDsGap = desiredGap + desiredTaper; /* Desired value for motor per side */
-      //desiredUsMotorPosition = (desiredUsGap * EndMotFactor + desiredDsGap * (1.0 - EndMotFactor))/2.0;
-      //desiredDsMotorPosition = (desiredDsGap * EndMotFactor + desiredUsGap * (1.0 - EndMotFactor))/2.0;
+      /* Fix the desired position for difference between desired gap and full gap encoders */
+      if ( fullGapEncCorrection && (movingLarger == 0) ) {
+        /* Calculate the current state of the gap and taper as seen by full gap encoders */
+        currentGapFromFullGapEncoders = (usFullGapEncoder + dsFullGapEncoder)/2.0;
+        currentTaperFromFullGapEncoders = (dsFullGapEncoder - usFullGapEncoder);
+        /* Calculate the delta of the move needed on gap and taper, and set the
+         * new desired gap */
+        desiredGap = desiredGap + (desiredGap - currentGapFromFullGapEncoders);
+        desiredTaper = desiredTaper + (desiredTaper - currentTaperFromFullGapEncoders);
+        /* Push new values to PV for checking */
+        correctedGapDes = desiredGap;
+        pvPut(correctedGapDes,SYNC);
+        correctedTaperDes = desiredTaper;
+        pvPut(correctedTaperDes,SYNC);
+        /* Clear the loop flag unil next round  */
+        fullGapEncCorrection = 0;
+      }
 
       /* Calculating new motor positions based on distances between strongback end and motor position*/
       desiredUsMotorPosition = (desiredGap/2.0) + (distToUsMtr/distEndToEnd)*(desiredTaper/2.0);
@@ -366,14 +377,14 @@ ss setGap
       acclDccl_raw = (int) (((moveVelo/motorResolution) / acclDccl) * (scalingFactorAD*100));
       
       if (debugLevel) {
-        printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
-        printf("setGap:calcMove: moveFraction = %f'\n", moveFraction);
-        printf("setGap:calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
-        printf("setGap:calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
-        printf("setGap:calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
-        printf("setGap:calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
-        printf("setGap:calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
-        printf("setGap:calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
+        printf("    setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
+        printf("    setGap:calcMove: moveFraction = %f'\n", moveFraction);
+        printf("    setGap:calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
+        printf("    setGap:calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
+        printf("    setGap:calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
+        printf("    setGap:calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
+        printf("    setGap:calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
+        printf("    setGap:calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
       }
 
     } state checkMove
@@ -424,9 +435,6 @@ ss setGap
     entry {
       if (debugLevel){
         logToIOCshell(ssId, "setGap:move: entry");
-        // printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",
-        //                           fabs(uswMotorAmountToMove),fabs(dswMotorAmountToMove),
-        //                           fabs(dsaMotorAmountToMove),fabs(usaMotorAmountToMove));
       }
       sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
@@ -467,7 +475,6 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    /* If stop is issued or writeRead() has failed in the transition leading to this state */
     /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
     when( (stop == 1) || (sg_status != 0) ) {
       if (sg_status != 0)
@@ -479,8 +486,8 @@ ss setGap
       /*Wait while motors are moving */
       %%waitEpicsMotors(ssId, pVar);
       /* When move done, increase number of retrys */
-      rtry = rtry + 1;
-      pvPut(rtry, SYNC);
+      retry = retry + 1;
+      pvPut(retry, SYNC);
     } state calcMove
   }
 
@@ -506,21 +513,32 @@ ss setGap
       deadband = deadbandTemp;
     } state calcMove
 
+    /* If closing loop on full gap encoder,
+     * desired gap is within region of interest for full gap closed loop corrections,
+     * and US and DS gap encoders differ from desired points */
+    when( (clEncSelection == 1) && (desiredGap < clRegionOfIntr) &&
+          (   fabs(desiredUsGap-usFullGapEncoder)>(2.0*deadband) 
+          ||  fabs(desiredDsGap-dsFullGapEncoder)>(2.0*deadband) ) ) {
+      if (debugLevel)
+        logToIOCshell(ssId, "setGap: moveComplete: FullGapEncoder closedLoop: clearing retries and adjusting desied position");
+        /* Limit max retries with full gap encoder */
+        retryMax = retry + 4;
+        /* Correction for FullGap Closed loop flag*/
+        fullGapEncCorrection = 1;
+    } state calcMove
+
     /* On complete move */
     when() {
       /* Issue a global stop */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      //epicsThreadSleep(0.2);
       if ( sg_status != 0 ) {
         sprintf(stringOut, "S:0");
         %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-        //epicsThreadSleep(0.2);
       }
       /* Engage brakes on all motors */
       sprintf(stringOut, "BRKENG:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      //epicsThreadSleep(0.2);
       /* Turn Off motor current */
       sprintf(stringOut, "OFF:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
@@ -529,7 +547,7 @@ ss setGap
       calibMotors = 1;
       pvPut(calibMotors, SYNC);
 
-      if (rtry >= rtryMax) {
+      if (retry >= retryMax) {
         deviceActive = 2;
         pvPut(deviceActive,SYNC);
         sprintf(message1, "Max Retries Failed");
@@ -561,10 +579,8 @@ ss setGap
       /* Send out an Abort all axes command */
       sprintf(stringOut, "S:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      //epicsThreadSleep(0.2);
       sprintf(stringOut, "BRKENG:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
-      //epicsThreadSleep(0.2);
       /* Turn Off motor current */
       sprintf(stringOut, "OFF:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
@@ -653,11 +669,6 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
       printf("getMotorMoving: pasynOctetSyncIO->writeRead returned %d\n", status);
     /* Parse return of the command */
     move_active |= (atoi(inputBuff) & MOVING) == MOVING;
-//    if (pVar->debugLevel) {
-//      printf("getMotorMoving: outputBuff='%s'\n", outputBuff);
-//      printf("getMotorMoving: inputBuff='%s'\n", inputBuff);
-//      printf("getMotorMoving: move_active= %d\n", move_active);
-//    }
     /* If any motor is moving return 1  */
     if (move_active)
       return 1;

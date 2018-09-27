@@ -24,8 +24,8 @@ record(ao,"$(U):TaperDes") {
   field(VAL,"0")
   field(PREC,"3")
   field(EGU,"mm")
-  field(DRVH,"0.150")
-  field(DRVL,"-0.150")
+  field(DRVH,"0.100")
+  field(DRVL,"-0.100")
 }
 record(calc,"$(U):Old_TaperDes") {
   field(DESC,"Previous Desired Taper Value")

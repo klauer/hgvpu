@@ -67,6 +67,36 @@ record(ao, "$(U):FinalMoveRange") {
   field(EGU,"mm")
 }
 ########################################################
+# Close loop selection and parameters
+########################################################
+record(bo, "$(U):CloseLoopEncoder") {
+  field(DESC,"Close Loop Enc. Selection")
+  field(ASG,"SYSTEM")
+  field(ZNAM,"Half Gap")
+  field(ONAM,"Full Gap")
+  info(autosaveFields,"VAL")
+}
+record(ao, "$(U):CLRegionOfInterest") {
+  field(DESC,"Range for close loop corrections")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(VAL,"50.0")
+  field(DRVH,"120.5")
+  field(DRVL,"7.2")
+  field(EGU,"mm")
+  info(autosaveFields,"VAL")
+}
+record(ao, "$(U):CLCorrectedGapDes") {
+  field(DESC,"ClosedLoop corrected GapDes")
+  field(ASG,"SYSTEM")
+  field(EGU,"mm")
+}
+record(ao, "$(U):CLCorrectedTaperDes") {
+  field(DESC,"ClosedLoop corrected TaperDes")
+  field(ASG,"SYSTEM")
+  field(EGU,"mm")
+}
+########################################################
 # Set Velocity on all motors
 ########################################################
 record(ao,"$(U):MotorVelocity") {
