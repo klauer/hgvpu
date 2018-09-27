@@ -28,6 +28,8 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
 static int getTimeStamp(SS_ID ssId, char *timeStampString);
 static int logToIOCshell(SS_ID ssId, char *logMessage);
+static int waitBrakesReleased(SS_ID ssId, struct UserVar *pVar);
+static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar);
 }%
 
 /** SNL variables  **/
@@ -43,6 +45,7 @@ int movingLarger = 0;
 /* Status for asyn operations */
 int sg_status = 0;
 int am_status = 0;
+int brake_status = 0;
 
 /* HXU strongback distances in mm */
 /* distance beetween upstream end and downstream end */
@@ -335,8 +338,7 @@ ss setGap
       /* Calculating position based on scaling factor from ANL */
       /* Desired gap set at US side, gap adjusted for taper on DS side */
       //desiredUsGap = desiredGap;
-      //desiredDsGap = desiredGap + desiredTaper;
-      /* Desired value for motor per side */
+      //desiredDsGap = desiredGap + desiredTaper; /* Desired value for motor per side */
       //desiredUsMotorPosition = (desiredUsGap * EndMotFactor + desiredDsGap * (1.0 - EndMotFactor))/2.0;
       //desiredDsMotorPosition = (desiredDsGap * EndMotFactor + desiredUsGap * (1.0 - EndMotFactor))/2.0;
 
@@ -421,6 +423,8 @@ ss setGap
       /* Enable motors and disable breaks */
       sprintf(stringOut, "BRKRLS:0");
       %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
+      %%pVar->brake_status = waitBrakesReleased(ssId, pVar);
     } state move
   }
 
@@ -438,7 +442,7 @@ ss setGap
     }
 
     /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
-    when( (stop == 1) || (sg_status != 0) ) {
+    when( (stop == 1) || (sg_status != 0) || (brake_status == 1)) {
       if (sg_status != 0)
         printf(" setGap:move ERROR: previous write returned %d. Going to stop.\n", sg_status);
     } state stop
@@ -452,7 +456,7 @@ ss setGap
 
     /* Send command to start motion */
     when( delay(0.2) ) {
-      if (debugLevel) logToIOCshell(ssId, "setGap:move: Waiting for motion complete");
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: Waiting for any previous motion to complete");
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
       if (debugLevel) logToIOCshell(ssId, "setGap:move: Wait complete");
@@ -699,11 +703,10 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
 
   #define MOVING 0x4
 
-
   for (can_addr=1, count=0; can_addr <= pVar->numAxes; can_addr++) {
     /* If Stop is issued while in for loop */
     if ( pVar->stop == 1 )
-      return(0);
+      return 0;
 
     /* Create command that reads motor status word */
     sprintf(outputBuff, "RW(0):%d", can_addr);
@@ -722,7 +725,7 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
 //    }
     /* If any motor is moving return 1  */
     if (move_active)
-      return(1);
+      return 1;
     /* Otherwise increase the count and continue */
     else {
       count++;
@@ -730,7 +733,7 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
     }
   }
 
-  return(0);
+  return 0;
 }
 
 /* Wait while motors are moving */
@@ -743,7 +746,63 @@ static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
     epicsThreadSleep((1/10.0));
   }
 
- return(0);
+ return 0;
+}
+
+static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar)
+{
+  char inputBuff[BUF_SIZE], outputBuff[BUF_SIZE];
+  size_t nwrite, nread;
+  int eomReason;
+  int brake_engaged = 0;
+  int status, can_addr;
+
+  #define BRAKE_ENGAGED 0x1000
+
+  for (can_addr=1; can_addr <= pVar->numAxes; can_addr++) {
+    /* If Stop is issued while in for loop */
+    if ( pVar->stop == 1 )
+      return 0;
+
+    /* Create command that reads motor status word */
+    sprintf(outputBuff, "RW(3):%d", can_addr);
+    /* Send command to the controller */
+    status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, outputBuff,
+             strlen(outputBuff), inputBuff, BUF_SIZE, 1.0, &nwrite, &nread, &eomReason);
+
+    if (status)
+      printf("checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
+    /* Parse return of the command */
+    brake_engaged = ((atoi(inputBuff) & BRAKE_ENGAGED) == BRAKE_ENGAGED);
+
+    if (pVar->debugLevel) {
+      printf("checkBrakesReleased: outputBuff='%s'\n", outputBuff);
+      printf("checkBrakesReleased: inputBuff='%s'\n", inputBuff);
+      printf("checkBrakesReleased: brake_engaged= %d\n", brake_engaged);
+    }
+    /* If any motor has a brake engaged, return immediately */
+    if (brake_engaged)
+      return 1;
+  }
+
+  return 0;
+}
+
+static int waitBrakesReleased(SS_ID ssId, struct UserVar *pVar)
+{
+  if(pVar->debugLevel)
+    logToIOCshell(ssId, "waitBrakesReleased");
+  /* Read status of motors, if they are moving */
+  int failed_count=0;
+  while (queryBrakesReleased(ssId, pVar)) {
+    failed_count++;
+    if (failed_count > 5) {
+      return 1;
+    }
+    writeCommand(ssId, pVar, "BRKRLS:0", "waitBrakesReleased");
+    epicsThreadSleep((1/10.0));
+  }
+  return 0;
 }
 
 /* Create a timestamp with current time */
