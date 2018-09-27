@@ -93,7 +93,7 @@ double desiredTaper;      assign desiredTaper to "{DEV}:TaperDes";
 double desiredUsGap;      assign desiredUsGap to "{DEV}:USGapDes";
 double desiredDsGap;      assign desiredDsGap to "{DEV}:DSGapDes";
 /* Move precision and retry */
-double deadband;          assign deadband to "{DEV}:DeadbandGap";
+double deadband_mm;       assign deadband_mm to "{DEV}:DeadbandGap";
 double moveFrac;          assign moveFrac to "{DEV}:MoveFraction";
 double finalMoveFrac;     assign finalMoveFrac to "{DEV}:FinalMoveFraction";
 double finalMoveRange;    assign finalMoveRange to "{DEV}:FinalMoveRange";
@@ -104,8 +104,8 @@ int retry;                 assign retry to "{DEV}:Retries";
 int retryMax;              assign retryMax to "{DEV}:MaxRetries";
 double correctedGapDes;      assign correctedGapDes to "{DEV}:CLCorrectedGapDes";
 double correctedTaperDes;    assign correctedTaperDes to "{DEV}:CLCorrectedTaperDes";
-double clRegionOfIntr;    assign clRegionOfIntr to "{DEV}:CLRegionOfInterest";
-int clEncSelection;       assign clEncSelection to "{DEV}:CloseLoopEncoder";
+double clRegionOfIntr;    assign clRegionOfIntr to "{DEV}:CLRegionOfInterest";  monitor clRegionOfIntr;
+int clEncSelection;       assign clEncSelection to "{DEV}:CloseLoopEncoder";    monitor clEncSelection;
 
 /* Position readback PVs */
 double actualGap;         assign actualGap to "{DEV}:Gap";                      monitor actualGap;
@@ -254,7 +254,9 @@ ss setGap
       pvGet(desiredTaper,SYNC);
       pvGet(desiredUsGap,SYNC);
       pvGet(desiredDsGap,SYNC);
-      pvGet(deadband,SYNC);
+      pvGet(deadband_mm,SYNC);
+      // deadband is stored as micron, convert to millimeters first:
+      deadband_mm = deadband_mm / 1000.;
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
       pvGet(acclDccl,SYNC);
@@ -286,10 +288,10 @@ ss setGap
       if( (desiredGap > actualGap) && (singleApproach == 1) ) {
         /* Store desired gap and deadband */
         desiredGapTemp = desiredGap;
-        deadbandTemp = deadband;
+        deadbandTemp = deadband_mm;
         /* Enlarge desired gap and deadband for single approach inital move */
         desiredGap = desiredGap + 1;
-        deadband = 0.5;
+        deadband_mm = 0.0005;
         movingLarger = 1;
       }
       if (debugLevel) logToIOCshell(ssId, "setGap:idle: going to 'calcMove'");
@@ -331,10 +333,19 @@ ss setGap
         /* Calculate the current state of the gap and taper as seen by full gap encoders */
         currentGapFromFullGapEncoders = (usFullGapEncoder + dsFullGapEncoder)/2.0;
         currentTaperFromFullGapEncoders = (dsFullGapEncoder - usFullGapEncoder);
+
         /* Calculate the delta of the move needed on gap and taper, and set the
          * new desired gap */
         desiredGap = desiredGap + (desiredGap - currentGapFromFullGapEncoders);
         desiredTaper = desiredTaper + (desiredTaper - currentTaperFromFullGapEncoders);
+        if (debugLevel) {
+          printf("  Full gap encoder correction:\n");
+          printf("  - Current full gap: %.6f taper: %.3f\n",
+                 currentGapFromFullGapEncoders, currentTaperFromFullGapEncoders);
+          printf("  - New desired gap: %.6f taper: %.3f\n",
+                 desiredGap, desiredTaper);
+        }
+
         /* Push new values to PV for checking */
         correctedGapDes = desiredGap;
         pvPut(correctedGapDes,SYNC);
@@ -377,14 +388,15 @@ ss setGap
       acclDccl_raw = (int) (((moveVelo/motorResolution) / acclDccl) * (scalingFactorAD*100));
       
       if (debugLevel) {
-        printf("    setGap:calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
-        printf("    setGap:calcMove: moveFraction = %f'\n", moveFraction);
-        printf("    setGap:calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
-        printf("    setGap:calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
-        printf("    setGap:calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
-        printf("    setGap:calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
-        printf("    setGap:calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
-        printf("    setGap:calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
+        printf("    calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
+        printf("    calcMove: moveFraction = %f'\n", moveFraction);
+        printf("    calcMove: retry = %d'\n", retry);
+        printf("    calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
+        printf("    calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
+        printf("    calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
+        printf("    calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
+        printf("    calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
+        printf("    calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
       }
 
     } state checkMove
@@ -399,10 +411,10 @@ ss setGap
       pvPut(setGapState, SYNC);
     }
 
-    when( (fabs(usaMotorAmountToMove*1000) < deadband) && 
-          (fabs(uswMotorAmountToMove*1000) < deadband) &&
-          (fabs(dsaMotorAmountToMove*1000) < deadband) && 
-          (fabs(dswMotorAmountToMove*1000) < deadband) ) {
+    when( (fabs(usaMotorAmountToMove) < deadband_mm) && 
+          (fabs(uswMotorAmountToMove) < deadband_mm) &&
+          (fabs(dsaMotorAmountToMove) < deadband_mm) && 
+          (fabs(dswMotorAmountToMove) < deadband_mm) ) {
       if (debugLevel) 
           logToIOCshell(ssId, "setGap:checkMove: Move unnecessary; skipping");
     } state moveComplete
@@ -446,8 +458,8 @@ ss setGap
         printf(" setGap:move ERROR: previous write returned %d. Going to stop.\n", sg_status);
     } state stop
 
-    when( (fabs(usaMotorAmountToMove*1000) < deadband) && (fabs(uswMotorAmountToMove*1000) < deadband) &&
-          (fabs(dsaMotorAmountToMove*1000) < deadband) && (fabs(dswMotorAmountToMove*1000) < deadband) ) {
+    when( (fabs(usaMotorAmountToMove) < deadband_mm) && (fabs(uswMotorAmountToMove) < deadband_mm) &&
+          (fabs(dsaMotorAmountToMove) < deadband_mm) && (fabs(dswMotorAmountToMove) < deadband_mm) ) {
       //TODO: Why need sleep?
       epicsThreadSleep(0.5);
       if (debugLevel) logToIOCshell(ssId, "setGap:move: All absolute moves less than deadband. Going to moveComplete");
@@ -510,15 +522,15 @@ ss setGap
       /* Restore original values */
       movingLarger = 0;
       desiredGap = desiredGapTemp;
-      deadband = deadbandTemp;
+      deadband_mm = deadbandTemp;
     } state calcMove
 
     /* If closing loop on full gap encoder,
      * desired gap is within region of interest for full gap closed loop corrections,
      * and US and DS gap encoders differ from desired points */
     when( (clEncSelection == 1) && (desiredGap < clRegionOfIntr) &&
-          (   fabs(desiredUsGap-usFullGapEncoder)>(2.0*deadband) 
-          ||  fabs(desiredDsGap-dsFullGapEncoder)>(2.0*deadband) ) ) {
+          (   fabs(desiredUsGap-usFullGapEncoder)>(2.0*deadband_mm) 
+          ||  fabs(desiredDsGap-dsFullGapEncoder)>(2.0*deadband_mm) ) ) {
       if (debugLevel)
         logToIOCshell(ssId, "setGap: moveComplete: FullGapEncoder closedLoop: clearing retries and adjusting desied position");
         /* Limit max retries with full gap encoder */
@@ -721,8 +733,8 @@ static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar)
 
     if (pVar->debugLevel) {
       if (status)
-        printf("checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
-      printf("checkBrakesReleased: outputBuff='%s' inputBuff='%s' brake_engaged=%d\n", 
+        printf("    checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
+      printf("    checkBrakesReleased: outputBuff='%s' inputBuff='%s' brake_engaged=%d\n", 
              outputBuff, inputBuff, brake_engaged);
     }
 
