@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2419
-y 286
+x 951
+y 441
 w 790
 h 500
 font "helvetica-medium-r-18.0"
@@ -1121,9 +1121,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 405
+x 285
 y 440
-w 150
+w 90
 h 20
 font "helvetica-medium-r-14.0"
 fgColor index 28
@@ -1142,7 +1142,7 @@ minor 1
 release 1
 x 45
 y 440
-w 135
+w 75
 h 20
 font "helvetica-medium-r-14.0"
 fgColor index 28
@@ -1159,16 +1159,15 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 180
+x 125
 y 440
-w 125
-h 16
+w 150
+h 20
 controlPv "$(U):USGapEncoder.VAL"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fgColor index 80
 bgColor index 55
-autoHeight
 nullColor index 32
 smartRefresh
 fastUpdate
@@ -1185,16 +1184,15 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 560
+x 375
 y 440
-w 125
-h 16
+w 145
+h 20
 controlPv "$(U):DSGapEncoder.VAL"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fgColor index 80
 bgColor index 55
-autoHeight
 nullColor index 32
 smartRefresh
 fastUpdate
@@ -1211,8 +1209,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 305
-y 410
+x 60
+y 415
 w 135
 h 20
 font "helvetica-medium-r-14.0"
@@ -1230,16 +1228,15 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 560
+x 375
 y 465
-w 125
-h 16
+w 145
+h 20
 controlPv "$(U):DSGapEncoder_RAW.VAL"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fgColor index 80
 bgColor index 55
-autoHeight
 nullColor index 32
 smartRefresh
 fastUpdate
@@ -1256,9 +1253,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 405
+x 285
 y 465
-w 150
+w 90
 h 20
 font "helvetica-medium-r-14.0"
 fgColor index 28
@@ -1275,16 +1272,15 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 180
+x 125
 y 465
-w 125
-h 16
+w 150
+h 20
 controlPv "$(U):USGapEncoder_RAW.VAL"
 format "decimal"
 font "helvetica-medium-r-14.0"
 fgColor index 80
 bgColor index 55
-autoHeight
 nullColor index 32
 smartRefresh
 fastUpdate
@@ -1303,7 +1299,7 @@ minor 1
 release 1
 x 45
 y 465
-w 135
+w 75
 h 20
 font "helvetica-medium-r-14.0"
 fgColor index 28
@@ -1340,7 +1336,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 140
+x 125
 y 330
 w 107
 h 16
@@ -1360,7 +1356,7 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 260
+x 245
 y 330
 w 106
 h 16
@@ -1610,9 +1606,9 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 570
-y 330
-w 170
+x 390
+y 350
+w 115
 h 20
 controlPv "$(U):SeqProgramState.VAL"
 format "decimal"
@@ -1635,9 +1631,9 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 405
+x 380
 y 330
-w 200
+w 130
 h 20
 font "helvetica-medium-r-14.0"
 fontAlign "center"
@@ -1676,7 +1672,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 150
+x 135
 y 350
 w 85
 h 55
@@ -1697,7 +1693,7 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 270
+x 255
 y 350
 w 85
 h 55
@@ -2078,5 +2074,180 @@ useDisplayBg
 value {
   "Fin. Move Range:"
 }
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 550
+y 360
+w 85
+h 55
+fgColor index 14
+bgColor index 6
+selectColor index 10
+inconsistentColor index 35
+topShadowColor index 37
+botShadowColor index 44
+controlPv "$(U):ClosedLoopEncoder"
+indicatorPv "$(U):ClosedLoopEncoder"
+font "helvetica-medium-r-14.0"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 540
+y 340
+w 102
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 34
+useDisplayBg
+value {
+  "Close Loop Enc"
+}
+autoSize
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 675
+y 440
+w 70
+h 20
+controlPv "$(U):CLCorrectedGapDes.VAL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 80
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 535
+y 440
+w 135
+h 20
+font "helvetica-medium-r-12.0"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "ClosedLoop GapDes:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 675
+y 465
+w 70
+h 20
+controlPv "$(U):CLCorrectedTaperDes.VAL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 80
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 535
+y 465
+w 135
+h 20
+font "helvetica-medium-r-12.0"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "ClosedLoop TaperDes:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 650
+y 360
+w 115
+h 30
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "Closed Loop"
+  "Region Of Interest"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 675
+y 390
+w 70
+h 20
+controlPv "$(U):CLRegionOfInterest.VAL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 80
+bgColor index 55
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
 endObjectProperties
 

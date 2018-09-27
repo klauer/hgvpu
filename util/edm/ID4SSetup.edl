@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 830
-y 145
+x 791
+y 144
 w 630
 h 720
 font "helvetica-medium-r-18.0"
@@ -2241,7 +2241,7 @@ x 215
 y 235
 w 110
 h 18
-controlPv "$(U):USGapEncoder.A"
+controlPv "$(U):USGapEncoderSlope"
 format "exponential"
 font "helvetica-medium-r-12.0"
 fgColor index 14
@@ -2268,7 +2268,7 @@ x 215
 y 210
 w 110
 h 18
-controlPv "$(U):USGapEncoder.C"
+controlPv "$(U):USGapEncoderOffset"
 format "decimal"
 font "helvetica-medium-r-12.0"
 fgColor index 14
@@ -2444,7 +2444,7 @@ x 350
 y 235
 w 110
 h 18
-controlPv "$(U):DSGapEncoder.A"
+controlPv "$(U):DSGapEncoderSlope"
 format "exponential"
 font "helvetica-medium-r-12.0"
 fgColor index 14
@@ -2471,7 +2471,7 @@ x 350
 y 210
 w 110
 h 18
-controlPv "$(U):DSGapEncoder.C"
+controlPv "$(U):DSGapEncoderOffset"
 format "decimal"
 font "helvetica-medium-r-12.0"
 fgColor index 14

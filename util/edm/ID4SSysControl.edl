@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 2756
-y 213
+x 75
+y 55
 w 710
 h 800
 font "helvetica-medium-r-18.0"
@@ -3419,7 +3419,7 @@ bgColor index 6
 topShadowColor index 1
 botShadowColor index 14
 font "helvetica-medium-r-12.0"
-buttonLabel "Clear Sytnax Error"
+buttonLabel "Clear Syntax Error"
 numCmds 5
 commandLabel {
   0 "CAM1"
