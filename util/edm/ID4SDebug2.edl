@@ -2082,8 +2082,8 @@ beginObjectProperties
 major 4
 minor 0
 release 0
-x 550
-y 360
+x 555
+y 395
 w 85
 h 55
 fgColor index 14
@@ -2103,8 +2103,8 @@ beginObjectProperties
 major 4
 minor 1
 release 1
-x 540
-y 340
+x 545
+y 375
 w 102
 h 16
 font "helvetica-medium-r-14.0"
@@ -2117,104 +2117,14 @@ value {
 autoSize
 endObjectProperties
 
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 675
-y 440
-w 70
-h 20
-controlPv "$(U):CLCorrectedGapDes.VAL"
-format "decimal"
-font "helvetica-medium-r-12.0"
-fgColor index 80
-bgColor index 55
-precision 4
-nullColor index 32
-smartRefresh
-fastUpdate
-useHexPrefix
-showUnits
-newPos
-objType "controls"
-noExecuteClipMask
-endObjectProperties
-
 # (Static Text)
 object activeXTextClass
 beginObjectProperties
 major 4
 minor 1
 release 1
-x 535
-y 440
-w 135
-h 20
-font "helvetica-medium-r-12.0"
-fgColor index 28
-bgColor index 0
-useDisplayBg
-value {
-  "ClosedLoop GapDes:"
-}
-endObjectProperties
-
-# (Text Control)
-object activeXTextDspClass
-beginObjectProperties
-major 4
-minor 7
-release 0
-x 675
-y 465
-w 70
-h 20
-controlPv "$(U):CLCorrectedTaperDes.VAL"
-format "decimal"
-font "helvetica-medium-r-12.0"
-fgColor index 80
-bgColor index 55
-precision 4
-nullColor index 32
-smartRefresh
-fastUpdate
-useHexPrefix
-showUnits
-newPos
-objType "controls"
-noExecuteClipMask
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 535
-y 465
-w 135
-h 20
-font "helvetica-medium-r-12.0"
-fgColor index 28
-bgColor index 0
-useDisplayBg
-value {
-  "ClosedLoop TaperDes:"
-}
-endObjectProperties
-
-# (Static Text)
-object activeXTextClass
-beginObjectProperties
-major 4
-minor 1
-release 1
-x 650
-y 360
+x 655
+y 395
 w 115
 h 30
 font "helvetica-medium-r-12.0"
@@ -2234,8 +2144,8 @@ beginObjectProperties
 major 4
 minor 7
 release 0
-x 675
-y 390
+x 680
+y 425
 w 70
 h 20
 controlPv "$(U):CLRegionOfInterest.VAL"
@@ -2243,11 +2153,13 @@ format "decimal"
 font "helvetica-medium-r-12.0"
 fgColor index 80
 bgColor index 55
+editable
+motifWidget
+precision 3
 nullColor index 32
 smartRefresh
 fastUpdate
 useHexPrefix
-showUnits
 newPos
 objType "controls"
 noExecuteClipMask

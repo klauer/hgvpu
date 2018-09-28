@@ -32,8 +32,8 @@ pattern { U      }
 
 file xxLinearMotion.vdb
 {
-pattern { U      }
-        { "$(U)" }
+pattern { U      ,  UND   , PORT  }
+        { "$(U)" ,  "TODO", "ai1" }
 }
 
 file xxUndulatorDispAlarmSum.template
