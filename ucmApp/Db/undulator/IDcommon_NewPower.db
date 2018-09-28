@@ -133,7 +133,7 @@ record(ao,"$(U):DeadbandGap") {
   field(DESC,"ID Gap Deadband")
   field(ASG,"$(U)_USER")
   field(PINI,"YES")
-  field(DOL,"0.150")
+  field(DOL,"0.250")
   field(OMSL,"closed_loop")
   field(EGU,"microns")
   field(DRVH,"1000")

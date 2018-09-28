@@ -49,7 +49,7 @@ pattern { PORT    , PORT1        }
 file IDmotion.db
 {
 pattern { PORT   , VELO, ACCL, FRAC, MAX_RETRIES }
-        { "idmon", 0.5 , 1.0 , 0.9 , 10          }
+        { "idmon", 0.5 , 1.0 , 0.9 , 20          }
 }
 
 file IDMonitors.db

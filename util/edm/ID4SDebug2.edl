@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 629
-y 150
+x 981
+y 138
 w 790
 h 500
 font "helvetica-medium-r-18.0"
@@ -2132,6 +2132,7 @@ format "decimal"
 font "helvetica-medium-r-12.0"
 fgColor index 80
 bgColor index 55
+precision 4
 nullColor index 32
 smartRefresh
 fastUpdate
@@ -2176,6 +2177,7 @@ format "decimal"
 font "helvetica-medium-r-12.0"
 fgColor index 80
 bgColor index 55
+precision 4
 nullColor index 32
 smartRefresh
 fastUpdate
