@@ -71,6 +71,8 @@ double moveFraction = 0.9;
 int fullGapEncCorrection = 0;
 double currentGapFromFullGapEncoders = 0 ;
 double currentTaperFromFullGapEncoders = 0;
+double userDesiredGap = 0;
+double userDesiredTaper = 0;
 
 double usaPos = 0;
 double uswPos = 0;
@@ -253,6 +255,8 @@ ss setGap
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
       pvGet(desiredTaper,SYNC);
+      userDesiredGap = desiredGap;
+      userDesiredTaper = desiredTaper;
       pvGet(desiredUsGap,SYNC);
       pvGet(desiredDsGap,SYNC);
       pvGet(deadband_mm,SYNC);
@@ -337,8 +341,8 @@ ss setGap
 
         /* Calculate the delta of the move needed on gap and taper, and set the
          * new desired gap */
-        desiredGap = desiredGap + (desiredGap - currentGapFromFullGapEncoders);
-        desiredTaper = desiredTaper + (desiredTaper - currentTaperFromFullGapEncoders);
+        desiredGap = userDesiredGap + (userDesiredGap - currentGapFromFullGapEncoders);
+        desiredTaper = userDesiredTaper + (userDesiredTaper - currentTaperFromFullGapEncoders);
         if (debugLevel) {
           printf("  Full gap encoder correction:\n");
           printf("  * US: calcGap: %.6f  fullGapEnc: %.6f  delta: %.6f\n",
@@ -360,8 +364,6 @@ ss setGap
         pvPut(correctedGapDes,SYNC);
         correctedTaperDes = desiredTaper;
         pvPut(correctedTaperDes,SYNC);
-        /* Clear the loop flag unil next round  */
-        fullGapEncCorrection = 0;
       }
 
       /* Calculating new motor positions based on distances between strongback end and motor position*/
