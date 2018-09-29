@@ -104,33 +104,33 @@ record(ai, "$(U):LP3GAINC") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(calc, "$(U):LP4NORMCALC") {
-  field(DESC, "$(UND) LP4-'TR' norm")
-  field(CALC, "(B=0)?0:A/B")
-  field(PREC, "5")
-  field(INPA, "$(U):LP4ADCM.VAL")
-  field(FLNK, "$(U):LP4POSCALC")
-  field(INPB, "$(U):EXCTTNADCM")
-}
-
-record(ai, "$(U):LP4OFFSETC") {
-  field(DESC, "$(UND) LP4-'TR' zeroOffset")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ai, "$(U):LP4GAINC") {
-  field(DESC, "$(UND) LP4-'TR' gain")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(VAL, "100")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
+#!record(calc, "$(U):LP4NORMCALC") {
+#!  field(DESC, "$(UND) LP4-'TR' norm")
+#!  field(CALC, "(B=0)?0:A/B")
+#!  field(PREC, "5")
+#!  field(INPA, "$(U):LP4ADCM.VAL")
+#!  field(FLNK, "$(U):LP4POSCALC")
+#!  field(INPB, "$(U):EXCTTNADCM")
+#!}
+#!
+#!record(ai, "$(U):LP4OFFSETC") {
+#!  field(DESC, "$(UND) LP4-'TR' zeroOffset")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ai, "$(U):LP4GAINC") {
+#!  field(DESC, "$(UND) LP4-'TR' gain")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(VAL, "100")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
 
 record(calc, "$(U):LP5NORMCALC") {
   field(DESC, "$(UND) LP5-'Y' norm")
@@ -216,75 +216,75 @@ record(ai, "$(U):LP7GAINC") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(calc, "$(U):LP8NORMCALC") {
-  field(DESC, "$(UND) LP8-'TR' norm")
-  field(CALC, "(B=0)?0:A/B")
-  field(PREC, "5")
-  field(INPA, "$(U):LP8ADCM.VAL")
-  field(FLNK, "$(U):LP8POSCALC")
-  field(INPB, "$(U):EXCTTNADCM")
-}
+#!record(calc, "$(U):LP8NORMCALC") {
+#!  field(DESC, "$(UND) LP8-'TR' norm")
+#!  field(CALC, "(B=0)?0:A/B")
+#!  field(PREC, "5")
+#!  field(INPA, "$(U):LP8ADCM.VAL")
+#!  field(FLNK, "$(U):LP8POSCALC")
+#!  field(INPB, "$(U):EXCTTNADCM")
+#!}
+#!
+#!record(ai, "$(U):LP8OFFSETC") {
+#!  field(DESC, "$(UND) LP8-'TR' zeroOffset")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ai, "$(U):LP8GAINC") {
+#!  field(DESC, "$(UND) LP8-'TR' gain")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(VAL, "100")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
 
-record(ai, "$(U):LP8OFFSETC") {
-  field(DESC, "$(UND) LP8-'TR' zeroOffset")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
+#!record(calc, "$(U):LP9NORMCALC") {
+#!  field(DESC, "$(UND) LP9-'BFW' norm")
+#!  field(CALC, "(B=0)?0:A/B")
+#!  field(PREC, "5")
+#!  field(INPA, "$(U):LP9ADCM.VAL")
+#!  field(FLNK, "$(U):LP9POSCALC")
+#!  field(INPB, "$(U):EXCTTNADCM")
+#!}
+#!
+#!record(ai, "$(U):LP9OFFSETC") {
+#!  field(DESC, "$(UND) LP9-'BFW' zeroOffset")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ai, "$(U):LP9GAINC") {
+#!  field(DESC, "$(UND) LP9-'BFW' gain")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "4")
+#!  field(VAL, "10")
+#!  field(ASG, "MC_MAINT")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
 
-record(ai, "$(U):LP8GAINC") {
-  field(DESC, "$(UND) LP8-'TR' gain")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(VAL, "100")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calc, "$(U):LP9NORMCALC") {
-  field(DESC, "$(UND) LP9-'BFW' norm")
-  field(CALC, "(B=0)?0:A/B")
-  field(PREC, "5")
-  field(INPA, "$(U):LP9ADCM.VAL")
-  field(FLNK, "$(U):LP9POSCALC")
-  field(INPB, "$(U):EXCTTNADCM")
-}
-
-record(ai, "$(U):LP9OFFSETC") {
-  field(DESC, "$(UND) LP9-'BFW' zeroOffset")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ai, "$(U):LP9GAINC") {
-  field(DESC, "$(UND) LP9-'BFW' gain")
-  field(DTYP, "Soft Channel")
-  field(PREC, "4")
-  field(VAL, "10")
-  field(ASG, "MC_MAINT")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(longout, "$(U):TM1STOPMOTOR") {
-  field(DTYP, "Soft Channel")
-  field(OMSL, "closed_loop")
-  field(DOL, "1")
-  field(OUT, "$(U):TM1MOTOR.STOP")
-}
-
-record(longout, "$(U):TM2STOPMOTOR") {
-  field(DTYP, "Soft Channel")
-  field(OMSL, "closed_loop")
-  field(DOL, "1")
-  field(OUT, "$(U):TM2MOTOR.STOP")
-}
+#!record(longout, "$(U):TM1STOPMOTOR") {
+#!  field(DTYP, "Soft Channel")
+#!  field(OMSL, "closed_loop")
+#!  field(DOL, "1")
+#!  field(OUT, "$(U):TM1MOTOR.STOP")
+#!}
+#!
+#!record(longout, "$(U):TM2STOPMOTOR") {
+#!  field(DTYP, "Soft Channel")
+#!  field(OMSL, "closed_loop")
+#!  field(DOL, "1")
+#!  field(OUT, "$(U):TM2MOTOR.STOP")
+#!}
 
 record(calc, "$(U):LP1POSCALC") {
   field(DESC, "$(UND) LP1-'Y' out")
@@ -318,16 +318,16 @@ record(calc, "$(U):LP3POSCALC") {
 
 #####
 ##### Undulator Postion control
-record(calc, "$(U):LP4POSCALC") {
-  field(DESC, "$(UND) LP4-'TR'")
-  field(CALC, "(A*C-B)*D")
-  field(PREC, "4")
-  field(INPA, "$(U):LP4NORMCALC.VAL")
-  field(INPB, "$(U):LP4OFFSETC.VAL")
-  field(INPC, "$(U):LP4GAINC.VAL")
-  field(EGU, "mm")
-  field(INPD, "-1")
-}
+#!record(calc, "$(U):LP4POSCALC") {
+#!  field(DESC, "$(UND) LP4-'TR'")
+#!  field(CALC, "(A*C-B)*D")
+#!  field(PREC, "4")
+#!  field(INPA, "$(U):LP4NORMCALC.VAL")
+#!  field(INPB, "$(U):LP4OFFSETC.VAL")
+#!  field(INPC, "$(U):LP4GAINC.VAL")
+#!  field(EGU, "mm")
+#!  field(INPD, "-1")
+#!}
 
 record(calc, "$(U):LP5POSCALC") {
   field(DESC, "$(UND) LP5-'Y'")
@@ -361,45 +361,45 @@ record(calc, "$(U):LP7POSCALC") {
   field(EGU, "mm")
 }
 
-record(calc, "$(U):LP8POSCALC") {
-  field(DESC, "$(UND) LP8-'TR'")
-  field(CALC, "(A*C-B)*D")
-  field(PREC, "4")
-  field(INPA, "$(U):LP8NORMCALC.VAL")
-  field(INPB, "$(U):LP8OFFSETC.VAL")
-  field(INPC, "$(U):LP8GAINC.VAL")
-  field(EGU, "mm")
-  field(INPD, "-1")
-}
+#!record(calc, "$(U):LP8POSCALC") {
+#!  field(DESC, "$(UND) LP8-'TR'")
+#!  field(CALC, "(A*C-B)*D")
+#!  field(PREC, "4")
+#!  field(INPA, "$(U):LP8NORMCALC.VAL")
+#!  field(INPB, "$(U):LP8OFFSETC.VAL")
+#!  field(INPC, "$(U):LP8GAINC.VAL")
+#!  field(EGU, "mm")
+#!  field(INPD, "-1")
+#!}
 
-record(calc, "$(U):LP9POSCALC") {
-  field(DESC, "$(UND) LP9-'BFW'")
-  field(CALC, "A*C-B")
-  field(PREC, "4")
-  field(INPA, "$(U):LP9NORMCALC.VAL")
-  field(INPB, "$(U):LP9OFFSETC.VAL")
-  field(INPC, "$(U):LP9GAINC.VAL")
-  field(EGU, "mm")
-}
+#!record(calc, "$(U):LP9POSCALC") {
+#!  field(DESC, "$(UND) LP9-'BFW'")
+#!  field(CALC, "A*C-B")
+#!  field(PREC, "4")
+#!  field(INPA, "$(U):LP9NORMCALC.VAL")
+#!  field(INPB, "$(U):LP9OFFSETC.VAL")
+#!  field(INPC, "$(U):LP9GAINC.VAL")
+#!  field(EGU, "mm")
+#!}
 
-record(ao, "$(U):TMXPOSC") {
-  field(FLNK, "$(U):TMXTRANSMOV")
-  field(PREC, "3")
-  field(PRIO, "HIGH")
-  field(EGU, "mm")
-  field(DRVH, "84")
-  field(DRVL, "-5")
-  field(HOPR, "84")
-  field(LOPR, "-5")
-}
-
-record(seq, "$(U):TMXTRANSMOV") {
-  field(DOL1, "$(U):TMXPOSC")
-  field(LNK1, "$(U):TM1MOTOR.VAL PP")
-  field(DOL2, "$(U):TMXPOSC")
-  field(LNK2, "$(U):TM2MOTOR.VAL PP")
-  field(PRIO, "HIGH")
-}
+#!record(ao, "$(U):TMXPOSC") {
+#!  field(FLNK, "$(U):TMXTRANSMOV")
+#!  field(PREC, "3")
+#!  field(PRIO, "HIGH")
+#!  field(EGU, "mm")
+#!  field(DRVH, "84")
+#!  field(DRVL, "-5")
+#!  field(HOPR, "84")
+#!  field(LOPR, "-5")
+#!}
+#!
+#!record(seq, "$(U):TMXTRANSMOV") {
+#!  field(DOL1, "$(U):TMXPOSC")
+#!  field(LNK1, "$(U):TM1MOTOR.VAL PP")
+#!  field(DOL2, "$(U):TMXPOSC")
+#!  field(LNK2, "$(U):TM2MOTOR.VAL PP")
+#!  field(PRIO, "HIGH")
+#!}
 
 record(ai, "$(U):LP1ADCM") {
   field(DESC, "IP330A ADC channel 0")
@@ -443,19 +443,19 @@ record(ai, "$(U):LP3ADCM") {
   field(INP, "@asyn($(PORT) 2)DATA")
 }
 
-record(ai, "$(U):LP4ADCM") {
-  field(DESC, "IP330A ADC channel 3")
-  field(DTYP, "asynInt32Average")
-  field(LOPR, "0")
-  field(HOPR, "5")
-  field(PREC, "4")
-  field(EGU, "Volts")
-  field(EGUL, "0")
-  field(EGUF, "5")
-  field(LINR, "LINEAR")
-  field(FLNK, "$(U):LP4NORMCALC")
-  field(INP, "@asyn($(PORT) 3)DATA")
-}
+#!record(ai, "$(U):LP4ADCM") {
+#!  field(DESC, "IP330A ADC channel 3")
+#!  field(DTYP, "asynInt32Average")
+#!  field(LOPR, "0")
+#!  field(HOPR, "5")
+#!  field(PREC, "4")
+#!  field(EGU, "Volts")
+#!  field(EGUL, "0")
+#!  field(EGUF, "5")
+#!  field(LINR, "LINEAR")
+#!  field(FLNK, "$(U):LP4NORMCALC")
+#!  field(INP, "@asyn($(PORT) 3)DATA")
+#!}
 
 record(ai, "$(U):LP5ADCM") {
   field(DESC, "IP330A ADC channel 4")
@@ -499,691 +499,691 @@ record(ai, "$(U):LP7ADCM") {
   field(INP, "@asyn($(PORT) 6)DATA")
 }
 
-record(ai, "$(U):LP8ADCM") {
-  field(DESC, "IP330A ADC channel 7")
-  field(DTYP, "asynInt32Average")
-  field(LOPR, "0")
-  field(HOPR, "5")
-  field(PREC, "4")
-  field(EGU, "Volts")
-  field(EGUL, "0")
-  field(EGUF, "5")
-  field(LINR, "LINEAR")
-  field(FLNK, "$(U):LP8NORMCALC")
-  field(INP, "@asyn($(PORT) 7)DATA")
-}
+#!record(ai, "$(U):LP8ADCM") {
+#!  field(DESC, "IP330A ADC channel 7")
+#!  field(DTYP, "asynInt32Average")
+#!  field(LOPR, "0")
+#!  field(HOPR, "5")
+#!  field(PREC, "4")
+#!  field(EGU, "Volts")
+#!  field(EGUL, "0")
+#!  field(EGUF, "5")
+#!  field(LINR, "LINEAR")
+#!  field(FLNK, "$(U):LP8NORMCALC")
+#!  field(INP, "@asyn($(PORT) 7)DATA")
+#!}
 
-record(ai, "$(U):LP9ADCM") {
-  field(DESC, "IP330A ADC channel 8")
-  field(DTYP, "asynInt32Average")
-  field(LOPR, "0")
-  field(HOPR, "5")
-  field(PREC, "4")
-  field(EGU, "Volts")
-  field(EGUL, "0")
-  field(EGUF, "5")
-  field(LINR, "LINEAR")
-  field(FLNK, "$(U):LP9NORMCALC")
-  field(INP, "@asyn($(PORT) 8)DATA")
-}
+#!record(ai, "$(U):LP9ADCM") {
+#!  field(DESC, "IP330A ADC channel 8")
+#!  field(DTYP, "asynInt32Average")
+#!  field(LOPR, "0")
+#!  field(HOPR, "5")
+#!  field(PREC, "4")
+#!  field(EGU, "Volts")
+#!  field(EGUL, "0")
+#!  field(EGUF, "5")
+#!  field(LINR, "LINEAR")
+#!  field(FLNK, "$(U):LP9NORMCALC")
+#!  field(INP, "@asyn($(PORT) 8)DATA")
+#!}
 
 ####Position Control
-record(calc, "$(U):TMXREADCALC") {
-  field(CALC, "(A+B)/2")
-  field(PREC, "4")
-  field(INPA, "$(U):LP8POSCALC.VAL")
-  field(INPB, "$(U):LP4POSCALC CPP")
-}
-
-record(calcout, "$(U):TRANSMOVINGM") {
-  field(ASG, "MC_MAINT")
-  field(SCAN, ".2 second")
-  field(CALC, "A||B?1:0")
-  field(INPA, "$(U):TM1MOVEM PP")
-  field(INPB, "$(U):TM2MOVEM PP")
-  field(HIGH, "1")
-  field(HSV, "MINOR")
-}
-
-record(calcout, "$(U):TM1MOVEM") {
-  field(ASG, "MC_MAINT")
-  field(CALC, "((A==0)&&(B==0))")
-  field(INPA, "$(U):TM1MOTOR.DMOV")
-  field(INPB, "$(U):TM1MOTOR.STAT")
-}
-
-record(calcout, "$(U):TM2LMTSWTCHM") {
-  field(SCAN, ".05 second")
-  field(CALC, "A||B?1:0")
-  field(INPA, "$(U):TM2MOTOR.LLS")
-  field(INPB, "$(U):TM2MOTOR.HLS")
-  field(OOPT, "Transition To Non-zero")
-  field(OUT, "$(U):TM1STOPMOTOR PP")
-  field(PRIO, "HIGH")
-}
-
-record(calcout, "$(U):TM1LMTSWTCHM") {
-  field(SCAN, ".05 second")
-  field(CALC, "A||B?1:0")
-  field(INPA, "$(U):TM1MOTOR.LLS")
-  field(INPB, "$(U):TM1MOTOR.HLS")
-  field(OOPT, "Transition To Non-zero")
-  field(OUT, "$(U):TM2STOPMOTOR PP")
-  field(PRIO, "HIGH")
-}
-
-record(seq, "$(U):TMXSTPMOTRSC") {
-  field(DOL1, "1")
-  field(LNK1, "$(U):TM1STOPMOTOR.PROC")
-  field(DOL2, "1")
-  field(LNK2, "$(U):TM2STOPMOTOR.PROC")
-}
-
-record(calcout, "$(U):TM2MOVEM") {
-  field(ASG, "MC_MAINT")
-  field(CALC, "((A==0)&&(B==0))")
-  field(INPA, "$(U):TM2MOTOR.DMOV")
-  field(INPB, "$(U):TM2MOTOR.STAT")
-}
-
-record(seq, "$(U):TMXSVDPOSC") {
-  field(DESC, "Move to a saved translation position")
-  field(SELM, "Specified")
-  field(SELL, "$(U):TMXSVDPOSC")
-  field(DOL1, "$(U):TMXSVDPOS1")
-  field(LNK1, "$(U):TMXPOSC PP")
-  field(DOL2, "$(U):TMXSVDPOS2")
-  field(LNK2, "$(U):TMXPOSC PP")
-  field(DOL3, "$(U):TMXSVDPOS3")
-  field(LNK3, "$(U):TMXPOSC PP")
-  field(DOL4, "$(U):TMXSVDPOS4")
-  field(LNK4, "$(U):TMXPOSC PP")
-}
-
-record(ao, "$(U):TMXSVDPOS1") {
-  field(DESC, "Undulator saved position 1")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(MDEL, "-1")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):TMXSVDPOS2") {
-  field(DESC, "Undulator saved position 2")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):TMXSVDPOS3") {
-  field(DESC, "Undulator saved position 3")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):TMXSVDPOS4") {
-  field(DESC, "Undulator saved position 4")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(stringout, "$(U):TMXPOS1DESC") {
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(stringout, "$(U):TMXPOS2DESC") {
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(stringout, "$(U):TMXPOS3DESC") {
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(stringout, "$(U):TMXPOS4DESC") {
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):TM1ERROR") {
-  field(DESC, "TM1 motor linear pot error")
-  field(SCAN, "1 second")
-  field(DTYP, "Soft Channel")
-  field(CALC, "B-A")
-  field(INPA, "$(U):LP4POSCALC MS")
-  field(INPB, "$(U):TM1MOTOR.RBV MS")
-  field(EGU, "mm")
-  field(HIHI, "1")
-  field(LOLO, "-1")
-  field(HIGH, "0.7")
-  field(LOW, "-0.7")
-  field(HHSV, "MAJOR")
-  field(LLSV, "MAJOR")
-  field(HSV, "MINOR")
-  field(LSV, "MINOR")
-  field(PREC, "4")
-}
-
-record(calcout, "$(U):TM2ERROR") {
-  field(DESC, "TM2 motor linear pot error")
-  field(SCAN, "1 second")
-  field(DTYP, "Soft Channel")
-  field(CALC, "B-A")
-  field(INPA, "$(U):LP8POSCALC MS")
-  field(INPB, "$(U):TM2MOTOR.RBV MS")
-  field(EGU, "mm")
-  field(HIHI, "1")
-  field(LOLO, "-1")
-  field(HIGH, "0.7")
-  field(LOW, "-0.7")
-  field(HHSV, "MAJOR")
-  field(LLSV, "MAJOR")
-  field(HSV, "MINOR")
-  field(LSV, "MINOR")
-  field(PREC, "4")
-}
-
-record(ao, "$(U):TMXDELTAC") {
-  field(PINI, "YES")
-  field(FLNK, "$(U):TMXDELTAGOC")
-  field(VAL, "0")
-  field(PREC, "3")
-  field(DRVH, "84.5")
-  field(DRVL, "-5.5")
-  field(HOPR, "84.5")
-  field(LOPR, "-5.5")
-}
-
-record(calcout, "$(U):TMXDELTAGOC") {
-  field(CALC, "((B+C)/2)+A")
-  field(INPA, "$(U):TMXDELTAC PP")
-  field(INPB, "$(U):TM1MOTOR.RBV ")
-  field(INPC, "$(U):TM2MOTOR.RBV ")
-  field(OUT, "$(U):TMXPOSC PP")
-}
-
-record(calcout, "$(U):TMXDELTAMINS") {
-  field(CALC, "((B+C)/2)-A")
-  field(INPA, "$(U):TMXDELTAJOGC")
-  field(PREC, "3")
-  field(INPB, "$(U):TM1MOTOR.RBV")
-  field(INPC, "$(U):TM2MOTOR.RBV")
-  field(OUT, "$(U):TMXPOSC PP")
-}
-
-record(calcout, "$(U):TMXDELTAPLUS") {
-  field(CALC, "((B+C)/2)+A")
-  field(INPA, "$(U):TMXDELTAJOGC")
-  field(OUT, "$(U):TMXPOSC PP")
-  field(PREC, "3")
-  field(INPB, "$(U):TM1MOTOR.RBV")
-  field(INPC, "$(U):TM2MOTOR.RBV")
-}
-
-record(ao, "$(U):TMXDELTAJOGC") {
-  field(PREC, "3")
-  field(VAL, "0.100")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):INSERT") {
-  field(DESC, "Insert und to in postition")
-  field(DTYP, "Soft Channel")
-  field(CALC, "A")
-  field(INPA, "$(U):XIN.VAL")
-  field(OUT, "$(U):TMXPOSC PP")
-}
-
-record(calcout, "$(U):EXTRACT") {
-  field(DESC, "Extract und to out position")
-  field(DTYP, "Soft Channel")
-  field(CALC, "A")
-  field(INPA, "$(U):XOUT.VAL")
-  field(OUT, "$(U):TMXPOSC PP")
-}
-
-record(bo, "$(U):INSTALTNSTAT") {
-  field(DESC, "Und installation status")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(ZNAM, "NOT_INSTALLED")
-  field(ONAM, "INSTALLED")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(bo, "$(U):POSITION") {
-  field(DESC, "Undulator in/not-in")
-  field(DTYP, "Soft Channel")
-  field(ZNAM, "NOT_IN")
-  field(ONAM, "IN")
-}
-
-record(calcout, "$(U):POSITIONCALC") {
-  field(DESC, "Und in/out pos calc")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(CALC, "D<((A+B)/2)&&((A+B)/2)<E&&D<C&&C<E")
-  field(INPA, "$(U):TM1MOTOR.RBV ")
-  field(INPB, "$(U):TM2MOTOR.RBV ")
-  field(INPC, "$(U):TMXREADCALC CPP")
-  field(OUT, "$(U):POSITION PP")
-  field(INPD, "-5")
-  field(INPE, "$(kmax)")
-}
-
-record(mbbi, "$(U):LOCATIONSTAT") {
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(TWVL, "2")
-  field(THVL, "3")
-  field(FRVL, "4")
-  field(FVVL, "5")
-  field(SXVL, "6")
-  field(SVVL, "7")
-  field(ZRST, "INTERMEDIATE")
-  field(ONST, "ACTIVE-RANGE")
-  field(TWST, "AT-XOUT")
-  field(THST, "INCONSISTENT")
-  field(FRST, "MOVING")
-  field(FVST, "MOVING")
-  field(SXST, "MOVING")
-  field(SVST, "INCONSISTENT")
-  field(ZRSV, "MINOR")
-  field(ONSV, "NO_ALARM")
-  field(TWSV, "NO_ALARM")
-  field(THSV, "MINOR")
-  field(FRSV, "MINOR")
-  field(FVSV, "MINOR")
-  field(SXSV, "MINOR")
-  field(SVSV, "MINOR")
-  field(EIST, "AT-XIN")
-  field(NIST, "AT-XIN")
-  field(TEST, "INCONSISTENT")
-  field(ELST, "INCONSISTENT")
-  field(TVST, "MOVING")
-  field(TTST, "MOVING")
-  field(FTST, "MOVING")
-  field(FFST, "INCONSISTENT")
-  field(EIVL, "8")
-  field(NIVL, "9")
-  field(TEVL, "10")
-  field(ELVL, "11")
-  field(TVVL, "12")
-  field(TTVL, "13")
-  field(FTVL, "14")
-  field(FFVL, "15")
-}
-
-record(calcout, "$(U):LCTNSTATCALC") {
-  field(CALC, "A+2*B+4*C+8*D")
-  field(INPA, "$(U):POSITION")
-  field(INPB, "$(U):OUTSTATE")
-  field(INPC, "$(U):TRANSMOVINGM")
-  field(OUT, "$(U):LOCATIONSTAT PP")
-  field(SCAN, "1 second")
-  field(INPD, "$(U):INPOSITION")
-}
-
-record(calcout, "$(U):OUTSTATECALC") {
-  field(DESC, "Und out state calc ")
-  field(DTYP, "Soft Channel")
-  field(CALC, "D<((A+B)/2)&&((A+B)/2)<E&&D<C&&C<E")
-  field(INPA, "$(U):TM1MOTOR.RBV")
-  field(INPB, "$(U):TM1MOTOR.RBV")
-  field(INPC, "$(U):TMXREADCALC CPP")
-  field(OUT, "$(U):OUTSTATE PP")
-  field(INPD, "79.8")
-  field(INPE, "80.2")
-}
-
-record(bo, "$(U):OUTSTATE") {
-  field(DESC, "Und out state")
-  field(DTYP, "Soft Channel")
-  field(ZNAM, "NOT_OUT")
-  field(ONAM, "OUT")
-}
-
-record(calcout, "$(U):XACT") {
-  field(DESC, "Undulator position")
-  field(SCAN, ".1 second")
-  field(DTYP, "Soft Channel")
-  field(CALC, "(A+B)/2")
-  field(INPA, "$(U):TM1MOTOR.RBV MS")
-  field(INPB, "$(U):TM1MOTOR.RBV MS")
-  field(PREC, "4")
-  field(FLNK, "$(U):XACTNEGATIVE")
-  field(EGU, "mm")
-}
-
-record(calcout, "$(U):XACTNEGATIVE") {
-  field(CALC, "(-1)*A")
-  field(INPA, "$(U):XACT")
-  field(DESC, "-XACT")
-  field(EGU, "mm")
-  field(PREC, "4")
-}
-
-record(calcout, "$(U):CALCINPOSTN") {
-  field(SCAN, ".1 second")
-  field(FLNK, "$(U):INPOSITION")
-  field(CALC, "((B-C)<A)&&(A<(B+C))")
-  field(INPA, "$(U):XACT")
-  field(INPB, "$(U):XIN.VAL")
-  field(INPC, "0.02")
-  field(OUT, "$(U):INPOSITION.VAL")
-}
-
-record(bo, "$(U):MAINTNCPSTN") {
-  field(ZNAM, "NOT_AT_84")
-  field(ONAM, "AT_84")
-  field(OSV, "MINOR")
-}
-
-record(calcout, "$(U):CALCMAINTPSN") {
-  field(SCAN, ".1 second")
-  field(FLNK, "$(U):MAINTNCPSTN")
-  field(CALC, "(C<A)&&(A<B)")
-  field(INPA, "$(U):XACT")
-  field(INPB, "84.2")
-  field(INPC, "83.8")
-  field(OUT, "$(U):MAINTNCPSTN")
-}
-
-record(bo, "$(U):INPOSITION") {
-  field(ZNAM, "NOT_IN_POSITION")
-  field(ONAM, "IN_POSITION")
-}
-
-record(ao, "$(U):XDESRAW") {
-  field(FLNK, "$(U):CALCXDES")
-  field(PREC, "4")
-  field(EGU, "mm")
-}
-
-record(ao, "$(U):XIN") {
-  field(DESC, "Undulator IN position")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(DRVH, "$(kmax)")
-  field(DRVL, "-5")
-  field(HOPR, "$(kmax)")
-  field(LOPR, "-5")
-  field(HIGH, "$(kmax)")
-  field(LOW, "-5")
-  field(HSV, "MINOR")
-  field(LSV, "MINOR")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUT") {
-  field(DESC, "Undulator OUT position")
-  field(ASG, "MC_MAINT")
-  field(PREC, "3")
-  field(PINI, "YES")
-  field(VAL, "80")
-  field(EGU, "mm")
-  field(DRVH, "84")
-  field(DRVL, "20")
-  field(HOPR, "84")
-  field(LOPR, "20")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):UPDATEXIN") {
-  field(FLNK, "$(U):XIN")
-  field(CALC, "A")
-  field(INPA, "$(U):XACT")
-  field(OUT, "$(U):XIN.VAL")
-}
-
-record(calcout, "$(U):CALCXDES") {
-  field(CALC, "-A-B")
-  field(INPA, "$(U):XDESRAW")
-  field(PREC, "4")
-  field(HOPR, "$(kmax)")
-  field(LOPR, "-5")
-  field(FLNK, "$(U):XDES")
-  field(OUT, "$(U):XDES")
-  field(INPB, "$(U):XOFF CP")
-}
-
-record(ao, "$(U):XDES") {
-  field(PINI, "YES")
-  field(PREC, "4")
-  field(EGU, "mm")
-  field(DRVH, "84")
-  field(DRVL, "-5")
-  field(HOPR, "84")
-  field(LOPR, "-5")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTXCOR1") {
-  field(DESC, "XCOR1 deltaBDES for XOUT move")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "kG-m")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTXCOR2") {
-  field(DESC, "XCOR2 deltaBDES for XOUT move")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "kG-m")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTYCOR1") {
-  field(DESC, "YCOR1 deltaBDES for XOUT move")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "kG-m")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTYCOR2") {
-  field(DESC, "YCOR2 deltaBDES for XOUT move")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "kG-m")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTBPMDX") {
-  field(DESC, "Delta BPMX")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOUTBPMDY") {
-  field(DESC, "Delta BPMY")
-  field(PINI, "YES")
-  field(DTYP, "Soft Channel")
-  field(PREC, "6")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(ao, "$(U):XOFF") {
-  field(PINI, "YES")
-  field(VAL, "0")
-  field(PREC, "4")
-  field(EGU, "mm")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):CALCXDES2") {
-  field(CALC, "-A-B")
-  field(INPA, "$(U):XCDESRAW.VAL")
-  field(PREC, "4")
-  field(HOPR, "$(kmax)")
-  field(LOPR, "-5")
-  field(FLNK, "$(U):XDESCALC")
-  field(OUT, "$(U):XDESCALC.VAL")
-  field(INPB, "$(U):XOFF")
-}
-
-record(ao, "$(U):XCDESRAW") {
-  field(FLNK, "$(U):CALCXDES2")
-}
-
-record(ao, "$(U):XDESCALC") {
-  field(PREC, "4")
-  field(EGU, "mm")
-  field(DRVH, "$(kmax)")
-  field(DRVL, "-5")
-  field(HOPR, "$(kmax)")
-  field(LOPR, "-5")
-}
-
-record(mbbo, "$(U):INSTALTNTYPE") {
-  field(FLNK, "$(U):CINSTLTNTYPE")
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(TWVL, "2")
-  field(ZRST, "NOTHING")
-  field(ONST, "UNDULATOR")
-  field(TWST, "CHICANE")
-  field(DESC, "Type of device installed on girder")
-  field(PINI, "YES")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):CINSTLTNTYPE") {
-  field(CALC, "A==1?1:0")
-  field(INPA, "$(U):INSTALTNTYPE")
-  field(OUT, "$(U):INSTALTNSTAT PP")
-}
-
-record(calcout, "$(U):CDISPTYPE") {
-  field(PINI, "YES")
-  field(CALC, "A==1?(B+2):A")
-  field(INPA, "$(U):INSTALTNTYPE CPP")
-  field(INPB, "$(U):TYPE CPP")
-  field(OUT, "$(U):TYPEDISP PP")
-}
-
-record(mbbi, "$(U):TYPEDISP") {
-  field(ZRVL, "0")
-  field(ONVL, "1")
-  field(TWVL, "2")
-  field(THVL, "3")
-  field(FRVL, "4")
-  field(FVVL, "102")
-  field(ZRST, "NOT_INSTALLED")
-  field(ONST, "INVALID")
-  field(TWST, "CHICANE")
-  field(THST, "STANDARD_UND")
-  field(FRST, "2NDHARMONIC_UND")
-  field(FVST, "DELTA")
-  field(ONSV, "INVALID")
-}
-
-record(ao, "$(U):XDESJOGSIZE") {
-  field(PINI, "YES")
-  field(VAL, "0.1")
-  field(PREC, "3")
-  field(EGU, "mm")
-  field(DRVH, "80")
-  field(DRVL, "-80")
-  field(HOPR, "80")
-  field(LOPR, "-80")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):XDESJOGMIN") {
-  field(CALC, "B-A")
-  field(INPA, "$(U):XDESJOGSIZE")
-  field(INPB, "$(U):XDES")
-  field(OUT, "$(U):XDES PP")
-}
-
-record(calcout, "$(U):XDESJOGPLUS") {
-  field(CALC, "A+B")
-  field(INPA, "$(U):XDESJOGSIZE")
-  field(INPB, "$(U):XDES")
-  field(OUT, "$(U):XDES PP")
-}
-
-record(calcout, "$(U):TRIM") {
-  field(CALC, "A")
-  field(INPA, "$(U):XDES")
-  field(OUT, "$(U):TMXPOSC PP")
-}
-
-record(calcout, "$(U):XACTTOXDES") {
-  field(CALC, "A")
-  field(INPA, "$(U):XACT")
-  field(OUT, "$(U):XDES PP")
-}
-
-record(ao, "$(U):XCON") {
-  field(PINI, "YES")
-  field(PREC, "3")
-  field(EGU, "mm")
-  field(DRVH, "84")
-  field(DRVL, "-5")
-  field(HOPR, "84")
-  field(LOPR, "-5")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(calcout, "$(U):XCONTOXDES") {
-  field(CALC, "A")
-  field(INPA, "$(U):XCON")
-  field(OUT, "$(U):XDES PP")
-}
-
-record(calcout, "$(U):XACTNEGOFF") {
-  field(DESC, "-XACT-XOFF")
-  field(CALC, "A-B")
-  field(INPA, "$(U):XACTNEGATIVE CP")
-  field(INPB, "$(U):XOFF CP")
-  field(EGU, "mm")
-  field(PREC, "4")
-}
-
-record(fanout, "$(U):SAVE_ALL_MOTORS_TO_REF") {
-  field(DESC, "Save all motors to ref")
-  field(LNK1, "$(U):TMXPOSCSAVEREFC")
-  field(LNK2, "$(U):CM1MOTORSAVEREFC")
-  field(LNK3, "$(U):CM2MOTORSAVEREFC")
-  field(LNK4, "$(U):CM3MOTORSAVEREFC")
-  field(LNK5, "$(U):CM4MOTORSAVEREFC")
-  field(LNK6, "$(U):CM5MOTORSAVEREFC")
-}
-
-record(fanout, "$(U):RESTORE_ALLMOTRS_FROM_REF") {
-  field(DESC, "Restore all motrs from ref")
-  field(LNK1, "$(U):TMXPOSC_REST_REF")
-  field(LNK2, "$(U):CM1MOTOR_REST_REF")
-  field(LNK3, "$(U):CM2MOTOR_REST_REF")
-  field(LNK4, "$(U):CM3MOTOR_REST_REF")
-  field(LNK5, "$(U):CM4MOTOR_REST_REF")
-  field(LNK6, "$(U):CM5MOTOR_REST_REF")
-}
+#!record(calc, "$(U):TMXREADCALC") {
+#!  field(CALC, "(A+B)/2")
+#!  field(PREC, "4")
+#!  field(INPA, "$(U):LP8POSCALC.VAL")
+#!  field(INPB, "$(U):LP4POSCALC CPP")
+#!}
+#!
+#!record(calcout, "$(U):TRANSMOVINGM") {
+#!  field(ASG, "MC_MAINT")
+#!  field(SCAN, ".2 second")
+#!  field(CALC, "A||B?1:0")
+#!  field(INPA, "$(U):TM1MOVEM PP")
+#!  field(INPB, "$(U):TM2MOVEM PP")
+#!  field(HIGH, "1")
+#!  field(HSV, "MINOR")
+#!}
+#!
+#!record(calcout, "$(U):TM1MOVEM") {
+#!  field(ASG, "MC_MAINT")
+#!  field(CALC, "((A==0)&&(B==0))")
+#!  field(INPA, "$(U):TM1MOTOR.DMOV")
+#!  field(INPB, "$(U):TM1MOTOR.STAT")
+#!}
+#!
+#!record(calcout, "$(U):TM2LMTSWTCHM") {
+#!  field(SCAN, ".05 second")
+#!  field(CALC, "A||B?1:0")
+#!  field(INPA, "$(U):TM2MOTOR.LLS")
+#!  field(INPB, "$(U):TM2MOTOR.HLS")
+#!  field(OOPT, "Transition To Non-zero")
+#!  field(OUT, "$(U):TM1STOPMOTOR PP")
+#!  field(PRIO, "HIGH")
+#!}
+#!
+#!record(calcout, "$(U):TM1LMTSWTCHM") {
+#!  field(SCAN, ".05 second")
+#!  field(CALC, "A||B?1:0")
+#!  field(INPA, "$(U):TM1MOTOR.LLS")
+#!  field(INPB, "$(U):TM1MOTOR.HLS")
+#!  field(OOPT, "Transition To Non-zero")
+#!  field(OUT, "$(U):TM2STOPMOTOR PP")
+#!  field(PRIO, "HIGH")
+#!}
+#!
+#!record(seq, "$(U):TMXSTPMOTRSC") {
+#!  field(DOL1, "1")
+#!  field(LNK1, "$(U):TM1STOPMOTOR.PROC")
+#!  field(DOL2, "1")
+#!  field(LNK2, "$(U):TM2STOPMOTOR.PROC")
+#!}
+#!
+#!record(calcout, "$(U):TM2MOVEM") {
+#!  field(ASG, "MC_MAINT")
+#!  field(CALC, "((A==0)&&(B==0))")
+#!  field(INPA, "$(U):TM2MOTOR.DMOV")
+#!  field(INPB, "$(U):TM2MOTOR.STAT")
+#!}
+#!
+#!record(seq, "$(U):TMXSVDPOSC") {
+#!  field(DESC, "Move to a saved translation position")
+#!  field(SELM, "Specified")
+#!  field(SELL, "$(U):TMXSVDPOSC")
+#!  field(DOL1, "$(U):TMXSVDPOS1")
+#!  field(LNK1, "$(U):TMXPOSC PP")
+#!  field(DOL2, "$(U):TMXSVDPOS2")
+#!  field(LNK2, "$(U):TMXPOSC PP")
+#!  field(DOL3, "$(U):TMXSVDPOS3")
+#!  field(LNK3, "$(U):TMXPOSC PP")
+#!  field(DOL4, "$(U):TMXSVDPOS4")
+#!  field(LNK4, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(ao, "$(U):TMXSVDPOS1") {
+#!  field(DESC, "Undulator saved position 1")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(MDEL, "-1")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):TMXSVDPOS2") {
+#!  field(DESC, "Undulator saved position 2")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):TMXSVDPOS3") {
+#!  field(DESC, "Undulator saved position 3")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):TMXSVDPOS4") {
+#!  field(DESC, "Undulator saved position 4")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(stringout, "$(U):TMXPOS1DESC") {
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(stringout, "$(U):TMXPOS2DESC") {
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(stringout, "$(U):TMXPOS3DESC") {
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(stringout, "$(U):TMXPOS4DESC") {
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):TM1ERROR") {
+#!  field(DESC, "TM1 motor linear pot error")
+#!  field(SCAN, "1 second")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "B-A")
+#!  field(INPA, "$(U):LP4POSCALC MS")
+#!  field(INPB, "$(U):TM1MOTOR.RBV MS")
+#!  field(EGU, "mm")
+#!  field(HIHI, "1")
+#!  field(LOLO, "-1")
+#!  field(HIGH, "0.7")
+#!  field(LOW, "-0.7")
+#!  field(HHSV, "MAJOR")
+#!  field(LLSV, "MAJOR")
+#!  field(HSV, "MINOR")
+#!  field(LSV, "MINOR")
+#!  field(PREC, "4")
+#!}
+#!
+#!record(calcout, "$(U):TM2ERROR") {
+#!  field(DESC, "TM2 motor linear pot error")
+#!  field(SCAN, "1 second")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "B-A")
+#!  field(INPA, "$(U):LP8POSCALC MS")
+#!  field(INPB, "$(U):TM2MOTOR.RBV MS")
+#!  field(EGU, "mm")
+#!  field(HIHI, "1")
+#!  field(LOLO, "-1")
+#!  field(HIGH, "0.7")
+#!  field(LOW, "-0.7")
+#!  field(HHSV, "MAJOR")
+#!  field(LLSV, "MAJOR")
+#!  field(HSV, "MINOR")
+#!  field(LSV, "MINOR")
+#!  field(PREC, "4")
+#!}
+#!
+#!record(ao, "$(U):TMXDELTAC") {
+#!  field(PINI, "YES")
+#!  field(FLNK, "$(U):TMXDELTAGOC")
+#!  field(VAL, "0")
+#!  field(PREC, "3")
+#!  field(DRVH, "84.5")
+#!  field(DRVL, "-5.5")
+#!  field(HOPR, "84.5")
+#!  field(LOPR, "-5.5")
+#!}
+#!
+#!record(calcout, "$(U):TMXDELTAGOC") {
+#!  field(CALC, "((B+C)/2)+A")
+#!  field(INPA, "$(U):TMXDELTAC PP")
+#!  field(INPB, "$(U):TM1MOTOR.RBV ")
+#!  field(INPC, "$(U):TM2MOTOR.RBV ")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(calcout, "$(U):TMXDELTAMINS") {
+#!  field(CALC, "((B+C)/2)-A")
+#!  field(INPA, "$(U):TMXDELTAJOGC")
+#!  field(PREC, "3")
+#!  field(INPB, "$(U):TM1MOTOR.RBV")
+#!  field(INPC, "$(U):TM2MOTOR.RBV")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(calcout, "$(U):TMXDELTAPLUS") {
+#!  field(CALC, "((B+C)/2)+A")
+#!  field(INPA, "$(U):TMXDELTAJOGC")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!  field(PREC, "3")
+#!  field(INPB, "$(U):TM1MOTOR.RBV")
+#!  field(INPC, "$(U):TM2MOTOR.RBV")
+#!}
+#!
+#!record(ao, "$(U):TMXDELTAJOGC") {
+#!  field(PREC, "3")
+#!  field(VAL, "0.100")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):INSERT") {
+#!  field(DESC, "Insert und to in postition")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XIN.VAL")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(calcout, "$(U):EXTRACT") {
+#!  field(DESC, "Extract und to out position")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XOUT.VAL")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(bo, "$(U):INSTALTNSTAT") {
+#!  field(DESC, "Und installation status")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(ZNAM, "NOT_INSTALLED")
+#!  field(ONAM, "INSTALLED")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(bo, "$(U):POSITION") {
+#!  field(DESC, "Undulator in/not-in")
+#!  field(DTYP, "Soft Channel")
+#!  field(ZNAM, "NOT_IN")
+#!  field(ONAM, "IN")
+#!}
+#!
+#!record(calcout, "$(U):POSITIONCALC") {
+#!  field(DESC, "Und in/out pos calc")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "D<((A+B)/2)&&((A+B)/2)<E&&D<C&&C<E")
+#!  field(INPA, "$(U):TM1MOTOR.RBV ")
+#!  field(INPB, "$(U):TM2MOTOR.RBV ")
+#!  field(INPC, "$(U):TMXREADCALC CPP")
+#!  field(OUT, "$(U):POSITION PP")
+#!  field(INPD, "-5")
+#!  field(INPE, "$(kmax)")
+#!}
+#!
+#!record(mbbi, "$(U):LOCATIONSTAT") {
+#!  field(ZRVL, "0")
+#!  field(ONVL, "1")
+#!  field(TWVL, "2")
+#!  field(THVL, "3")
+#!  field(FRVL, "4")
+#!  field(FVVL, "5")
+#!  field(SXVL, "6")
+#!  field(SVVL, "7")
+#!  field(ZRST, "INTERMEDIATE")
+#!  field(ONST, "ACTIVE-RANGE")
+#!  field(TWST, "AT-XOUT")
+#!  field(THST, "INCONSISTENT")
+#!  field(FRST, "MOVING")
+#!  field(FVST, "MOVING")
+#!  field(SXST, "MOVING")
+#!  field(SVST, "INCONSISTENT")
+#!  field(ZRSV, "MINOR")
+#!  field(ONSV, "NO_ALARM")
+#!  field(TWSV, "NO_ALARM")
+#!  field(THSV, "MINOR")
+#!  field(FRSV, "MINOR")
+#!  field(FVSV, "MINOR")
+#!  field(SXSV, "MINOR")
+#!  field(SVSV, "MINOR")
+#!  field(EIST, "AT-XIN")
+#!  field(NIST, "AT-XIN")
+#!  field(TEST, "INCONSISTENT")
+#!  field(ELST, "INCONSISTENT")
+#!  field(TVST, "MOVING")
+#!  field(TTST, "MOVING")
+#!  field(FTST, "MOVING")
+#!  field(FFST, "INCONSISTENT")
+#!  field(EIVL, "8")
+#!  field(NIVL, "9")
+#!  field(TEVL, "10")
+#!  field(ELVL, "11")
+#!  field(TVVL, "12")
+#!  field(TTVL, "13")
+#!  field(FTVL, "14")
+#!  field(FFVL, "15")
+#!}
+#!
+#!record(calcout, "$(U):LCTNSTATCALC") {
+#!  field(CALC, "A+2*B+4*C+8*D")
+#!  field(INPA, "$(U):POSITION")
+#!  field(INPB, "$(U):OUTSTATE")
+#!  field(INPC, "$(U):TRANSMOVINGM")
+#!  field(OUT, "$(U):LOCATIONSTAT PP")
+#!  field(SCAN, "1 second")
+#!  field(INPD, "$(U):INPOSITION")
+#!}
+#!
+#!record(calcout, "$(U):OUTSTATECALC") {
+#!  field(DESC, "Und out state calc ")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "D<((A+B)/2)&&((A+B)/2)<E&&D<C&&C<E")
+#!  field(INPA, "$(U):TM1MOTOR.RBV")
+#!  field(INPB, "$(U):TM1MOTOR.RBV")
+#!  field(INPC, "$(U):TMXREADCALC CPP")
+#!  field(OUT, "$(U):OUTSTATE PP")
+#!  field(INPD, "79.8")
+#!  field(INPE, "80.2")
+#!}
+#!
+#!record(bo, "$(U):OUTSTATE") {
+#!  field(DESC, "Und out state")
+#!  field(DTYP, "Soft Channel")
+#!  field(ZNAM, "NOT_OUT")
+#!  field(ONAM, "OUT")
+#!}
+#!
+#!record(calcout, "$(U):XACT") {
+#!  field(DESC, "Undulator position")
+#!  field(SCAN, ".1 second")
+#!  field(DTYP, "Soft Channel")
+#!  field(CALC, "(A+B)/2")
+#!  field(INPA, "$(U):TM1MOTOR.RBV MS")
+#!  field(INPB, "$(U):TM1MOTOR.RBV MS")
+#!  field(PREC, "4")
+#!  field(FLNK, "$(U):XACTNEGATIVE")
+#!  field(EGU, "mm")
+#!}
+#!
+#!record(calcout, "$(U):XACTNEGATIVE") {
+#!  field(CALC, "(-1)*A")
+#!  field(INPA, "$(U):XACT")
+#!  field(DESC, "-XACT")
+#!  field(EGU, "mm")
+#!  field(PREC, "4")
+#!}
+#!
+#!record(calcout, "$(U):CALCINPOSTN") {
+#!  field(SCAN, ".1 second")
+#!  field(FLNK, "$(U):INPOSITION")
+#!  field(CALC, "((B-C)<A)&&(A<(B+C))")
+#!  field(INPA, "$(U):XACT")
+#!  field(INPB, "$(U):XIN.VAL")
+#!  field(INPC, "0.02")
+#!  field(OUT, "$(U):INPOSITION.VAL")
+#!}
+#!
+#!record(bo, "$(U):MAINTNCPSTN") {
+#!  field(ZNAM, "NOT_AT_84")
+#!  field(ONAM, "AT_84")
+#!  field(OSV, "MINOR")
+#!}
+#!
+#!record(calcout, "$(U):CALCMAINTPSN") {
+#!  field(SCAN, ".1 second")
+#!  field(FLNK, "$(U):MAINTNCPSTN")
+#!  field(CALC, "(C<A)&&(A<B)")
+#!  field(INPA, "$(U):XACT")
+#!  field(INPB, "84.2")
+#!  field(INPC, "83.8")
+#!  field(OUT, "$(U):MAINTNCPSTN")
+#!}
+#!
+#!record(bo, "$(U):INPOSITION") {
+#!  field(ZNAM, "NOT_IN_POSITION")
+#!  field(ONAM, "IN_POSITION")
+#!}
+#!
+#!record(ao, "$(U):XDESRAW") {
+#!  field(FLNK, "$(U):CALCXDES")
+#!  field(PREC, "4")
+#!  field(EGU, "mm")
+#!}
+#!
+#!record(ao, "$(U):XIN") {
+#!  field(DESC, "Undulator IN position")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(DRVH, "$(kmax)")
+#!  field(DRVL, "-5")
+#!  field(HOPR, "$(kmax)")
+#!  field(LOPR, "-5")
+#!  field(HIGH, "$(kmax)")
+#!  field(LOW, "-5")
+#!  field(HSV, "MINOR")
+#!  field(LSV, "MINOR")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUT") {
+#!  field(DESC, "Undulator OUT position")
+#!  field(ASG, "MC_MAINT")
+#!  field(PREC, "3")
+#!  field(PINI, "YES")
+#!  field(VAL, "80")
+#!  field(EGU, "mm")
+#!  field(DRVH, "84")
+#!  field(DRVL, "20")
+#!  field(HOPR, "84")
+#!  field(LOPR, "20")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):UPDATEXIN") {
+#!  field(FLNK, "$(U):XIN")
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XACT")
+#!  field(OUT, "$(U):XIN.VAL")
+#!}
+#!
+#!record(calcout, "$(U):CALCXDES") {
+#!  field(CALC, "-A-B")
+#!  field(INPA, "$(U):XDESRAW")
+#!  field(PREC, "4")
+#!  field(HOPR, "$(kmax)")
+#!  field(LOPR, "-5")
+#!  field(FLNK, "$(U):XDES")
+#!  field(OUT, "$(U):XDES")
+#!  field(INPB, "$(U):XOFF CP")
+#!}
+#!
+#!record(ao, "$(U):XDES") {
+#!  field(PINI, "YES")
+#!  field(PREC, "4")
+#!  field(EGU, "mm")
+#!  field(DRVH, "84")
+#!  field(DRVL, "-5")
+#!  field(HOPR, "84")
+#!  field(LOPR, "-5")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTXCOR1") {
+#!  field(DESC, "XCOR1 deltaBDES for XOUT move")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "kG-m")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTXCOR2") {
+#!  field(DESC, "XCOR2 deltaBDES for XOUT move")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "kG-m")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTYCOR1") {
+#!  field(DESC, "YCOR1 deltaBDES for XOUT move")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "kG-m")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTYCOR2") {
+#!  field(DESC, "YCOR2 deltaBDES for XOUT move")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "kG-m")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTBPMDX") {
+#!  field(DESC, "Delta BPMX")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOUTBPMDY") {
+#!  field(DESC, "Delta BPMY")
+#!  field(PINI, "YES")
+#!  field(DTYP, "Soft Channel")
+#!  field(PREC, "6")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(ao, "$(U):XOFF") {
+#!  field(PINI, "YES")
+#!  field(VAL, "0")
+#!  field(PREC, "4")
+#!  field(EGU, "mm")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):CALCXDES2") {
+#!  field(CALC, "-A-B")
+#!  field(INPA, "$(U):XCDESRAW.VAL")
+#!  field(PREC, "4")
+#!  field(HOPR, "$(kmax)")
+#!  field(LOPR, "-5")
+#!  field(FLNK, "$(U):XDESCALC")
+#!  field(OUT, "$(U):XDESCALC.VAL")
+#!  field(INPB, "$(U):XOFF")
+#!}
+#!
+#!record(ao, "$(U):XCDESRAW") {
+#!  field(FLNK, "$(U):CALCXDES2")
+#!}
+#!
+#!record(ao, "$(U):XDESCALC") {
+#!  field(PREC, "4")
+#!  field(EGU, "mm")
+#!  field(DRVH, "$(kmax)")
+#!  field(DRVL, "-5")
+#!  field(HOPR, "$(kmax)")
+#!  field(LOPR, "-5")
+#!}
+#!
+#!record(mbbo, "$(U):INSTALTNTYPE") {
+#!  field(FLNK, "$(U):CINSTLTNTYPE")
+#!  field(ZRVL, "0")
+#!  field(ONVL, "1")
+#!  field(TWVL, "2")
+#!  field(ZRST, "NOTHING")
+#!  field(ONST, "UNDULATOR")
+#!  field(TWST, "CHICANE")
+#!  field(DESC, "Type of device installed on girder")
+#!  field(PINI, "YES")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):CINSTLTNTYPE") {
+#!  field(CALC, "A==1?1:0")
+#!  field(INPA, "$(U):INSTALTNTYPE")
+#!  field(OUT, "$(U):INSTALTNSTAT PP")
+#!}
+#!
+#!record(calcout, "$(U):CDISPTYPE") {
+#!  field(PINI, "YES")
+#!  field(CALC, "A==1?(B+2):A")
+#!  field(INPA, "$(U):INSTALTNTYPE CPP")
+#!  field(INPB, "$(U):TYPE CPP")
+#!  field(OUT, "$(U):TYPEDISP PP")
+#!}
+#!
+#!record(mbbi, "$(U):TYPEDISP") {
+#!  field(ZRVL, "0")
+#!  field(ONVL, "1")
+#!  field(TWVL, "2")
+#!  field(THVL, "3")
+#!  field(FRVL, "4")
+#!  field(FVVL, "102")
+#!  field(ZRST, "NOT_INSTALLED")
+#!  field(ONST, "INVALID")
+#!  field(TWST, "CHICANE")
+#!  field(THST, "STANDARD_UND")
+#!  field(FRST, "2NDHARMONIC_UND")
+#!  field(FVST, "DELTA")
+#!  field(ONSV, "INVALID")
+#!}
+#!
+#!record(ao, "$(U):XDESJOGSIZE") {
+#!  field(PINI, "YES")
+#!  field(VAL, "0.1")
+#!  field(PREC, "3")
+#!  field(EGU, "mm")
+#!  field(DRVH, "80")
+#!  field(DRVL, "-80")
+#!  field(HOPR, "80")
+#!  field(LOPR, "-80")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):XDESJOGMIN") {
+#!  field(CALC, "B-A")
+#!  field(INPA, "$(U):XDESJOGSIZE")
+#!  field(INPB, "$(U):XDES")
+#!  field(OUT, "$(U):XDES PP")
+#!}
+#!
+#!record(calcout, "$(U):XDESJOGPLUS") {
+#!  field(CALC, "A+B")
+#!  field(INPA, "$(U):XDESJOGSIZE")
+#!  field(INPB, "$(U):XDES")
+#!  field(OUT, "$(U):XDES PP")
+#!}
+#!
+#!record(calcout, "$(U):TRIM") {
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XDES")
+#!  field(OUT, "$(U):TMXPOSC PP")
+#!}
+#!
+#!record(calcout, "$(U):XACTTOXDES") {
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XACT")
+#!  field(OUT, "$(U):XDES PP")
+#!}
+#!
+#!record(ao, "$(U):XCON") {
+#!  field(PINI, "YES")
+#!  field(PREC, "3")
+#!  field(EGU, "mm")
+#!  field(DRVH, "84")
+#!  field(DRVL, "-5")
+#!  field(HOPR, "84")
+#!  field(LOPR, "-5")
+#!  info(autosaveFields_pass0, "VAL")
+#!}
+#!
+#!record(calcout, "$(U):XCONTOXDES") {
+#!  field(CALC, "A")
+#!  field(INPA, "$(U):XCON")
+#!  field(OUT, "$(U):XDES PP")
+#!}
+#!
+#!record(calcout, "$(U):XACTNEGOFF") {
+#!  field(DESC, "-XACT-XOFF")
+#!  field(CALC, "A-B")
+#!  field(INPA, "$(U):XACTNEGATIVE CP")
+#!  field(INPB, "$(U):XOFF CP")
+#!  field(EGU, "mm")
+#!  field(PREC, "4")
+#!}
+#!
+#!record(fanout, "$(U):SAVE_ALL_MOTORS_TO_REF") {
+#!  field(DESC, "Save all motors to ref")
+#!  field(LNK1, "$(U):TMXPOSCSAVEREFC")
+#!  field(LNK2, "$(U):CM1MOTORSAVEREFC")
+#!  field(LNK3, "$(U):CM2MOTORSAVEREFC")
+#!  field(LNK4, "$(U):CM3MOTORSAVEREFC")
+#!  field(LNK5, "$(U):CM4MOTORSAVEREFC")
+#!  field(LNK6, "$(U):CM5MOTORSAVEREFC")
+#!}
+#!
+#!record(fanout, "$(U):RESTORE_ALLMOTRS_FROM_REF") {
+#!  field(DESC, "Restore all motrs from ref")
+#!  field(LNK1, "$(U):TMXPOSC_REST_REF")
+#!  field(LNK2, "$(U):CM1MOTOR_REST_REF")
+#!  field(LNK3, "$(U):CM2MOTOR_REST_REF")
+#!  field(LNK4, "$(U):CM3MOTOR_REST_REF")
+#!  field(LNK5, "$(U):CM4MOTOR_REST_REF")
+#!  field(LNK6, "$(U):CM5MOTOR_REST_REF")
+#!}
 
 #! Further lines contain data used by VisualDCT
 #! View(739,5288,1.1)

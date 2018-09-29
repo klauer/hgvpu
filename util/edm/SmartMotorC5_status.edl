@@ -1,0 +1,1205 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 208
+y 74
+w 727
+h 462
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 6
+bgColor index 3
+textColor index 14
+ctlFgColor1 index 69
+ctlFgColor2 index 40
+ctlBgColor1 index 39
+ctlBgColor2 index 74
+topShadowColor index 72
+botShadowColor index 12
+title "SmartMotor Class5 Status"
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 0
+y 0
+w 10
+h 10
+font "helvetica-medium-r-8.0"
+fgColor index 0
+bgColor index 0
+useDisplayBg
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 30
+y 410
+w 75
+h 16
+controlPv "$(U)$(M):STATUS_W0"
+format "float"
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+autoHeight
+nullColor index 40
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 270
+y 410
+w 75
+h 16
+controlPv "$(U)$(M):STATUS_W2"
+format "float"
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+autoHeight
+nullColor index 40
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 480
+y 410
+w 75
+h 16
+controlPv "$(U)$(M):STATUS_W3"
+format "float"
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 3
+autoHeight
+nullColor index 40
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 30
+y 80
+w 20
+h 320
+controlPv "$(P)$(M):STATUS_W0"
+lineColor index 14
+onColor index 15
+offColor index 5
+lineWidth 2
+endian "little"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 80
+w 20
+h 320
+controlPv "$(P)$(M):STATUS_W2"
+lineColor index 14
+onColor index 15
+offColor index 5
+lineWidth 2
+endian "little"
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 480
+y 80
+w 20
+h 320
+controlPv "$(P)$(M):STATUS_W3"
+lineColor index 14
+onColor index 15
+offColor index 5
+lineWidth 2
+endian "little"
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 80
+w 78
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Drive Ready"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 100
+w 71
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Motor OFF"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 120
+w 143
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Trajectory in Progress"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 140
+w 136
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Servo Bus Volt. Fault"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 160
+w 120
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Peak Over Current"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 180
+w 118
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Temperature Fault"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 200
+w 123
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Position Error Fault"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 220
+w 121
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Velocity Limit Fault"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 240
+w 176
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Temperature Limit Reached"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 260
+w 160
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Derivative Err. Limit Fault"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 280
+w 112
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "HLS Pos Enabled"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 300
+w 113
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "HLS Neg Enabled"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 320
+w 97
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Pos Limit (Hist)"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 340
+w 98
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Neg Limit (Hist)"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 360
+w 58
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Pos Limit"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 60
+y 380
+w 59
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Neg Limit"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 30
+y 55
+w 125
+h 25
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Status Word 0"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 270
+y 55
+w 125
+h 25
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Status Word 2"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 480
+y 55
+w 125
+h 25
+font "helvetica-bold-r-18.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Status Word 3"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 80
+w 122
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Err. Comm. Chan. 1"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 100
+w 122
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Err. Comm. Chan. 2"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 120
+w 64
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "USB Error"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 140
+w 25
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "N/A"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 160
+w 97
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "CAN Port Error"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 180
+w 25
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "N/A"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 200
+w 90
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Ethernet Error"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 220
+w 79
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "I2C Running"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 240
+w 108
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Watchdog Event"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 260
+w 131
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "ADB Bad Checksum"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 280
+w 110
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Program Running"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 300
+w 118
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Trace In Progress"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 320
+w 157
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "EE Write Buffer Overflow"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 340
+w 54
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "EE Busy"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 360
+w 147
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Command Syntax Error"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 300
+y 380
+w 162
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Program Checksum Error"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 80
+w 25
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "N/A"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 100
+w 115
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Torque Saturation"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 120
+w 119
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Voltage Saturation"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 140
+w 146
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Wraparound Occurred"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 160
+w 77
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "KG Enabled"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 180
+w 113
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Velocity Direction"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 200
+w 107
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Torque Direction"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 220
+w 96
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "I/O Fault Latch"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 240
+w 147
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Relative Position Mode"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 260
+w 25
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "N/A"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 280
+w 153
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Peak Current Saturation"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 300
+w 107
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Modullo Rollover"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 320
+w 101
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Brake Asserted"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 340
+w 62
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Brake OK"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 360
+w 131
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "External Go Enabled"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 510
+y 380
+w 159
+h 16
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Velocity Target Reached"
+}
+autoSize
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 20
+y 15
+w 125
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 39
+useDisplayBg
+value {
+  "Controller $(M)"
+}
+autoSize
+endObjectProperties
+

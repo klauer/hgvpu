@@ -18,8 +18,8 @@ motorSim_DBD += base.dbd
 
 motorSim_DBD += asyn.dbd
 
-motorSim_DBD += motorSimSupport.dbd
 motorSim_DBD += motorSupport.dbd
+motorSim_DBD += motorSimSupport.dbd
 
 
 

@@ -1,0 +1,35 @@
+digraph setGapp_stateMachine {
+  rankdir=LR;
+  node [shape = diamond ]; init;
+  node [shape = doublecircle ]; idle stop;
+  node [shape = square, style=filled, color=black, fontcolor=white ];
+  splines=spline
+
+  init -> idle[ color=blue, fontcolor=blue ];
+
+  idle -> idle[ label = "WRerror", color=red, fontcolor=red ];
+  idle -> stop [ label = "STOP", color=red, fontcolor=red ];
+  idle -> idle [ label = "start & ( undState_ERR | newGap_BAD )" ];
+  idle -> calcMove [ label = "start & undState_OK & newGap_OK", color=blue, fontcolor=blue ];
+
+  calcMove -> stop [ label = "(stop OR WRerror)", color=red, fontcolor=red ];
+  calcMove -> moveComplete [ label = "max_retries", color=red, fontcolor=red ];
+  calcMove -> moveComplete [ label = "singleApproach", color=gray, fontcolor=gray, style=dashed ];
+  calcMove -> checkMove [ color=blue, fontcolor=blue ];
+
+  checkMove -> moveComplete [ label="within_deadband", color=blue, fontcolor=blue ];
+  checkMove -> move [ color=blue, fontcolor=blue ];
+
+  move -> stop [ label = "(stop OR WRerror)", color=red, fontcolor=red ];
+  move -> moveComplete [ label = "inPosition", color=green ];
+  move -> moving [ color=blue, fontcolor=blue ];
+
+  moving -> stop [ label = "(stop OR WRerror)", color=red, fontcolor=red ];
+  moving -> calcMove [ label = "retry", color=blue, fontcolor=blue ];
+
+  moveComplete -> stop [ label = "(stop OR WRerror)", color=red, fontcolor=red ];
+  moveComplete -> calcMove [ label = "singleApproach_cleared", color=gray, fontcolor=gray, style=dashed ];
+  moveComplete -> idle [ label = "moveCompleted", color=green ];
+
+  stop -> idle [ color=gray, style=dashed ];
+}

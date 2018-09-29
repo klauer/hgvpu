@@ -16,8 +16,10 @@
 #include <registryFunction.h>
 #include <epicsExport.h>
 #include <recSup.h>
-#include <genSubRecord.h>
+#include <aSubRecord.h>
+/*
 #include <pinfo.h>
+*/
 
 /* LP     = distance between support pedistals							*/
 /* ZP     = distance between downstream support pedestal and Quad ctr	*/
@@ -33,38 +35,38 @@
 /* VALD   = Yds    = setpoint for Y on the Downstream CAMS				*/
 
 /*
-	LP		= *(double *)pgsub->a;
-	ZP		= *(double *)pgsub->b;
-	z_bfw	= *(double *)pgsub->c;
-	QUADx	= *(double *)pgsub->d;
-	QUADy	= *(double *)pgsub->e;
-	BFWx	= *(double *)pgsub->f;
-	BFWy	= *(double *)pgsub->g;
+	LP		= *(double *)pasub->a;
+	ZP		= *(double *)pasub->b;
+	z_bfw	= *(double *)pasub->c;
+	QUADx	= *(double *)pasub->d;
+	QUADy	= *(double *)pasub->e;
+	BFWx	= *(double *)pasub->f;
+	BFWy	= *(double *)pasub->g;
 */
 
-long	calcQBInit(struct genSubRecord *pgsub)
+long	calcQBInit(struct aSubRecord *pasub)
 {
 	return(0);
 }
 
-long	calcQBPos(struct genSubRecord *pgsub)
+long	calcQBPos(struct aSubRecord *pasub)
 {
-	double	LP		= *(double *)pgsub->a;
-	double	ZP		= *(double *)pgsub->b;
-	double	z_bfw	= *(double *)pgsub->c;
-	double	QUADx	= *(double *)pgsub->d;
-	double	QUADy	= *(double *)pgsub->e;
-	double	BFWx	= *(double *)pgsub->f;
-	double	BFWy	= *(double *)pgsub->g;
+	double	LP		= *(double *)pasub->a;
+	double	ZP		= *(double *)pasub->b;
+	double	z_bfw	= *(double *)pasub->c;
+	double	QUADx	= *(double *)pasub->d;
+	double	QUADy	= *(double *)pasub->e;
+	double	BFWx	= *(double *)pasub->f;
+	double	BFWy	= *(double *)pasub->g;
 
 	double	Xus = (QUADx - BFWx) * (z_bfw / (ZP + LP + z_bfw)) + BFWx;
 	double	Yus = (QUADy - BFWy) * (z_bfw / (ZP + LP + z_bfw)) + BFWy;
 	double	Xds = (QUADx - BFWx) * ((LP + z_bfw) / (ZP + LP + z_bfw)) + BFWx;
 	double	Yds = (QUADy - BFWy) * ((LP + z_bfw) / (ZP + LP + z_bfw)) + BFWy;
-	*(double *)pgsub->vala = Xus;
-	*(double *)pgsub->valb = Yus;
-	*(double *)pgsub->valc = Xds;
-	*(double *)pgsub->vald = Yds;
+	*(double *)pasub->vala = Xus;
+	*(double *)pasub->valb = Yus;
+	*(double *)pasub->valc = Xds;
+	*(double *)pasub->vald = Yds;
 
 return(0);
 }

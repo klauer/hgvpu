@@ -1,0 +1,1412 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 230
+y 81
+w 600
+h 400
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 55
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 400
+y 253
+w 136
+h 31
+controlPv "$(DEV):DigitalIn0.VAL"
+lineColor index 14
+onColor index 15
+offColor index 55
+endian "big"
+numBits 5
+shift -1
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 137
+y 79
+w 40
+h 23
+controlPv "$(DEV):DigitalOut0Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 137
+y 112
+w 40
+h 23
+controlPv "$(DEV):DigitalOut1Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 137
+y 145
+w 40
+h 23
+controlPv "$(DEV):DigitalOut2Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 137
+y 177
+w 40
+h 23
+controlPv "$(DEV):DigitalOut3Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 233
+y 79
+w 40
+h 23
+controlPv "$(DEV):DigitalOut4Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 233
+y 112
+w 40
+h 23
+controlPv "$(DEV):DigitalOut5Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 233
+y 145
+w 40
+h 23
+controlPv "$(DEV):DigitalOut6Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 233
+y 177
+w 40
+h 23
+controlPv "$(DEV):DigitalOut7Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 324
+y 79
+w 40
+h 23
+controlPv "$(DEV):DigitalOut8Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 324
+y 112
+w 40
+h 23
+controlPv "$(DEV):DigitalOut9Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 324
+y 145
+w 40
+h 23
+controlPv "$(DEV):DigitalOut10Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 324
+y 177
+w 40
+h 23
+controlPv "$(DEV):DigitalOut11Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 411
+y 79
+w 40
+h 23
+controlPv "$(DEV):DigitalOut12Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 411
+y 112
+w 40
+h 23
+controlPv "$(DEV):DigitalOut13Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 411
+y 145
+w 40
+h 23
+controlPv "$(DEV):DigitalOut14Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 411
+y 177
+w 40
+h 23
+controlPv "$(DEV):DigitalOut15Stat.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 9
+autoHeight
+format "string"
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 119
+y 48
+w 300
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Digital Outputs and Readbacks"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 89
+y 46
+w 372
+h 168
+lineColor index 14
+fillColor index 14
+lineWidth 3
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 400
+y 286
+w 136
+h 31
+controlPv "$(DEV):DigitalIn4.VAL"
+lineColor index 14
+onColor index 15
+offColor index 55
+endian "big"
+numBits 5
+shift -1
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 400
+y 319
+w 136
+h 31
+controlPv "$(DEV):DigitalIn8.VAL"
+lineColor index 14
+onColor index 15
+offColor index 55
+endian "big"
+numBits 5
+shift -1
+endObjectProperties
+
+# (Byte)
+object ByteClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 400
+y 352
+w 136
+h 31
+controlPv "$(DEV):DigitalIn12.VAL"
+lineColor index 14
+onColor index 15
+offColor index 55
+endian "big"
+numBits 5
+shift -1
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 334
+y 227
+w 150
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Digital Inputs"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 262
+y 223
+w 297
+h 169
+lineColor index 14
+fillColor index 14
+lineWidth 3
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 269
+y 258
+w 100
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Bits 0 - 3"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 269
+y 293
+w 100
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Bits 4 - 7"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 269
+y 328
+w 100
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Bits 8 - 11"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 269
+y 364
+w 100
+h 20
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Bits 12 - 15"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 71
+y 9
+w 425
+h 29
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "ID Digital Inputs and Outputs"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 276
+w 50
+h 18
+controlPv "$(DEV):Reg2Bit15Rdbk.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 14
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 298
+w 50
+h 18
+controlPv "$(DEV):Reg2Bit14Rdbk.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 14
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 320
+w 50
+h 18
+controlPv "$(DEV):Reg2Bit13Rdbk.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 14
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 341
+w 50
+h 18
+controlPv "$(DEV):Reg2Bit12Rdbk.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 14
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 25
+y 237
+w 210
+h 17
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Register 2 Digital Outputs"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 84
+y 257
+w 75
+h 16
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Control"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 159
+y 257
+w 75
+h 16
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Readback"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 19
+y 232
+w 222
+h 153
+lineColor index 14
+fillColor index 14
+lineWidth 3
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 23
+y 276
+w 65
+h 18
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Bit 15"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 23
+y 298
+w 65
+h 18
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Bit 14"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 23
+y 320
+w 65
+h 18
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Bit 13"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 23
+y 341
+w 65
+h 18
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Bit 12"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 363
+w 50
+h 18
+controlPv "$(DEV):Reg2Bit11Rdbk.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 15
+fgAlarm
+bgColor index 14
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 23
+y 363
+w 65
+h 18
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Bit 11"
+}
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 74
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut12.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 107
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut13.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 140
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut14.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 370
+y 172
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut15.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 285
+y 74
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut8.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 285
+y 107
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut9.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 285
+y 140
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut10.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 285
+y 172
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut11.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 192
+y 74
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut4.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 192
+y 107
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut5.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 192
+y 140
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut6.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 192
+y 172
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut7.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 97
+y 74
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut0.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 97
+y 107
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut1.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 97
+y 140
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut2.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 97
+y 172
+w 35
+h 33
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):DigitalOut3.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 92
+y 275
+w 59
+h 20
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):Reg2Bit15.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 92
+y 297
+w 59
+h 20
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):Reg2Bit14.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 92
+y 319
+w 59
+h 20
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):Reg2Bit13.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 92
+y 340
+w 59
+h 20
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):Reg2Bit12.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Choice Button)
+object activeChoiceButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 92
+y 362
+w 59
+h 20
+fgColor index 15
+bgColor index 9
+selectColor index 9
+inconsistentColor index 15
+topShadowColor index 0
+botShadowColor index 14
+fgAlarm
+controlPv "$(DEV):Reg2Bit11.VAL"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+

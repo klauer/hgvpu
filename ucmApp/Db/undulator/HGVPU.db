@@ -1,189 +1,228 @@
- record(stringout,"$(U):Version") {
-	field(DESC,"Software Version Information")
-	field(PINI,"YES")
-	field(VAL,"1.0")
+#######################################################
+record(stringout,"$(U):Version") {
+  field(DESC,"Software Version Information")
+  field(PINI,"YES")
+  field(VAL,"2.0")
+}
+record(stringin,"$(U):Device") {
+  field(DESC,"Device Identifier String")
+}
+record(stringin,"$(U):Location") {
+  field(DESC,"Device Location String")
 }
 #######################################################
-
-record(ai,"$(U):EndMotFactor") {
-        field(DESC,"End to Motor Conv Factor")
-        field(ASG,"SYSTEM")
-        field(PINI,"YES")
-	field(INP,"0.76670")
-        field(PREC,"5")
+# Device measurements for calculating the weight of
+# encoder readback on motor position
+#######################################################
+record(ai,"$(U):StrongbackLength"){
+  field(DESC,"Length Between Linear Encoders")
+  field(PINI,"YES")
+  field(EGU,"mm")
+  field(VAL,"3419.05")
 }
-record(ai,"$(U):LinMotFactor") {
-        field(DESC,"Linear to Motor Conv Factor")
-        field(ASG,"SYSTEM")
-        field(PINI,"YES")
-	field(INP,"0.76670")
-        field(PREC,"5")
+record(ai,"$(U):EndToMotor"){
+  field(DESC,"Distance Between Encoder and Motor")
+  field(PINI,"YES")
+  field(EGU,"mm")
+  field(VAL,"798.525")
 }
-record(ai,"$(U):MotEndFactor") {
-        field(DESC,"Motor to End Conv Factor")
-        field(ASG,"SYSTEM")
-        field(PINI,"YES")
-	field(INP,"1.437386")
-        field(PREC,"5")
+#######################################################
+# Weight of the encoder readback on motor position
+#######################################################
+record(calc,"$(U):LinMotFactor") {
+  field(DESC,"Linear Encoder to Motor Conv Factor")
+  field(ASG,"SYSTEM")
+  field(PINI,"YES")
+  field(PREC,"6")
+  field(INPA,"$(U):EndToMotor")
+  field(INPB,"$(U):StrongbackLength")
+  field(CALC,"1-A/B")
 }
 ########################################################
-record(fanout,"$(U):StartProcess") {
-        field(DESC,"Start Processing Encoders")
-	field(ASG,"SYSTEM")
-	field(SCAN,".1 second")
- 	field(LNK1,"$(U):USWLinearEncoder.PROC")
-	field(LNK2,"$(U):USALinearEncoder.PROC")
-	field(LNK3,"$(U):DSWLinearEncoder.PROC")
-	field(LNK4,"$(U):DSALinearEncoder.PROC")
-        field(LNK5,"$(U):ProcessMotorGap.PROC")
+record(fanout,"$(U):ProcessLinearEncoders") {
+  field(DESC,"Start Processing Linear Encoders")
+  field(ASG,"SYSTEM")
+  field(SCAN,".1 second")
+  field(LNK1,"$(U):USWLinearEncoder.PROC")
+  field(LNK2,"$(U):USALinearEncoder.PROC")
+  field(LNK3,"$(U):DSWLinearEncoder.PROC")
+  field(LNK4,"$(U):DSALinearEncoder.PROC")
+  field(LNK5,"$(U):ProcessMotorGap.PROC")
 }
 record(fanout,"$(U):ProcessMotorGap") {
-        field(DESC,"Start Processing Motor Gaps")
-	field(ASG,"SYSTEM")
-        field(LNK1,"$(U):USWMotorGap.PROC")
-        field(LNK2,"$(U):USAMotorGap.PROC")
-        field(LNK3,"$(U):DSWMotorGap.PROC")
-        field(LNK4,"$(U):DSAMotorGap.PROC")
-        field(LNK6,"$(U):ProcessGap.PROC")
+  field(DESC,"Start Processing Motor Gaps")
+  field(ASG,"SYSTEM")
+  field(LNK1,"$(U):USWMotorGap.PROC")
+  field(LNK2,"$(U):USAMotorGap.PROC")
+  field(LNK3,"$(U):DSWMotorGap.PROC")
+  field(LNK4,"$(U):DSAMotorGap.PROC")
 }
 record(calc,"$(U):USWMotorGap") {
-        field(DESC,"US Wall Gap at Motor")
-        field(CALC,"D*C+E*(1.0-C)")
-#        field(CALC,"D+(796.93*(D-E)/3415.89)")
-#        field(INPA,"$(U):EncoderSelect.VAL NPP NMS")
-#        field(INPB,"$(U):USWRotaryEncoder.VAL NPP NMS")
-        field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-        field(INPD,"$(U):USWLinearEncoder.VAL NPP NMS")
-        field(INPE,"$(U):DSWLinearEncoder.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"US Wall Gap at Motor")
+  field(CALC,"D*C+E*(1.0-C)")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+  field(INPD,"$(U):USWLinearEncoder.VAL NPP NMS")
+  field(INPE,"$(U):DSWLinearEncoder.VAL NPP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):USAMotorGap") {
-        field(DESC,"US Aisle Gap at Motor")
-        field(CALC,"D*C+E*(1.0-C)")
-#        field(CALC,"D+(796.93*(D-E)/3415.89)")
-#        field(INPA,"$(U):EncoderSelect.VAL NPP NMS")
-#        field(INPB,"$(U):USARotaryEncoder.VAL NPP NMS")
-        field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-        field(INPD,"$(U):USALinearEncoder.VAL NPP NMS")
-        field(INPE,"$(U):DSALinearEncoder.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"US Aisle Gap at Motor")
+  field(CALC,"D*C+E*(1.0-C)")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+  field(INPD,"$(U):USALinearEncoder.VAL NPP NMS")
+  field(INPE,"$(U):DSALinearEncoder.VAL NPP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):DSWMotorGap") {
-        field(DESC,"DS Wall Gap at Motor")
-        field(CALC,"D*C+E*(1.0-C)")
- #       field(CALC,"D+(796.93*(D-E)/3415.89)")
-#        field(INPA,"$(U):EncoderSelect.VAL NPP NMS")
-#        field(INPB,"$(U):DSWRotaryEncoder.VAL NPP NMS")
-        field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-        field(INPD,"$(U):DSWLinearEncoder.VAL NPP NMS")
-        field(INPE,"$(U):USWLinearEncoder.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"DS Wall Gap at Motor")
+  field(CALC,"D*C+E*(1.0-C)")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+  field(INPD,"$(U):DSWLinearEncoder.VAL NPP NMS")
+  field(INPE,"$(U):USWLinearEncoder.VAL NPP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):DSAMotorGap") {
-        field(DESC,"DS Aisle Gap at Motor")
-        field(CALC,"D*C+E*(1.0-C)")
-#        field(CALC,"D-((796.93*(D-E)/3415.89))")
-#        field(INPA,"$(U):EncoderSelect.VAL NPP NMS")
-#        field(INPB,"$(U):DSARotaryEncoder.VAL NPP NMS")
-        field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
-        field(INPD,"$(U):DSALinearEncoder.VAL NPP NMS")
-        field(INPE,"$(U):USALinearEncoder.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"DS Aisle Gap at Motor")
+  field(CALC,"D*C+E*(1.0-C)")
+  field(INPC,"$(U):LinMotFactor.VAL NPP NMS")
+  field(INPD,"$(U):DSALinearEncoder.VAL NPP NMS")
+  field(INPE,"$(U):USALinearEncoder.VAL NPP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
-record(fanout,"$(U):ProcessGap") {
-        field(DESC,"Start Processing Gaps")
-	field(ASG,"SYSTEM")
-        field(LNK1,"$(U):USWGap")
-        field(LNK2,"$(U):DSWGap")
-        field(LNK3,"$(U):USGap")
-        field(LNK4,"$(U):DSGap")
-        field(LNK5,"$(U):Gap")
-}
+#######################################################
 record(calc,"$(U):USWGap") {
-        field(DESC,"US Wall Encoder => End")
-        field(CALC,"A*C+B*(1.0-C)")
-        field(INPA,"$(U):USWMotorGap.VAL NPP NMS")
-        field(INPB,"$(U):DSWMotorGap.VAL NPP NMS")
-        field(INPC,"$(U):MotEndFactor.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
-        field(FLNK,"$(U):USAGap")
+  field(DESC,"US Wall End Encoder")
+  field(CALC,"A")
+  field(INPA,"$(U):USWLinearEncoder.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):USAGap") {
-        field(DESC,"US Aisle Motor => End")
-        field(CALC,"A*C+B*(1.0-C)")
-        field(INPA,"$(U):USAMotorGap.VAL NPP NMS")
-        field(INPB,"$(U):DSAMotorGap.VAL NPP NMS")
-        field(INPC,"$(U):MotEndFactor.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"US Aisle End Encoder")
+  field(CALC,"A")
+  field(INPA,"$(U):USALinearEncoder.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):DSWGap") {
-        field(DESC,"DS Wall Motor => End")
-        field(CALC,"A*C+B*(1.0-C)")
-        field(INPA,"$(U):DSWMotorGap.VAL NPP NMS")
-        field(INPB,"$(U):USWMotorGap.VAL NPP NMS")
-        field(INPC,"$(U):MotEndFactor.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
-        field(FLNK,"$(U):DSAGap")
+  field(DESC,"DS Wall Enc Encoder")
+  field(CALC,"A")
+  field(INPA,"$(U):DSWLinearEncoder.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):DSAGap") {
-        field(DESC,"DS Aisle Motor => End")
-        field(CALC,"A*C+B*(1.0-C)")
-        field(INPA,"$(U):DSAMotorGap.VAL NPP NMS")
-        field(INPB,"$(U):USAMotorGap.VAL NPP NMS")
-        field(INPC,"$(U):MotEndFactor.VAL NPP NMS")
-        field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"DS Aisle End Encoder")
+  field(CALC,"A")
+  field(INPA,"$(U):DSALinearEncoder CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):USGap") {
-	field(DESC,"US End ID Gap")
-	field(CALC,"(A+B)")
-	field(INPA,"$(U):USWGap.VAL NPP NMS")
-	field(INPB,"$(U):USAGap.VAL NPP NMS")
-	field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"US End ID Gap")
+  field(CALC,"(A+B)")
+  field(INPA,"$(U):USWGap.VAL CP MS")
+  field(INPB,"$(U):USAGap.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):DSGap") {
-	field(DESC,"DS End ID Gap")
-	field(CALC,"(A+B)")
-	field(INPA,"$(U):DSWGap.VAL NPP NMS")
-	field(INPB,"$(U):DSAGap.VAL NPP NMS")
-	field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"DS End ID Gap")
+  field(CALC,"(A+B)")
+  field(INPA,"$(U):DSWGap.VAL CP MS")
+  field(INPB,"$(U):DSAGap.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 record(calc,"$(U):Gap") {
-	field(DESC,"Average ID Gap")
-	field(CALC,"(A+B)/2.0")
-	field(INPA,"$(U):USGap.VAL NPP NMS")
-	field(INPB,"$(U):DSGap.VAL NPP NMS")
-	field(PREC,"4")
-	field(EGU,"mm")
-	field(FLNK,"$(U):TaperGap")
+  field(DESC,"Average Undulator Gap")
+  field(CALC,"(A+B)/2.0")
+  field(INPA,"$(U):USGap.VAL CP MS")
+  field(INPB,"$(U):DSGap.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
+  field(FLNK,"$(U):Taper")
 }
-record(calc,"$(U):TaperGap") {
-	field(DESC,"Taper ID Gap Readout")
-	field(CALC,"A-B")
-	field(INPA,"$(U):USGap.VAL NPP NMS")
-	field(INPB,"$(U):DSGap.VAL NPP NMS")
-	field(PREC,"4")
-	field(EGU,"mm")
-	field(FLNK,"$(U):GapSymmetry")
+record(calc,"$(U):Taper") {
+  field(DESC,"Undulator Taper Readout")
+  field(CALC,"B-A")
+  field(INPA,"$(U):USGap.VAL NPP MS")
+  field(INPB,"$(U):DSGap.VAL NPP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
+  field(FLNK,"$(U):GapSymmetry")
 }
 record(calc,"$(U):GapSymmetry") {
-	field(DESC,"Average Symmetry Readout")
-	field(CALC,"MAX(ABS(A-B),ABS(C-D))")
-	field(INPA,"$(U):USWGap.VAL NPP NMS")
-	field(INPB,"$(U):USAGap.VAL NPP NMS")
-	field(INPC,"$(U):DSWGap.VAL NPP NMS")
-	field(INPD,"$(U):DSAGap.VAL NPP NMS")
-	field(PREC,"4")
-	field(EGU,"mm")
+  field(DESC,"Maximum Symmetry Readout")
+  field(CALC,"MAX(ABS(A),ABS(B))")
+  field(INPA,"$(U):USSymmetry.VAL CP MS")
+  field(INPB,"$(U):DSSymmetry.VAL CP MS")
+  field(PREC,"4")
+  field(EGU,"mm")
 }
 ########################################################
+record(calc, "$(U):WallTaper") {
+  field(DESC,"Wall side taper")
+  field(CALC,"B-A")
+  field(INPA,"$(U):USWGap CP NMS")
+  field(INPB,"$(U):DSWGap CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
+}
+record(calc, "$(U):AisleTaper") {
+  field(DESC,"Aisle side taper")
+  field(CALC,"B-A")
+  field(INPA,"$(U):USAGap CP NMS")
+  field(INPB,"$(U):DSAGap CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
+}
+record(calc, "$(U):USSymmetry") {
+  field(DESC,"Upstream symmetry")
+  field(CALC,"A-B")
+  field(INPA,"$(U):USAGap CP NMS")
+  field(INPB,"$(U):USWGap CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
+}
+record(calc, "$(U):DSSymmetry") {
+  field(DESC,"Downstream symmetry")
+  field(CALC,"A-B")
+  field(INPA,"$(U):DSAGap CP NMS")
+  field(INPB,"$(U):DSWGap CP NMS")
+  field(PREC,"4")
+  field(EGU,"mm")
+}
+########################################################
+record(stringin, "$(U):SeqProgramState"){
+  field(DESC, "State of seq. program for the gap")
+}
+#######################################################
+record(bo,"$(U):DebugLevel") {
+  field(DESC,"Sequencer Debug Flag")
+  field(PINI,"YES")
+  field(ZNAM,"Normal")
+  field(ONAM,"Debug ON")
+}
+#######################################################
+record(bo,"$(U):SimMode") {
+  field(DESC,"Sequencer Simulation Flag")
+  field(PINI,"YES")
+  field(VAL,"0")
+  field(ZNAM,"Normal")
+  field(ONAM,"Simulation")
+}
+
+record(bo, "$(U):SingleApproach") {
+  field(DESC,"Always Finish From Large Gap ")
+  field(PINI,"YES")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+  field(VAL, "0")
+  info(autosaveFields,"VAL")
+}
 

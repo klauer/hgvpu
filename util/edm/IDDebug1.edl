@@ -1,0 +1,2216 @@
+4 0 0
+beginScreenProperties
+major 4
+minor 0
+release 0
+x 496
+y 177
+w 700
+h 490
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 55
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 236
+y 5
+w 300
+h 25
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 20
+useDisplayBg
+value {
+ "ID Control Debug Screen 1"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 83
+y 38
+w 250
+h 20
+controlPv "$(DEV):Device"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 18
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 93
+y 9
+w 100
+h 20
+controlPv "$(DEV):Version"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 18
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 11
+y 13
+w 70
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 18
+useDisplayBg
+value {
+ "Version:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 4
+y 42
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 18
+useDisplayBg
+value {
+ "Device:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 444
+y 37
+w 250
+h 20
+controlPv "$(DEV):Location"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 18
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 356
+y 38
+w 85
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 18
+useDisplayBg
+value {
+ "Location:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 9
+y 159
+w 50
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Gap:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 60
+y 154
+w 100
+h 27
+controlPv "$(DEV):GapSet.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 154
+w 100
+h 27
+controlPv "$(DEV):TaperGapSet.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 165
+y 161
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Taper:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 352
+y 158
+w 50
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Energy:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 408
+y 152
+w 100
+h 27
+controlPv "$(DEV):EnergySet.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 592
+y 152
+w 100
+h 27
+controlPv "$(DEV):TaperEnergySet.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 517
+y 159
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "E Taper:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 240
+y 235
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "OldGapSet.A:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 4
+y 104
+w 98
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Message1:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 97
+y 103
+w 380
+h 15
+controlPv "$(DEV):Message1"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3
+y 126
+w 98
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "Message2:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 99
+y 124
+w 380
+h 15
+controlPv "$(DEV):Message2"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 353
+y 235
+w 100
+h 15
+controlPv "$(DEV):OldGapSet.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 471
+y 235
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "OldGapSet.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 584
+y 235
+w 100
+h 15
+controlPv "$(DEV):OldGapSet.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 13
+y 235
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "OldGapSet"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 126
+y 235
+w 100
+h 15
+controlPv "$(DEV):OldGapSet.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 238
+y 264
+w 120
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperSet.A:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 365
+y 263
+w 80
+h 15
+controlPv "$(DEV):OldTaperSet.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 466
+y 264
+w 120
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperSet.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 596
+y 263
+w 80
+h 15
+controlPv "$(DEV):OldTaperSet.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 14
+y 262
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperSet"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 146
+y 264
+w 80
+h 15
+controlPv "$(DEV):OldTaperSet.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 84
+y 66
+w 70
+h 27
+controlPv "$(DEV):DeadbandGap.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 47
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 502
+y 72
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 47
+useDisplayBg
+value {
+ "Encoder:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 168
+y 72
+w 90
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 47
+useDisplayBg
+value {
+ "Harmonic:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 253
+y 65
+w 30
+h 27
+controlPv "$(DEV):HarmonicValue.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 47
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 3
+y 72
+w 90
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 47
+useDisplayBg
+value {
+ "DeadBand:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 292
+y 73
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 47
+useDisplayBg
+value {
+ "Access:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 4
+y 188
+w 80
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 37
+useDisplayBg
+value {
+ "USGapSet:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 90
+y 188
+w 80
+h 15
+controlPv "$(DEV):USGapSet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 37
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 184
+y 188
+w 80
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 37
+useDisplayBg
+value {
+ "DSGapSet:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 275
+y 188
+w 80
+h 15
+controlPv "$(DEV):DSGapSet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 37
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 7
+y 208
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 20
+useDisplayBg
+value {
+ "GapCheck:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 106
+y 209
+w 50
+h 15
+controlPv "$(DEV):GapCheck"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 326
+y 208
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 20
+useDisplayBg
+value {
+ "TaperCheck:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 439
+y 208
+w 50
+h 15
+controlPv "$(DEV):TaperCheck"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 171
+y 208
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 20
+useDisplayBg
+value {
+ "GapWrong:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 270
+y 208
+w 50
+h 15
+controlPv "$(DEV):GapCheckWrong"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 511
+y 209
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 20
+useDisplayBg
+value {
+ "TaperWrong:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 624
+y 209
+w 50
+h 15
+controlPv "$(DEV):TaperCheckWrong"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 9
+y 293
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcAve:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 122
+y 293
+w 100
+h 15
+controlPv "$(DEV):CalcAve"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 11
+y 313
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcDiff:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 125
+y 313
+w 100
+h 15
+controlPv "$(DEV):CalcDiff"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 234
+y 293
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcAve.A:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 347
+y 293
+w 100
+h 15
+controlPv "$(DEV):CalcAve.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 236
+y 313
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcDiff.A:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 350
+y 313
+w 100
+h 15
+controlPv "$(DEV):CalcDiff.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 463
+y 292
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcAve.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 576
+y 292
+w 100
+h 15
+controlPv "$(DEV):CalcAve.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 465
+y 312
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 51
+useDisplayBg
+value {
+ "CalcDiff.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 579
+y 312
+w 100
+h 15
+controlPv "$(DEV):CalcDiff.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 51
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 237
+y 342
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 28
+useDisplayBg
+value {
+ "USEnergySet:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 350
+y 342
+w 100
+h 15
+controlPv "$(DEV):USEnergySet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 28
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 468
+y 342
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 28
+useDisplayBg
+value {
+ "DSEnergySet:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 581
+y 342
+w 100
+h 15
+controlPv "$(DEV):DSEnergySet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 28
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 12
+y 366
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldEnergySet:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 133
+y 367
+w 80
+h 15
+controlPv "$(DEV):OldEnergySet.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 158
+y 421
+w 50
+h 15
+controlPv "$(DEV):EnergyCheck"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 13
+y 421
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 20
+useDisplayBg
+value {
+ "EnergyCheck:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 225
+y 368
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldEnergySet.A:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 362
+y 368
+w 80
+h 15
+controlPv "$(DEV):OldEnergySet.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 457
+y 369
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldEnergySet.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 598
+y 368
+w 80
+h 15
+controlPv "$(DEV):OldEnergySet.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 9
+y 394
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperE:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 130
+y 395
+w 80
+h 15
+controlPv "$(DEV):OldTaperEnergySet.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 222
+y 396
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperE.A:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 359
+y 396
+w 80
+h 15
+controlPv "$(DEV):OldTaperEnergySet.A"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 454
+y 397
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "OldTaperE.B:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 595
+y 396
+w 80
+h 15
+controlPv "$(DEV):OldTaperEnergySet.B"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 527
+y 420
+w 150
+h 15
+controlPv "$(DEV):EtoGChange"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 20
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 364
+y 421
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 20
+useDisplayBg
+value {
+ "Which Changed:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 442
+y 187
+w 80
+h 15
+controlPv "$(DEV):USMotorSet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 363
+y 187
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "USMotor:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 531
+y 187
+w 75
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "DSMotor:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 611
+y 188
+w 80
+h 15
+controlPv "$(DEV):DSMotorSet"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 486
+y 128
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "ScanEnergy:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 590
+y 122
+w 100
+h 27
+controlPv "$(DEV):ScanEnergy.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 589
+y 93
+w 100
+h 27
+controlPv "$(DEV):ScanGap.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 487
+y 100
+w 100
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 14
+useDisplayBg
+value {
+ "Scan Gap:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 123
+y 447
+w 100
+h 27
+controlPv "$(DEV):DeviceLimit.VAL"
+font "helvetica-medium-r-8.0"
+smartRefresh
+fastUpdate
+fgColor index 14
+bgColor index 55
+editable
+autoHeight
+format decimal
+motifWidget
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 8
+y 454
+w 110
+h 15
+font "helvetica-medium-r-8.0"
+fgColor index 54
+useDisplayBg
+value {
+ "DeviceLimit:"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 232
+y 454
+w 60
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 54
+useDisplayBg
+value {
+ "Low:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 285
+y 454
+w 80
+h 15
+controlPv "$(DEV):DeviceLimit.DRVL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 374
+y 454
+w 60
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 54
+useDisplayBg
+value {
+ "High:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 432
+y 454
+w 80
+h 15
+controlPv "$(DEV):DeviceLimit.DRVH"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 518
+y 456
+w 60
+h 15
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+fgColor index 54
+useDisplayBg
+value {
+ "Old:"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 589
+y 455
+w 80
+h 15
+controlPv "$(DEV):OldDeviceLimit.VAL"
+font "helvetica-medium-r-8.0"
+fontAlign "center"
+smartRefresh
+fastUpdate
+fgColor index 54
+bgColor index 55
+autoHeight
+format decimal
+nullColor index 32
+useHexPrefix
+objType "controls"
+newPos
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 558
+y 9
+w 132
+h 20
+fgColor index 14
+bgColor index 55
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-10.0"
+icon
+buttonLabel "Addl. Debugs"
+numPvs 6
+numDsps 3
+displayFileName {
+  0 IDDebug1.edl
+  1 IDDebug2.edl
+  2 IDDebug3.edl
+}
+menuLabel {
+  0 Debug 1
+  1 Debug 2
+  2 Debug 3
+}
+symbols {
+  0 "DEV=$(DEV)"
+  1 "DEV=$(DEV)"
+  2 "DEV=$(DEV)"
+}
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 579
+y 68
+w 80
+h 20
+fgColor index 14
+bgColor index 32
+inconsistentColor index 12
+topShadowColor index 2
+botShadowColor index 12
+controlPv "$(DEV):EncoderSelect"
+indicatorPv "$(DEV):EncoderSelect"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+
+# (Menu Button)
+object activeMenuButtonClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 364
+y 69
+w 120
+h 20
+fgColor index 14
+bgColor index 32
+inconsistentColor index 12
+topShadowColor index 2
+botShadowColor index 12
+controlPv "$(DEV):AccessSecurity"
+indicatorPv "$(DEV):AccessSecurity"
+font "helvetica-medium-r-10.0"
+endObjectProperties
+

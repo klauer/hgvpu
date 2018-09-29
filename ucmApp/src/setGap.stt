@@ -13,128 +13,150 @@ program setGap
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <epicsString.h>
 #include <epicsStdio.h>
 #include <asynOctetSyncIO.h>
 
 #define inputEos "\r"
 #define outputEos " "
+#define BUF_SIZE 200
 
+static int writeCommand(SS_ID ssId, struct UserVar *pVar, char *command, char *stateName);
 static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *reply, char *stateName);
 static int getMotorMoving(SS_ID ssId, struct UserVar *pVar);
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar);
+static int getTimeStamp(SS_ID ssId, char *timeStampString);
+static int logToIOCshell(SS_ID ssId, char *logMessage);
+static int waitBrakesReleased(SS_ID ssId, struct UserVar *pVar);
+static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar);
 }%
 
 /** SNL variables  **/
 /* Configuration and communication */
-
-#define BUF_SZ 200
-
-char stringOut[BUF_SZ];
-char stringIn[BUF_SZ];
-char abortCommand[BUF_SZ];
+char stringOut[200];
+char stringIn[200];
 char *asynPort;
 char *pasynUser;
-int status;
-int n;
 int initStatus = 0;
-int numAxes;
-int movingLarger;
+int numAxes = 4;
+int movingLarger = 0;
+/* Status for asyn operations */
+int sg_status = 0;
+int am_status = 0;
+int brake_status = 0;
 
 /* HXU strongback distances in mm */
 /* distance beetween upstream end and downstream end */
-double distEndToEnd = 3419.05;
+double distEndToEnd = 3419.050;
 /* distance between upstream end and upstream motor */
-double distToUsMtr =  850.0;
+double distToUsMtr =  798.525;
 /* distance between upstream end and downstream motor */
-double distToDsMtr = 2550.0;
+double distToDsMtr = 2620.525;
 /* distance between upstream motor and downstream motor */
-double distBtwnMtr = 1700.0;
-
+double distBtwnMtr = 1822.000;
 
 /* Positions and new values */
-double desiredGapTemp;
-double deadbandTemp;
-double offsetAdjust;
-double correctedTaper;
-double correctedOffset;
-double correctedSlope;
+double desiredGapTemp = 0;
+double deadbandTemp = 0;
+double desiredUsMotorPosition = 0;
+double desiredDsMotorPosition = 0;
+double usaMotorAmountToMove = 0;
+double uswMotorAmountToMove = 0;
+double dsaMotorAmountToMove = 0;
+double dswMotorAmountToMove = 0;
+double moveFraction = 0.9;
 
-double posUsWall;
-double posUsAisle;
-double posDsWall;
-double posDsAisle;
-double moveVelo;
+/* Full gap encoder feedback */
+int fullGapEncCorrection = 0;
+int fullGapCorrectionNeeded = 0;
+double currentGapFromFullGapEncoders = 0 ;
+double currentTaperFromFullGapEncoders = 0;
+double userDesiredGap = 0;
+double userDesiredTaper = 0;
+double usError = 0;
+double dsError = 0;
 
-/* Setpoints to keep during auto-centering */
-double gapToKeep;	assign gapToKeep to "{DEV}:GAP_KEEP";
-double taperToKeep;	assign taperToKeep to "{DEV}:TAPER_KEEP";
-double offsetToKeep;	assign offsetToKeep to "{DEV}:OFFSET_KEEP";
-double slopeToKeep;     assign slopeToKeep to "{DEV}:SLOPE_KEEP";
-double pUsWallToKeep;    assign pUsWallToKeep to "{DEV}:USWALL_KEEP";
-double pUsAisleToKeep;    assign pUsAisleToKeep to "{DEV}:USAISLE_KEEP";
-double pDsWallToKeep;    assign pDsWallToKeep to "{DEV}:DSWALL_KEEP";
-double pDsAisleToKeep;    assign pDsAisleToKeep to "{DEV}:DSAISLE_KEEP";
-double desiredVUs;      assign desiredVUs to "{DEV}:DES_V_US";
-double desiredVDs;      assign desiredVDs to "{DEV}:DES_V_DS";
+double usaPos = 0;
+double uswPos = 0;
+double dsaPos = 0;
+double dswPos = 0;
+int usaPos_raw = 0;
+int uswPos_raw = 0;
+int dsaPos_raw = 0;
+int dswPos_raw = 0;
+int moveVelo_raw = 0;
+int acclDccl_raw = 0;
 
-/* Setpoint and readback PVs */
-double desiredGap;        assign desiredGap to "{DEV}:DES_GAP";
-double desiredOffset;     assign desiredOffset to "{DEV}:OFFSET_DES";
-double desiredTaper;      assign desiredTaper to "{DEV}:TAPER_DES";
-double desiredSlope;      assign desiredSlope to "{DEV}:SLOPE_DES";
-double currentOffset;     assign currentOffset to "{DEV}:OFFSET_ACT";           monitor currentOffset;
-double currentTaper;      assign currentTaper to "{DEV}:TAPER_ACT";             monitor currentTaper;
-double currentGap;        assign currentGap to "{DEV}:GAP_ACT";                 monitor currentGap;
-double currentSlope;      assign currentSlope to "{DEV}:SLOPE_ACT";             monitor currentSlope;
+int sampleRate = 0;
+double scalingFactorVelo = 0;
+double scalingFactorAD = 0;
 
-double upstreamSlopeCorrection; assign upstreamSlopeCorrection to "{DEV}:US_PTCH_COR"; monitor upstreamSlopeCorrection;
-double downstreamSlopeCorrection; assign downstreamSlopeCorrection to "{DEV}:DS_PTCH_COR"; monitor downstreamSlopeCorrection;
-double taperCorrection; assign taperCorrection to "{DEV}:VC_TPR_COR";
-double slopeCorrection; assign slopeCorrection to "{DEV}:VC_SLP_COR";
-double offsetCorrection; assign offsetCorrection to "{DEV}:VC_OFFS_COR";
+/* Setpoint PVs */
+double desiredGap;        assign desiredGap   to "{DEV}:GapDes";
+double desiredTaper;      assign desiredTaper to "{DEV}:TaperDes";
+double desiredUsGap;      assign desiredUsGap to "{DEV}:USGapDes";
+double desiredDsGap;      assign desiredDsGap to "{DEV}:DSGapDes";
+/* Move precision and retry */
+double deadband_mm;       assign deadband_mm to "{DEV}:DeadbandGap";
+double moveFrac;          assign moveFrac to "{DEV}:MoveFraction";
+double finalMoveFrac;     assign finalMoveFrac to "{DEV}:FinalMoveFraction";
+double finalMoveRange;    assign finalMoveRange to "{DEV}:FinalMoveRange";
+double moveVelo;          assign moveVelo to "{DEV}:MotorVelocity";
+double acclDccl;          assign acclDccl to "{DEV}:MotorAccl";
+int singleApproach;       assign singleApproach to "{DEV}:SingleApproach";      monitor singleApproach;
+int retry;                assign retry to "{DEV}:Retries";
+int retryMax;             assign retryMax to "{DEV}:MaxRetries";
+double clRegionOfIntr;    assign clRegionOfIntr to "{DEV}:CLRegionOfInterest";  monitor clRegionOfIntr;
+int clEncSelection;       assign clEncSelection to "{DEV}:CloseLoopEncoder";    monitor clEncSelection;
+
+/* Position readback PVs */
+double actualGap;         assign actualGap to "{DEV}:Gap";                      monitor actualGap;
+double actualTaper;       assign actualTaper to "{DEV}:Taper";                    monitor actualTaper;
+double calcUsGap;         assign calcUsGap to "{DEV}:USGap";                    monitor calcUsGap;
+double calcDsGap;         assign calcDsGap to "{DEV}:DSGap";                    monitor calcDsGap;
+double calcAisleTaper;    assign calcAisleTaper to "{DEV}:AisleTaper";          monitor calcAisleTaper;
+double calcWallTaper;     assign calcWallTaper to "{DEV}:WallTaper";            monitor calcWallTaper;
+double calcUsSymmetry;    assign calcUsSymmetry to "{DEV}:USSymmetry";          monitor calcUsSymmetry;
+double calcDsSymmetry;    assign calcDsSymmetry to "{DEV}:DSSymmetry";          monitor calcDsSymmetry;
 
 /* Hardware position readback PVs */
-double gapEncoderUs;      assign gapEncoderUs to "{DEV}:USAISLE:MOTR.RBV";        monitor gapEncoderUs;
-double gapEncoderDs;      assign gapEncoderDs to "{DEV}:DSAISLE:MOTR.RBV";        monitor gapEncoderDs;
-double halfGapEncoderUs;  assign halfGapEncoderUs to "{DEV}:USWALL:MOTR.RBV";    monitor halfGapEncoderUs;
-double halfGapEncoderDs;  assign halfGapEncoderDs to "{DEV}:DSWALL:MOTR.RBV";    monitor halfGapEncoderDs;
-double gapPotUs;          assign gapPotUs to "{DEV}:USWALL:POT_RBK";             monitor gapPotUs;
-double gapPotDs;          assign gapPotDs to "{DEV}:DSWALL:POT_RBK";             monitor gapPotDs;
+double usFullGapEncoder;  assign usFullGapEncoder  to "{DEV}:USGapEncoder";     monitor usFullGapEncoder;
+double dsFullGapEncoder;  assign dsFullGapEncoder  to "{DEV}:DSGapEncoder";     monitor dsFullGapEncoder;
 
+/* Motor position setpoint */
+double usaMotorVal;       assign usaMotorVal to "{DEV}:USAMotor.VAL";           monitor usaMotorVal;
+double uswMotorVal;       assign uswMotorVal to "{DEV}:USWMotor.VAL";           monitor uswMotorVal;
+double dsaMotorVal;       assign dsaMotorVal to "{DEV}:DSAMotor.VAL";           monitor dsaMotorVal;
+double dswMotorVal;       assign dswMotorVal to "{DEV}:DSWMotor.VAL";           monitor dswMotorVal;
+/* Motor position readback */
+double usaMotorRbv;       assign usaMotorRbv to "{DEV}:USAMotor.RBV";           monitor usaMotorRbv;
+double uswMotorRbv;       assign uswMotorRbv to "{DEV}:USWMotor.RBV";           monitor uswMotorRbv;
+double dsaMotorRbv;       assign dsaMotorRbv to "{DEV}:DSAMotor.RBV";           monitor dsaMotorRbv;
+double dswMotorRbv;       assign dswMotorRbv to "{DEV}:DSWMotor.RBV";           monitor dswMotorRbv;
+/* Motor position calculated from encoder */
+double usaMotorGap;       assign usaMotorGap to "{DEV}:USAMotorGap";            monitor usaMotorGap;
+double uswMotorGap;       assign uswMotorGap to "{DEV}:USWMotorGap";            monitor uswMotorGap;
+double dsaMotorGap;       assign dsaMotorGap to "{DEV}:DSAMotorGap";            monitor dsaMotorGap;
+double dswMotorGap;       assign dswMotorGap to "{DEV}:DSWMotorGap";            monitor dswMotorGap;
+double motorResolution;   assign motorResolution to "{DEV}:USAMotor.MRES";
 
-/* Move precision and retry */
-double deadband;          assign deadband to "{DEV}:DEADBAND";
-double moveFrac;          assign moveFrac to "{DEV}:MOVEFRAC";
-double moveVelo;          assign moveVelo to "{DEV}:MOVEVELO";
-double dlyInput;          assign dlyInput to "{DEV}:DLYINPUT";                  monitor dlyInput;
-double dly;               assign dly to "{DEV}:DLY";                            monitor dly;
-int rtry;                 assign rtry to "{DEV}:RETRY";                         monitor rtry;
-int rtryMax;              assign rtryMax to "{DEV}:RETRYMAX";                   monitor rtryMax;
+/* HGVPU command and status PVs */
+int startGapAdjustment;   assign startGapAdjustment to "{DEV}:Start";           monitor startGapAdjustment;
+int stop;                 assign stop to "{DEV}:Stop";                          monitor stop;
+int checkGap;             assign checkGap to "{DEV}:CheckGap";                  monitor checkGap;
+int undulatorError;       assign undulatorError to "{DEV}:UndulatorError";      monitor undulatorError;
+int calibMotors;          assign calibMotors to "{DEV}:CalibrateMotors.PROC";
+int movingDirection;      assign movingDirection to "{DEV}:MotionDirection";
+int deviceActive;         assign deviceActive to "{DEV}:DeviceActive";
+string message1;          assign message1 to "{DEV}:Message1.VAL";
+string message2;          assign message2 to "{DEV}:Message2.VAL";
 
-/* Command and status PVs */
-int startGapAdjustment;   assign startGapAdjustment to "{DEV}:GO";              monitor startGapAdjustment;
-int abort;                assign abort to "{DEV}:Abort.VAL";                    monitor abort;
-int stop;                 assign stop to "{DEV}:STOP";                          monitor stop;
-int dmov;                 assign dmov to "{DEV}:GAP_DMOV";                      monitor dmov;
-int singleApproach;       assign singleApproach to "{DEV}:SINGLE_APPROACH";     monitor singleApproach;
-int autoBrake;            assign autoBrake to "{DEV}:AUTOBRAKE";                monitor autoBrake;
-/* Flag to signal mode: 1 for gap adjusting, 0 for gap centering */
-/* Go through stop status of state set to change its vlue */
-int adjustGapActive;      assign adjustGapActive to "{DEV}:ACTIVE_FUNCTION";monitor adjustGapActive;
 
 /* Debug and simulation PVs */
 int debugLevel;           assign debugLevel to "{DEV}:DebugLevel.VAL";          monitor debugLevel;
 int simMode;              assign simMode to "{DEV}:SimMode.VAL";                monitor simMode;
-string setGapState;       assign setGapState to "{DEV}:SETGAP_STATE.VAL";
-string abortState;        assign abortState to "{DEV}:ABORT_STATE.VAL";
-int autoFEnDbg;           assign autoFEnDbg to "{DEV}:AUTOFEN_DBG";
-
-/* PVs to store axes faults */
-int UsWallFault;           assign UsWallFault to "{DEV}:USWALL:AXIS_FAULT";        monitor UsWallFault;
-int UsAisleFault;           assign UsAisleFault to "{DEV}:USAISLE:AXIS_FAULT";        monitor UsAisleFault;
-int DsWallFault;           assign DsWallFault to "{DEV}:DSWALL:AXIS_FAULT";        monitor DsWallFault;
-int DsAisleFault;           assign DsAisleFault to "{DEV}:DSAISLE:AXIS_FAULT";        monitor DsAisleFault;
+string setGapState;       assign setGapState to "{DEV}:SeqProgramState.VAL";
 
 
 /* stateSet to change gap */
@@ -143,211 +165,285 @@ ss setGap
   /* Initialize state */
   state init {
     entry {
-      if (debugLevel) printf("setGap:init: entry\n");
-      n = sprintf(setGapState, "setGap:init");
+      pvGet(debugLevel,SYNC);
+      if (debugLevel) logToIOCshell(ssId, "setGap:init: entry");
+
+      sprintf(setGapState, "setGap:init");
       pvPut(setGapState, SYNC);
-      status = 0;
+      sg_status = 0;
       /* Initialization of variables and PVs */
       /*initStatus = 0;*/
       stop = 0;
-      pvPut(stop);
-      rtry = 0;
-      pvPut(rtry);
-
-      posUsWall=0;
-      posDsWall=0;
-      posUsAisle=0;
-      posDsAisle=0;
-      offsetAdjust = 0;
-      movingLarger = 0;
+      pvPut(stop, SYNC);
+      retry = 0;
+      pvPut(retry, SYNC);
       startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
-      dmov = 1;
-      pvPut(dmov);
-      adjustGapActive = 1;
-      pvPut(adjustGapActive, SYNC);
+      pvPut(startGapAdjustment, SYNC);
+      deviceActive = 0;
+      pvPut(deviceActive, SYNC);
       numAxes = 4;
-
-      /* Creating ABORT string */
-      n = sprintf(abortCommand, "S:0");
 
       /* Connecting to ASYN port for motors */
       asynPort = macValueGet("PORT");
-      %%pVar->status = pasynOctetSyncIO->connect(pVar->asynPort, 0, (asynUser **)&pVar->pasynUser, NULL);
-      if (status != 0) {
-	printf("trajectoryScan error in pasynOctetSyncIO->connect\n");
-	printf("   status=%d, port=%s\n", status, asynPort);
+      %%pVar->sg_status = pasynOctetSyncIO->connect(pVar->asynPort, 0, (asynUser **)&pVar->pasynUser, NULL);
+      if (sg_status != 0) {
+        logToIOCshell(ssId, "trajectoryScan error in pasynOctetSyncIO->connect");
+        printf("   sg_status=%d, port=%s\n", sg_status, asynPort);
       }
 
+      /* Retrive sampling rate of the motor */
+      sprintf(stringOut, "RSAMP:1");
+      %%pVar->sg_status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      if (sg_status != 0)
+        sampleRate = 8000;
+      else
+        sampleRate = atoi(stringIn);
+
+      /* Set scaling factor for velocity and acceleration */
+      scalingFactorVelo = 65536.0 / sampleRate;
+      scalingFactorAD = scalingFactorVelo / sampleRate;
+
       if (initStatus == 0) initStatus = 1;
-      if (debugLevel) printf("setGap:init: done; going to 'idle'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:init: done; going to 'idle'");
     }
 
     /* Continue to idle state */
-    when () {
+    when() {
     } state idle
   }
 
   /* Idle state and on change of EPICS PVs preform action */
   state idle {
     entry {
-      if (debugLevel) printf("setGap:idle: entry\n");
-      n = sprintf(setGapState, "setGap:idle");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: entry");
+      sprintf(setGapState, "setGap:idle");
       pvPut(setGapState, SYNC);
       /* Clear flags that indicate/start motion */
       startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
-      dmov = 1;
-      pvPut(dmov);
+      pvPut(startGapAdjustment, SYNC);
+      if (deviceActive < 2) {
+        deviceActive = 0;
+        pvPut(deviceActive, SYNC);
+      }
       movingLarger = 0;
-      autoFEnDbg = 0;
-      pvPut(autoFEnDbg);
+      fullGapEncCorrection = 0;
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:idle ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-      status = 0;
+    /* writeRead() or writeCommand() has failed in the transition leading to this state*/
+    when(sg_status != 0) {
+      printf(" setGap:idle ERROR: previous writeCommand()/writeRead() returned %d. Clearing the status and returning to idle.\n", sg_status);
+      sg_status = 0;
     } state idle
 
     /* If stop is issued */
     when(stop == 1) {
-      if (debugLevel) printf("setGap:idle: going to 'stop'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: going to 'stop'");
     } state stop
 
-    /* If autofocus is on and we are trying to adjust the gap*/
-    when((startGapAdjustment == 1) && (adjustGapActive == 1)) {
-      printf(" setGap ERROR: AUTOFOCUS enabled, cannot adjust gap. Going to idle.\n");
-      /*TODO: Report to EPICS, not just to IOC console */
-      autoFEnDbg = 1;
-      pvPut(autoFEnDbg);
+    /* Device is in not safe state for operation, clear start flage and return to idle state */
+    when((startGapAdjustment == 1) && ((undulatorError == 1) || (checkGap == 1))) {
+      /* Reprot message on the screen */
+      sprintf(message2,"Device not ready to move!");
+      pvPut(message2,SYNC);
+      /* Clear Flag */
+      startGapAdjustment = 0;
+      pvPut(startGapAdjustment,SYNC);
     } state idle
 
-    /* When motors are commanded to GO and autofocus is diabled*/
-    when((startGapAdjustment == 1) && (adjustGapActive == 1)) {
+    /* When motors are commanded to Start and no errors reported from undulator */
+    when((startGapAdjustment == 1) && (undulatorError == 0) && (checkGap == 0)) {
+
       /* Retrieve PV values */
       pvGet(desiredGap,SYNC);
-      pvGet(desiredOffset,SYNC);
       pvGet(desiredTaper,SYNC);
-      pvGet(desiredSlope,SYNC);
-      pvGet(taperCorrection, SYNC);
-      pvGet(slopeCorrection, SYNC);
-      pvGet(offsetCorrection, SYNC);
-      pvGet(deadband,SYNC);
+      userDesiredGap = desiredGap;
+      userDesiredTaper = desiredTaper;
+      pvGet(desiredUsGap,SYNC);
+      pvGet(desiredDsGap,SYNC);
+      pvGet(deadband_mm,SYNC);
+      // deadband is stored as micron, convert to millimeters first:
+      deadband_mm = deadband_mm / 1000.;
       pvGet(moveFrac,SYNC);
       pvGet(moveVelo,SYNC);
-      /* Add correction factors to desired offset, taper, and slope */
-      correctedTaper = desiredTaper + taperCorrection;
-      correctedSlope = desiredSlope + slopeCorrection;
-      correctedOffset = desiredOffset + offsetCorrection;
-      /* Clear retries and Go flag */
-      rtry = 0;
-      pvPut(rtry);
-      startGapAdjustment = 0;
-      pvPut(startGapAdjustment);
-      dmov = 0;
-      pvPut(dmov);
-      /* Clear all errors on controller before move  */
-      /* sprintf(stringOut, "ACKNOWLEDGEALL"); */
+      pvGet(acclDccl,SYNC);
+      pvGet(motorResolution,SYNC);
+      pvGet(retryMax,SYNC);
 
-      /* Enable motors and disable breaks */
-      sprintf(stringOut, "BRKRLS:0");
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      /* Write start message to the PV */
+      sprintf(message1, "Device Started");
+      pvPut(message1,SYNC);
+      sprintf(message2, " ");
+      pvPut(message2,SYNC);
+
+      /* Calculate direction of the move */
+      if (desiredGap > actualGap)
+        movingDirection = 1;
+      else
+        movingDirection = 0;
+      pvPut(movingDirection, SYNC);
+
+      /* Clear retries and Go flag */
+      retry = 0;
+      pvPut(retry, SYNC);
+      startGapAdjustment = 0;
+      pvPut(startGapAdjustment, SYNC);
+      deviceActive = 1;
+      pvPut(deviceActive, SYNC);
 
       /* If single approach and opening gap */
-      if( (desiredGap*1000 > gapEncoderUs) && (singleApproach == 1) ) {
+      if( (desiredGap > actualGap) && (singleApproach == 1) ) {
         /* Store desired gap and deadband */
         desiredGapTemp = desiredGap;
-        deadbandTemp = deadband;
+        deadbandTemp = deadband_mm;
         /* Enlarge desired gap and deadband for single approach inital move */
         desiredGap = desiredGap + 1;
-        deadband = 0.5;
+        deadband_mm = 0.0005;
         movingLarger = 1;
       }
-      if (debugLevel) printf("setGap:idle: going to 'calcMove'\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:idle: going to 'calcMove'");
     } state calcMove
-
-/*
-    when() {
-        if(debugLevel) printf("setGap:idle: staying idle\n");
-        if(debugLevel) printf("setGap:idle centerGapActive %d, startGapAdjustment %d\n", adjustGapActive, startGapAdjustment);
-    } state idle
-*/
-
   }
 
   /* State for calculating new motor positions */
   state calcMove {
     entry {
-      if (debugLevel) printf("setGap:calcMove: entry'\n");
-      n = sprintf(setGapState, "setGap:calcMove");
+      if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: entry'");
+      sprintf(setGapState, "setGap:calcMove");
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:calcMove ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
+    /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
-/* Disable retry checking for time based gap setting */
-    when(rtry >= rtryMax) {
-      if (debugLevel) printf("setGap:calcMove: rtry >= rtryMax %d >= %d\n", rtry, rtryMax);
+    /* Disable retry checking for time based gap setting */
+    when(retry >= retryMax) {
+      if (debugLevel) printf("setGap:calcMove: retry >= retryMax %d >= %d\n", retry, retryMax);
     } state moveComplete
 
-
-    /* If stop is issued */
-    when(stop == 1){} state stop
-
     /* When in single approach and gap above modified desired gap */
-    when( (movingLarger == 1) && (gapEncoderUs > (desiredGap - 0.5)*1000)) {
-      if (debugLevel) printf("setGap:calcMove: If single approach");
+    when( (movingLarger == 1) && (actualGap > (desiredGap - 0.5))) {
+      if (debugLevel) logToIOCshell(ssId, "setGap:calcMove: single approach, above desired gap");
     } state moveComplete
 
     /* Calculate new positions */
     when() {
-      /*desiredTaper = (desiredGap + desiredTaper) < 7.1 ? 0 : desiredTaper;*/
-      correctedTaper = (desiredGap + correctedTaper) < 7.1 ? 0 : correctedTaper;
+      /* Calibrate motor positions with linear encoder readback */
+      calibMotors = 1;
+      pvPut(calibMotors,SYNC);
 
-      /* New motor positions with scaled position in regard to motor location */
-      /*posUsWall = desiredGap/2.0 + desiredOffset + ((distToUsMtr/distEndToEnd) * (desiredTaper)/2.0);*/
-      posUsWall = desiredGap/2.0 + correctedOffset + ((distToUsMtr/distEndToEnd) * (correctedTaper)/2.0);
-      posDsWall = desiredGap/2.0 + correctedOffset + ((distToDsMtr/distEndToEnd) * (correctedTaper)/2.0);
-      posUsAisle = desiredGap;
-      /*posDsAisle = desiredGap + desiredTaper;*/
-      posDsAisle = desiredGap + correctedTaper;
+      /* Fix the desired position for difference between desired gap and full gap encoders */
+      if ( fullGapEncCorrection && (movingLarger == 0) ) {
+        if (debugLevel) 
+          printf("   ** Performing full gap encoder correction **\n");
+        usError = (desiredUsGap-usFullGapEncoder)/2.0;
+        dsError = (desiredDsGap-dsFullGapEncoder)/2.0; 
 
-      /* For slope correction that should be solved in the mechanical world! */
-      posUsWall = posUsWall + upstreamSlopeCorrection;
-      posDsWall = posDsWall + downstreamSlopeCorrection;
-
-      /* This is a slope of the motors after the tracking vacuum chamber */
-      /*posUsWall = posUsWall - (desiredSlope/2.0);*/
-      posUsWall = posUsWall - (correctedSlope/2.0);
-      posDsWall = posDsWall + (correctedSlope/2.0);
-
-      /* Create a string to send to controller to start motor move  */
-      // #define POS_ST_LOC1 "iii"
-      // #define POS_ST_LOC2 "jjj"
-      // #define POS_ST_LOC3 "kkk"
-      // #define POS_ST_LOC4 "lll"
-      // #define MAX_VELO_ST_LOC "vvv"
-      // #define ACCL_ST_LOC "aaa"
-      sprintf(stringOut, "iii:1=%d", posUsWall_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "jjj:1=%d", posDsWall_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "kkk:1=%d", posDsAisle_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "lll:1=%d", posUsAisle_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      sprintf(stringOut, "vvv:1=%d", moveVelo_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-      ///sprintf(stringOut, "aaa:1=%d", moveVelo_raw); %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-
-      if (debugLevel) {
-        printf("setGap:calcMove: desiredGap = %f, desiredTaper = %f, desiredOffset = %f, desiredSlope = %f'\n", desiredGap, desiredTaper, desiredOffset, desiredSlope);
-        printf("setGap:calcMove: posUsWall = %f (%d)'\n", posUsWall, posUsWall_raw);
-        printf("setGap:calcMove: posDsWall = %f (%d)'\n", posDsWall, posDsWall_raw);
-        printf("setGap:calcMove: posDsAisle = %f (%d)'\n", posDsAisle, posDsAisle_raw);
-        printf("setGap:calcMove: posUsAisle = %f (%d)'\n", posUsAisle, posUsAisle_raw);
-        printf("setGap:calcMove: moveVelo = %f (%d)'\n", moveVelo, moveVelo_raw);
-        printf("setGap:calcMove: command:  = %s'\n", stringOut);
+        usaMotorAmountToMove = (distToDsMtr/distEndToEnd)*usError - (distToUsMtr/distEndToEnd)*dsError;
+        uswMotorAmountToMove = (distToDsMtr/distEndToEnd)*usError - (distToUsMtr/distEndToEnd)*dsError;
+        dsaMotorAmountToMove = (distToDsMtr/distEndToEnd)*dsError - (distToUsMtr/distEndToEnd)*usError;
+        dswMotorAmountToMove = (distToDsMtr/distEndToEnd)*dsError - (distToUsMtr/distEndToEnd)*usError;
       }
+      else {
+        /* Calculating new motor positions based on distances between strongback end and motor position*/
+        desiredUsMotorPosition = (desiredGap/2.0) + (distToUsMtr/distEndToEnd)*(desiredTaper/2.0);
+        desiredDsMotorPosition = (desiredGap/2.0) + (distToDsMtr/distEndToEnd)*(desiredTaper/2.0);
+  
+        usaMotorAmountToMove = desiredUsMotorPosition - usaMotorGap;
+        uswMotorAmountToMove = desiredUsMotorPosition - uswMotorGap;
+        dsaMotorAmountToMove = desiredDsMotorPosition - dsaMotorGap;
+        dswMotorAmountToMove = desiredDsMotorPosition - dswMotorGap;
+      }
+
+      /* Calculate factor for retries */
+      if ( fabs(actualGap - desiredGap ) < finalMoveRange )
+        /* If small adjustment, move motor to end point */
+        moveFraction = finalMoveFrac;
+      else
+        /* Otherwis do fraction of the move */
+        moveFraction = moveFrac;
+
+      /* Calculate new motor positions */
+      usaPos = usaMotorRbv + moveFraction * usaMotorAmountToMove;
+      uswPos = uswMotorRbv + moveFraction * uswMotorAmountToMove;
+      dsaPos = dsaMotorRbv + moveFraction * dsaMotorAmountToMove;
+      dswPos = dswMotorRbv + moveFraction * dswMotorAmountToMove;
+
+      /* Scale new positions to raw value and push to motor */
+      usaPos_raw = (int) (usaPos / motorResolution);
+      uswPos_raw = (int) (uswPos / motorResolution);
+      dsaPos_raw = (int) (dsaPos / motorResolution);
+      dswPos_raw = (int) (dswPos / motorResolution);
+      moveVelo_raw = (int) ((moveVelo/motorResolution) * scalingFactorVelo);
+      //TODO: fix acceleration
+      acclDccl_raw = (int) (((moveVelo/motorResolution) / acclDccl) * (scalingFactorAD*100));
+      
+      if (debugLevel) {
+        printf("    calcMove: desiredGap = %f, desiredTaper = %f'\n", desiredGap, desiredTaper);
+        printf("    calcMove: currentGap = %f, currentTaper = %f'\n", actualGap, actualTaper);
+        printf("    calcMove: moveFraction = %f'\n", moveFraction);
+        printf("    calcMove: retry = %d'\n", retry);
+        printf("    calcMove: usError = %.6f  dsError = %.6f'\n", usError, dsError);
+        printf("    calcMove: uswPos = %f (%d) Delta to target: %f\n", uswPos, uswPos_raw, uswMotorAmountToMove);
+        printf("    calcMove: dswPos = %f (%d) Delta to target: %f\n", dswPos, dswPos_raw, dswMotorAmountToMove);
+        printf("    calcMove: dsaPos = %f (%d) Delta to target: %f\n", dsaPos, dsaPos_raw, dsaMotorAmountToMove);
+        printf("    calcMove: usaPos = %f (%d) Delta to target: %f\n", usaPos, usaPos_raw, usaMotorAmountToMove);
+        printf("    calcMove: moveVelo = %f (%d)\n", moveVelo, moveVelo_raw);
+        printf("    calcMove: acclDccl = %f (%d)\n", acclDccl, acclDccl_raw);
+      }
+
+    } state checkMove
+  }
+
+  state checkMove {
+    entry {
+      if (debugLevel){
+        logToIOCshell(ssId, "setGap:checkMove: entry");
+      }
+      sprintf(setGapState, "setGap:checkMove");
+      pvPut(setGapState, SYNC);
+      fullGapCorrectionNeeded = ((clEncSelection == 1) && (desiredGap < clRegionOfIntr) &&
+                                 (retry < retryMax) &&
+                                 (fabs(desiredUsGap-usFullGapEncoder)>(2.0*deadband_mm) || 
+                                  fabs(desiredDsGap-dsFullGapEncoder)>(2.0*deadband_mm) ) );
+      if (debugLevel) 
+        printf("    checkMove: fullGapCorrectionNeeded = %d\n", fullGapCorrectionNeeded);
+    }
+
+    when( (fabs(usaMotorAmountToMove) < deadband_mm) && 
+          (fabs(uswMotorAmountToMove) < deadband_mm) &&
+          (fabs(dsaMotorAmountToMove) < deadband_mm) && 
+          (fabs(dswMotorAmountToMove) < deadband_mm) && 
+          ((!fullGapCorrectionNeeded && fullGapEncCorrection) || 
+           (!fullGapEncCorrection))
+          ) {
+      if (debugLevel) 
+        logToIOCshell(ssId, "setGap:checkMove: Move unnecessary; skipping");
+      // epicsThreadSleep(0.5);
+    } state moveComplete
+
+    when () {
+      /* Create a string to send to controller to start motor move */
+      sprintf(stringOut, "iii:1=%d", uswPos_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "jjj:1=%d", dswPos_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "kkk:1=%d", dsaPos_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "lll:1=%d", usaPos_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "vvv:1=%d", moveVelo_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "aaa:1=%d", acclDccl_raw);
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
+      /* Enable motors and disable breaks */
+      sprintf(stringOut, "BRKRLS:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
+      %%pVar->brake_status = waitBrakesReleased(ssId, pVar);
     } state move
   }
 
@@ -355,107 +451,124 @@ ss setGap
   state move {
     entry {
       if (debugLevel){
-        printf("setGap:move: entry\n");
-        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [mm] \n",fabs(halfGapEncoderUs-posUsWall),fabs(halfGapEncoderDs-posDsWall),fabs(gapEncoderDs-posDsAisle),fabs(gapEncoderUs-posUsAisle));
-        printf("Distance to move: UsWall=%f, DsWall=%f, DsAisle=%f, UsAisle=%f [um] \n",fabs(halfGapEncoderUs-posUsWall)*1000,fabs(halfGapEncoderDs-posDsWall)*1000,fabs(gapEncoderDs-posDsAisle)*1000,fabs(gapEncoderUs-posUsAisle)*1000);
+        logToIOCshell(ssId, "setGap:move: entry");
       }
-      n = sprintf(setGapState, "setGap:move");
+      sprintf(setGapState, "setGap:move");
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:move ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-
-
-    /* In case of faults, finish move */
-    when((UsWallFault != 0) || (UsAisleFault != 0) || (DsWallFault != 0) || (DsAisleFault != 0)) {
-      if (debugLevel) printf("setGap:move: One or more axis fault going to moveComplete\n");
-    } state moveComplete
-
-    /* If stop is issued */
-    when(stop == 1){} state stop
-
-    when( (fabs(gapEncoderUs-posUsAisle) < deadband) && (fabs(gapEncoderDs-posDsAisle) < deadband) && (fabs(halfGapEncoderUs-posUsWall) < deadband) && (fabs(halfGapEncoderDs-posDsWall) < deadband) ) {
-      epicsThreadSleep(1.5);
-      if (debugLevel) printf("setGap:move: All absolute moves less than deadband. Going to moveComplete\n");
-    } state moveComplete
+    /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) || (brake_status == 1)) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous write returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* Send command to start motion */
-    when( delay(0.3) ) {
-      if (debugLevel) printf("setGap:move: Waiting for motion complete\n");
+    when( delay(0.2) ) {
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: Waiting for any previous motion to complete");
       /* Wait if any of the motors is moving */
       %%waitEpicsMotors(ssId, pVar);
-      if (debugLevel) printf("setGap:move: Wait complete\n");
+      if (debugLevel) logToIOCshell(ssId, "setGap:move: Wait complete");
+
       /* Send comand to start move */
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
+      sprintf(stringOut, "GOSUB(1)");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
     } state moving
   }
 
   /* State while motors are moving */
   state moving {
     entry {
-      if (debugLevel) printf("setGap:moving: entry\n");
-      n = sprintf(setGapState, "setGap:moving");
+      if (debugLevel) logToIOCshell(ssId, "setGap:moving: entry");
+      sprintf(setGapState, "setGap:moving");
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:moving ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-
-    /* If stop is issued */
-    when(stop == 1){} state stop
+    /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* When moving */
-    when(delay(0.2)){
+    when(delay(0.2)) {
       /*Wait while motors are moving */
       %%waitEpicsMotors(ssId, pVar);
-      /* When move done, start a timeout for servoing */
-      dly = 0;
-      pvPut(dly);
       /* When move done, increase number of retrys */
-      rtry = rtry + 1;
-      pvPut(rtry);
+      retry = retry + 1;
+      pvPut(retry, SYNC);
     } state calcMove
   }
 
   /* State when motors finish move */
   state moveComplete {
     entry {
-      if (debugLevel) printf("setGap:moveComplete: entry'\n");
-      n = sprintf(setGapState, "setGap:moveComplete");
+      if (debugLevel) logToIOCshell(ssId, "setGap:moveComplete: entry'");
+      sprintf(setGapState, "setGap:moveComplete");
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf(" setGap:moveComplete ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-
-    /* If stop is issued */
-    when(stop == 1){} state stop
+    /* If stop is issued or writeCommand()/writeRead() has failed in the transition leading to this state */
+    when( (stop == 1) || (sg_status != 0) ) {
+      if (sg_status != 0)
+        printf(" setGap:move ERROR: previous writeRead() returned %d. Going to stop.\n", sg_status);
+    } state stop
 
     /* When in single approach */
     when( movingLarger == 1) {
       /* Restore original values */
       movingLarger = 0;
       desiredGap = desiredGapTemp;
-      deadband = deadbandTemp;
+      deadband_mm = deadbandTemp;
+    } state calcMove
+
+    /* If closing loop on full gap encoder,
+     * desired gap is within region of interest for full gap closed loop corrections,
+     * and US and DS gap encoders differ from desired points */
+    when( (clEncSelection == 1) && (desiredGap < clRegionOfIntr) &&
+          (retry < retryMax) &&
+          (   fabs(desiredUsGap-usFullGapEncoder)>(2.0*deadband_mm) 
+          ||  fabs(desiredDsGap-dsFullGapEncoder)>(2.0*deadband_mm) ) ) {
+      if (debugLevel)
+        logToIOCshell(ssId, "setGap: moveComplete: FullGapEncoder closedLoop: adjusting desired position");
+        /* Limit max retries with full gap encoder */
+        /* retryMax = retry + 4; */
+        /* Correction for FullGap Closed loop flag*/
+        fullGapEncCorrection = 1;
     } state calcMove
 
     /* On complete move */
     when() {
-      /* If autmatic enabeling of brakes is turned on */
-      if (autoBrake) {
-        sprintf(stringOut, "S:0 BRKENG:0");
-        %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-        if(status == 0) {
-          /* Possibly not needed, can be removed */
-          %%pVar->status = writeIntAndCheck(ssId, pVar, 4, 1, pVar->setGapState);
-        }
+      /* Issue a global stop */
+      sprintf(stringOut, "S:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      if ( sg_status != 0 ) {
+        sprintf(stringOut, "S:0");
+        %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      }
+      /* Engage brakes on all motors */
+      sprintf(stringOut, "BRKENG:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      /* Turn Off motor current */
+      sprintf(stringOut, "OFF:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
+      /* Calibrate motors at final position */
+      calibMotors = 1;
+      pvPut(calibMotors, SYNC);
+
+      if (retry >= retryMax) {
+        deviceActive = 2;
+        pvPut(deviceActive,SYNC);
+        sprintf(message1, "Max Retries Failed");
+        pvPut(message1);
+
+      }
+      else {
+        /* Write message to a PV */
+        sprintf(message1, "Device At Destination");
+        pvPut(message1);
       }
     } state idle
   }
@@ -463,117 +576,79 @@ ss setGap
   /* Stop state */
   state stop {
     entry{
-      if (debugLevel) printf("setGap:stop: entry'\n");
-      n = sprintf(setGapState, "setGap:stop");
+      if (debugLevel) logToIOCshell(ssId, "setGap:stop: entry'");
+      sprintf(setGapState, "setGap:stop");
       pvPut(setGapState, SYNC);
     }
 
-    /* writeRead() has failed in the transition leading to this state*/
-/*
-    when(status != 0) {
-      printf(" setGap:stop ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-*/
-
     /* On STOP flag */
-    when (){
+    when() {
+
+      if (sg_status > 0)
+        logToIOCshell(ssId, "Trying to stop the motors after writeRead error! Then transition into idle");
+
       /* Send out an Abort all axes command */
-      %%pVar->status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->setGapState);
-/*      if(status == 0) { */
-      sprintf(stringOut, "S:0 BRKENG:0");
-      %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->setGapState);
-/*      } */
+      sprintf(stringOut, "S:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      sprintf(stringOut, "BRKENG:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+      /* Turn Off motor current */
+      sprintf(stringOut, "OFF:0");
+      %%pVar->sg_status = writeCommand(ssId, pVar, pVar->stringOut, pVar->setGapState);
+
       /* Raise virtual axis done moving flag */
-      dmov = 1;
-      pvPut(dmov);
-      /* if in single approach mode restore PVs */
-      if (movingLarger == 1) {
-        movingLarger = 0;
-        desiredGap = desiredGapTemp;
-        deadband = deadbandTemp;
-      }
+      deviceActive = 2;
+      pvPut(deviceActive, SYNC);
       /* Clear stop flag */
       stop = 0;
-      pvPut(stop);
+      pvPut(stop, SYNC);
 
-      /* Disable gap adjustment */
-/*
-      adjustGapActive = 0;
-      pvPut(adjustGapActive, SYNC);
-*/
+      sprintf(message1, "Device Stopped");
+      pvPut(message1,SYNC);
     } state idle
-  }
-}
-
-/* stateSet to abort move */
-ss abortMove {
-
-  state idle {
-
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf("abortMove:idle ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-
-    when() {
-    } state monitorAbort
-
-  }
-
-  state monitorAbort {
-    entry{
-      n = sprintf(abortState, "abortMove:monitorAbort");
-      pvPut(abortState, SYNC);
-   }
-
-    /* writeRead() has failed in the transition leading to this state*/
-    when(status != 0) {
-      printf("abortMove:monitorAbort ERROR: previous writeRead() returned %d. Going to idle.\n", status);
-    } state idle
-
-    /* When Abort is triggered */
-    when ((abort==1) && delay(0.1)) {
-      /* Issue an abort command on controller */
-      %%pVar->status = writeRead(ssId, pVar, pVar->abortCommand, pVar->stringIn, pVar->abortState);
-      if (debugLevel) printf("abortMove: sent command '%s'\n", abortCommand);
-      if (status == 0 ) {
-        sprintf(stringOut, "S:0 BRKENG:0");
-        %%pVar->status = writeRead(ssId, pVar, pVar->stringOut, pVar->stringIn, pVar->abortState);
-      }
-      /* Set stop PV for main stateSet to interrupt move */
-      stop = 1;
-      pvPut(stop);
-      /* Clear abort PV */
-      abort=0;
-      pvPut(abort);
-    } state monitorAbort
   }
 }
 
 
 %{
 
+/* Write operation through asyn port */
+static int writeCommand(SS_ID ssId, struct UserVar *pVar, char *command, char *stateName)
+{
+  asynStatus status=0;
+  size_t nwrite;
+  char output_buf[BUF_SIZE];
 
+  sprintf(output_buf, "%s ", command);
+
+  if (!(pVar->simMode)) {
+    status = pasynOctetSyncIO->write((asynUser *)pVar->pasynUser, output_buf,
+             strlen(output_buf), 2.0, &nwrite);
+    if (status) printf("writeCommand called from %s: pasynOctetSyncIO->write returned %d\n", stateName, status);
+ }
+  if (pVar->simMode || pVar->debugLevel) {
+    printf("    writeCommand:command='%s'\n", output_buf);
+  }
+
+  return(status);
+}
 /* WriteRead operation through asyn port */
 static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *reply, char *stateName)
 {
   asynStatus status=0;
-  char buffer[BUF_SZ];
-  char cmdSucc[10];
   size_t nwrite, nread;
   int eomReason;
+  char output_buf[BUF_SIZE];
+
+  sprintf(output_buf, "%s ", command);
 
   if (!(pVar->simMode)) {
-    status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, buffer,
-             strlen(command), reply, BUF_SZ,
-             30.0, &nwrite, &nread, &eomReason);
+    status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, output_buf,
+             strlen(output_buf), reply, BUF_SIZE, 2.0, &nwrite, &nread, &eomReason);
     if (status) printf("writeRead called from %s: pasynOctetSyncIO->writeRead returned %d\n", stateName, status);
-    if (strncmp(reply, cmdSucc, 1)) printf("Aerotech returned %c, command not successful\n", reply[0]);
  }
-  if (pVar->simMode || (pVar->debugLevel)) {
-    if (buffer[strlen(buffer)-1] == '\n')
-      buffer[strlen(buffer)-1] = '\0';
-    printf("    writeRead:command='%s', reply='%s'\n", buffer, reply);
+  if (pVar->simMode || pVar->debugLevel) {
+    printf("    writeRead:command='%s', reply='%s'\n", output_buf, reply);
   }
 
   return(status);
@@ -582,7 +657,7 @@ static int writeRead(SS_ID ssId, struct UserVar *pVar, char *command, char *repl
 /* Check if motors are moving */
 static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
 {
-  char inputBuff[BUF_SZ], outputBuff[BUF_SZ];
+  char inputBuff[BUF_SIZE], outputBuff[BUF_SIZE];
   size_t nwrite, nread;
   int eomReason;
   int move_active = 0;
@@ -591,44 +666,126 @@ static int getMotorMoving(SS_ID ssId, struct UserVar *pVar)
   #define MOVING 0x4
 
   for (can_addr=1, count=0; can_addr <= pVar->numAxes; can_addr++) {
+    /* If Stop is issued while in for loop */
+    if ( pVar->stop == 1 )
+      return 0;
+
+    /* Create command that reads motor status word */
     sprintf(outputBuff, "RW(0):%d", can_addr);
+    /* Send command to the controller */
     status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, outputBuff,
-             strlen(outputBuff), inputBuff, BUF_SZ,
-             30.0, &nwrite, &nread, &eomReason);
+             strlen(outputBuff), inputBuff, BUF_SIZE, 1.0, &nwrite, &nread, &eomReason);
 
     if (status)
       printf("getMotorMoving: pasynOctetSyncIO->writeRead returned %d\n", status);
+    /* Parse return of the command */
     move_active |= (atoi(inputBuff) & MOVING) == MOVING;
-    if (pVar->debugLevel) {
-      printf("getMotorMoving: outputBuff='%s'\n", outputBuff);
-      printf("getMotorMoving: inputBuff='%s'\n", inputBuff);
-      printf("getMotorMoving: move_active= %d\n", move_active);
-    }
+    /* If any motor is moving return 1  */
     if (move_active)
-      return(1);
+      return 1;
+    /* Otherwise increase the count and continue */
     else {
       count++;
       if (count>3) break;
     }
   }
 
-  return(0);
+  return 0;
 }
 
 /* Wait while motors are moving */
 static int waitEpicsMotors(SS_ID ssId, struct UserVar *pVar)
 {
   if(pVar->debugLevel)
-    printf("waitEpicsMotors\n");
+    logToIOCshell(ssId, "waitEpicsMotors");
+  /* Read status of motors, if they are moving */
   while (getMotorMoving(ssId, pVar)) {
-    epicsThreadSleep((1/5.));
+    epicsThreadSleep((1/10.0));
   }
 
- return(0);
+ return 0;
+}
+
+static int queryBrakesReleased(SS_ID ssId, struct UserVar *pVar)
+{
+  char inputBuff[BUF_SIZE], outputBuff[BUF_SIZE];
+  size_t nwrite, nread;
+  int eomReason;
+  int brake_engaged = 0;
+  int status, can_addr;
+
+  #define BRAKE_ENGAGED 0x1000
+
+  for (can_addr=1; can_addr <= pVar->numAxes; can_addr++) {
+    /* If Stop is issued while in for loop */
+    if ( pVar->stop == 1 )
+      return 0;
+
+    /* Create command that reads motor status word */
+    sprintf(outputBuff, "RW(3):%d", can_addr);
+    /* Send command to the controller */
+    status = pasynOctetSyncIO->writeRead((asynUser *)pVar->pasynUser, outputBuff,
+             strlen(outputBuff), inputBuff, BUF_SIZE, 1.0, &nwrite, &nread, &eomReason);
+
+    /* Parse return of the command */
+    brake_engaged = ((atoi(inputBuff) & BRAKE_ENGAGED) == BRAKE_ENGAGED);
+
+    if (pVar->debugLevel) {
+      if (status)
+        printf("    checkBrakesReleased: pasynOctetSyncIO->writeRead returned %d\n", status);
+      printf("    checkBrakesReleased: '%s'=>'%s' brake_engaged=%d\n", 
+             outputBuff, inputBuff, brake_engaged);
+    }
+
+    /* If any motor has a brake engaged, return immediately */
+    if (brake_engaged)
+      return 1;
+  }
+
+  return 0;
+}
+
+static int waitBrakesReleased(SS_ID ssId, struct UserVar *pVar)
+{
+  if(pVar->debugLevel)
+    logToIOCshell(ssId, "waitBrakesReleased");
+  /* Read status of motors, if they are moving */
+  int failed_count=0;
+  while (queryBrakesReleased(ssId, pVar)) {
+    failed_count++;
+    if (failed_count > 5) {
+      return 1;
+    }
+    writeCommand(ssId, pVar, "BRKRLS:0", "waitBrakesReleased");
+    epicsThreadSleep((1/10.0));
+  }
+  return 0;
+}
+
+/* Create a timestamp with current time */
+
+static int getTimeStamp(SS_ID ssId, char *timeStampString)
+{
+  struct timeval preciseCurrentTime;
+  time_t currentTime_sec;
+  struct tm *currentTime;
+  char tmp_buff[32];
+  size_t size;
+
+  gettimeofday(&preciseCurrentTime, NULL);
+  currentTime_sec = preciseCurrentTime.tv_sec;
+  currentTime = localtime(&currentTime_sec);
+  size = strftime(tmp_buff, sizeof tmp_buff, "%Y-%m-%d_%H:%M:%S", currentTime);
+  snprintf(timeStampString, (size + 8) , "%s.%06ld", tmp_buff, preciseCurrentTime.tv_usec);
+  return(0);
+}
+
+static int logToIOCshell(SS_ID ssId, char *logMessage) {
+  char timestamp[32];
+  getTimeStamp(ssId, timestamp);
+  printf("%s : %s\n",timestamp, logMessage);
+  return(0);
 }
 
 }%
 
-/*
-vim:filetype=cpp:
- */
