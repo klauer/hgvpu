@@ -239,13 +239,14 @@ asynSetTraceMask("M2_DSW", -1, 0x1)
 #   virtualAxis       - number of virtual axis
 #   movingPollPeriod  - poll period while in motion
 #   idlePollPeriod    - poll period while idle
+#   defaultClass      - default class for the motor (4 or 5)
 # -------------------------------------------------------------------------
 
 # Undulator motors
-iocshCmd("SmartCreateController(M_USW,M1_USW,1,0,100,1000)")
-iocshCmd("SmartCreateController(M_USA,M4_USA,1,0,100,1000)")
-iocshCmd("SmartCreateController(M_DSA,M3_DSA,1,0,100,1000)")
-iocshCmd("SmartCreateController(M_DSW,M2_DSW,1,0,100,1000)")
+iocshCmd("SmartCreateController(M_USW,M1_USW,1,0,100,1000,5)")
+iocshCmd("SmartCreateController(M_USA,M4_USA,1,0,100,1000,5)")
+iocshCmd("SmartCreateController(M_DSA,M3_DSA,1,0,100,1000,5)")
+iocshCmd("SmartCreateController(M_DSW,M2_DSW,1,0,100,1000,5)")
 
 iocshCmd("SmartSetCANAddress(M_USW,0,1)")
 iocshCmd("SmartSetCANAddress(M_USA,0,4)")
