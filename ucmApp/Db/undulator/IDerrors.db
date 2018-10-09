@@ -294,19 +294,26 @@ record(calcout,"$(U):DeviceBoundsCheck") {
   field(DOPT,"Use CALC")
   field(OUT,"$(U):DeviceErrorSQ.PROC PP NMS")
 }
+record(ao,"$(U):BoundCheckTolerance") {
+  field(DESC, "Tolerance for bound check")
+  field(EGU, "mm")
+  field(VAL, "0.005")
+}
 record(calc,"$(U):UpperBoundCheck") {
   field(DESC,"Check Upper Bound")
-  field(CALC,"(MAX(A,B)>C)?1:0")
+  field(CALC,"(MAX(A,B)>(C+D))?1:0")
   field(INPA,"$(U):USGap.VAL NPP NMS")
   field(INPB,"$(U):DSGap.VAL NPP NMS")
   field(INPC,"$(U):GapDes.DRVH NPP NMS")
+  field(INPD,"$(U):BoundCheckTolerance NPP NMS")
 }
 record(calc,"$(U):LowerBoundCheck") {
   field(DESC,"Check Lower Bound")
-  field(CALC,"(MIN(A,B)<C)?1:0")
+  field(CALC,"(MIN(A,B)<(C-D))?1:0")
   field(INPA,"$(U):USGap.VAL NPP NMS")
   field(INPB,"$(U):DSGap.VAL NPP NMS")
   field(INPC,"$(U):GapDes.DRVL NPP NMS")
+  field(INPD,"$(U):BoundCheckTolerance NPP NMS")
 }
 record(calc,"$(U):TaperBoundCheck") {
   field(DESC,"Check Taper Bound")
