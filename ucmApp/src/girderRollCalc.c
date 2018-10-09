@@ -16,8 +16,10 @@
 #include <registryFunction.h>
 #include <epicsExport.h>
 #include <recSup.h>
-#include <genSubRecord.h>
+#include <aSubRecord.h>
+/*
 #include <pinfo.h>
+*/
 
 /* r1     = radius of CAM1												*/
 /* r2     = radius of CAM2												*/
@@ -32,28 +34,28 @@
 
 /* gammaRoll  = amount of roll in the system 								*/
 
-long	rollCalcInit(struct	genSubRecord *pgsub)
+long	rollCalcInit(struct	aSubRecord *pasub)
 {
 	return(0);
 }
 
-long	rollCalc(struct	genSubRecord *pgsub)
+long	rollCalc(struct	aSubRecord *pasub)
 {
-	double	r1		= *(double *)pgsub->a;
-	double	r2		= *(double *)pgsub->b;
-	double	r3		= *(double *)pgsub->c;
-	double	X1		= *(double *)pgsub->d;
-	double	X23		= *(double *)pgsub->e;
-	double	beta2	= *(double *)pgsub->f;
-	double	beta3	= *(double *)pgsub->g;
-	double	phi1	= *(double *)pgsub->h;
-	double	phi2	= *(double *)pgsub->i;
-	double	phi3	= *(double *)pgsub->j;
+	double	r1		= *(double *)pasub->a;
+	double	r2		= *(double *)pasub->b;
+	double	r3		= *(double *)pasub->c;
+	double	X1		= *(double *)pasub->d;
+	double	X23		= *(double *)pasub->e;
+	double	beta2	= *(double *)pasub->f;
+	double	beta3	= *(double *)pasub->g;
+	double	phi1	= *(double *)pasub->h;
+	double	phi2	= *(double *)pasub->i;
+	double	phi3	= *(double *)pasub->j;
 
 	double	gammaRoll = -((r1 * sin(phi1)) / (X1 + X23)) + 
 			((r2 * sin(phi2) * sin(beta3)) + (r3 * sin(phi3) * sin(beta2))) /
 			(sin(beta2 + beta3) * (X1 + X23));
-	*(double *)pgsub->vala = gammaRoll;
+	*(double *)pasub->vala = gammaRoll;
 
 return(0);
 }

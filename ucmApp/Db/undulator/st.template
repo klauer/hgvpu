@@ -548,10 +548,10 @@ dbLoadRecords("db/smart_extra.db","P=USEG:UND1:$(SEG)50:,M=CM5,PORT=S4,ADDR=0")
 
 #####################(Marty Smith)############################
 dbLoadRecords("db/HGVPU.db","U=USEG:UND1:$(SEG)50")
-#dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=0,IDMOTOR=USW,MDESC=USW")
-#dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=1,IDMOTOR=USA,MDESC=USA")
-#dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=2,IDMOTOR=DSW,MDESC=DSW")
-#dbLoadRecords("db/HGVPUmotors.db","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=3,IDMOTOR=DSA,MDESC=DSA")
+#dbLoadRecords("db/HGVPUmotors.template","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=0,IDMOTOR=USW,MDESC=USW")
+#dbLoadRecords("db/HGVPUmotors.template","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=1,IDMOTOR=USA,MDESC=USA")
+#dbLoadRecords("db/HGVPUmotors.template","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=2,IDMOTOR=DSW,MDESC=DSW")
+#dbLoadRecords("db/HGVPUmotors.template","U=USEG:UND1:$(SEG)50,S=0.773,MH=50.0,ML=3.5,PORT=S7,ADDR=3,IDMOTOR=DSA,MDESC=DSA")
 dbLoadRecords("db/smart_extra.db","P=USEG:UND1:$(SEG)50:,M=USW,PORT=S7,ADDR=0")
 dbLoadRecords("db/smart_extra.db","P=USEG:UND1:$(SEG)50:,M=USA,PORT=S7,ADDR=1")
 dbLoadRecords("db/smart_extra.db","P=USEG:UND1:$(SEG)50:,M=DSW,PORT=S7,ADDR=2")
@@ -563,7 +563,7 @@ dbLoadRecords("db/IDmotion.db","U=USEG:UND1:$(SEG)50,S=5.0,PORT=idmon")
 dbLoadRecords("db/IDMonitors.db","U=USEG:UND1:$(SEG)50,PORT=idmon,PORT1=monitors")
 dbLoadRecords("db/IDerrors.db","U=USEG:UND1:$(SEG)50")
 dbLoadRecords("db/ID_FPGArev.db","U=USEG:UND1:$(SEG)50")
-dbLoadRecords("db/FagorEncoders.db","U=USEG:UND1:$(SEG)50")
+dbLoadRecords("db/FagorEncoders.template","U=USEG:UND1:$(SEG)50")
 
 dbLoadRecords("db/HGVPU_coordMotion.db","U=USEG:UND1:$(SEG)50")
 #####################(Marty Smith)############################

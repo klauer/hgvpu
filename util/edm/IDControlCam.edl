@@ -1,0 +1,1481 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 159
+y 71
+w 639
+h 463
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 55
+bgColor index 6
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
+y 325
+w 605
+h 125
+lineColor index 56
+fillColor index 34
+lineWidth 4
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 350
+y 350
+w 265
+h 90
+lineColor index 56
+fill
+fillColor index 56
+lineWidth 0
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 330
+y 60
+w 280
+h 115
+lineColor index 56
+fillColor index 34
+lineWidth 4
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 25
+y 350
+w 250
+h 90
+lineColor index 56
+fill
+fillColor index 56
+lineWidth 0
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 330
+y 30
+w 280
+h 30
+lineColor index 56
+fill
+fillColor index 56
+lineWidth 4
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 0
+w 145
+h 25
+font "helvetica-medium-r-18.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "ID CAM Control"
+}
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 515
+y 200
+w 90
+h 40
+fgColor index 14
+onColor index 20
+offColor index 23
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(U):STOPMOTORSC.PROC"
+pressValue "1"
+onLabel "Stop "
+offLabel "Stop "
+3d
+useEnumNumeric
+font "helvetica-medium-r-14.0"
+endObjectProperties
+
+# (Message Button)
+object activeMessageButtonClass
+beginObjectProperties
+major 4
+minor 1
+release 0
+x 335
+y 200
+w 120
+h 40
+fgColor index 14
+onColor index 15
+offColor index 63
+topShadowColor index 0
+botShadowColor index 14
+controlPv "$(U):GIRD_MOVE"
+pressValue "1"
+onLabel "Move CAMs"
+offLabel "Move CAMs"
+3d
+useEnumNumeric
+font "helvetica-medium-r-14.0"
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 380
+y 80
+w 220
+h 85
+lineColor index 56
+fill
+fillColor index 56
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 385
+y 65
+w 100
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Upstream"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 495
+y 65
+w 100
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Downstream"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 365
+y 35
+w 209
+h 21
+font "helvetica-medium-r-18.0"
+fontAlign "center"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "Girder Position Readback"
+}
+autoSize
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 385
+y 90
+w 100
+h 16
+controlPv "$(U):US_X_ACT"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 20
+fgAlarm
+bgColor index 55
+autoHeight
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 385
+y 115
+w 100
+h 16
+controlPv "$(U):US_Y_ACT"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 20
+fgAlarm
+bgColor index 55
+autoHeight
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 495
+y 90
+w 100
+h 16
+controlPv "$(U):DS_X_ACT"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 20
+fgAlarm
+bgColor index 55
+autoHeight
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 495
+y 115
+w 100
+h 16
+controlPv "$(U):DS_Y_ACT"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 20
+fgAlarm
+bgColor index 55
+autoHeight
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 65
+y 370
+w 100
+h 16
+controlPv "$(U):CM1MOTOR.RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 65
+y 420
+w 100
+h 16
+controlPv "$(U):CM3MOTOR.RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 65
+y 395
+w 100
+h 16
+controlPv "$(U):CM2MOTOR.RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 395
+y 370
+w 100
+h 16
+controlPv "$(U):CM4MOTOR.RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 340
+y 90
+w 30
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "X"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 340
+y 115
+w 30
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Y"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 15
+y 295
+w 605
+h 30
+lineColor index 56
+fill
+fillColor index 56
+lineWidth 4
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 88
+y 330
+w 125
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Upstream"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 420
+y 330
+w 125
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Downstream"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 160
+y 300
+w 325
+h 20
+font "helvetica-medium-r-18.0"
+fontAlign "center"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "CAM Position Readback"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 340
+y 140
+w 30
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 54
+bgColor index 0
+useDisplayBg
+value {
+  "Roll"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 385
+y 140
+w 100
+h 16
+controlPv "$(U):GIRD_ROLL"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 20
+fgAlarm
+bgColor index 55
+autoHeight
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 395
+y 395
+w 100
+h 16
+controlPv "$(U):CM5MOTOR.RBV"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 170
+y 420
+w 100
+h 16
+controlPv "$(U):CM3READDEG"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 170
+y 395
+w 100
+h 16
+controlPv "$(U):CM2READDEG"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 170
+y 370
+w 100
+h 16
+controlPv "$(U):CM1READDEG"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 505
+y 395
+w 100
+h 16
+controlPv "$(U):CM5READDEG"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 505
+y 370
+w 100
+h 16
+controlPv "$(U):CM4READDEG"
+format "decimal"
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 50
+autoHeight
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+showUnits
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 30
+y 370
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "CM1"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 30
+y 395
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "CM2"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 30
+y 420
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "CM3"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 355
+y 395
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "CM5"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 355
+y 370
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "CM4"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 65
+y 355
+w 100
+h 15
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Motor"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 170
+y 355
+w 100
+h 15
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Rot. Pot"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 500
+y 355
+w 100
+h 15
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Rot. Pot"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 395
+y 355
+w 100
+h 15
+font "helvetica-medium-r-12.0"
+fontAlign "center"
+fgColor index 24
+bgColor index 0
+useDisplayBg
+value {
+  "Motor"
+}
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 25
+y 60
+w 285
+h 160
+lineColor index 10
+fill
+fillColor index 4
+lineWidth 4
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 25
+y 30
+w 285
+h 30
+lineColor index 10
+fill
+fillColor index 10
+lineWidth 4
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 68
+y 35
+w 199
+h 21
+font "helvetica-medium-r-18.0"
+fontAlign "center"
+fgColor index 28
+bgColor index 0
+useDisplayBg
+value {
+  "Girder Position Setpoint"
+}
+autoSize
+endObjectProperties
+
+# (Rectangle)
+object activeRectangleClass
+beginObjectProperties
+major 4
+minor 0
+release 0
+x 85
+y 80
+w 110
+h 130
+lineColor index 7
+fill
+fillColor index 7
+lineWidth 0
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 90
+y 65
+w 100
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "Delta"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 90
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "X"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 115
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "Y"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 190
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "Roll"
+}
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 90
+y 85
+w 100
+h 18
+controlPv "$(U):D_X"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 15
+editable
+autoHeight
+motifWidget
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 90
+y 110
+w 100
+h 18
+controlPv "$(U):D_Y"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 15
+editable
+autoHeight
+motifWidget
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 90
+y 185
+w 100
+h 18
+controlPv "$(U):D_ROLL"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 15
+editable
+autoHeight
+motifWidget
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 90
+y 160
+w 100
+h 18
+controlPv "$(U):D_YAW"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 15
+editable
+autoHeight
+motifWidget
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Text Control)
+object activeXTextDspClass
+beginObjectProperties
+major 4
+minor 7
+release 0
+x 90
+y 135
+w 100
+h 18
+controlPv "$(U):D_PITCH"
+format "decimal"
+font "helvetica-medium-r-12.0"
+fgColor index 14
+bgColor index 15
+editable
+autoHeight
+motifWidget
+precision 6
+nullColor index 32
+smartRefresh
+fastUpdate
+useHexPrefix
+newPos
+objType "controls"
+noExecuteClipMask
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 160
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "Yaw"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 45
+y 135
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fontAlign "center"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "Pitch"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 85
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "mm"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 110
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "mm"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 135
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "rad"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 160
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "rad"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 200
+y 185
+w 35
+h 15
+font "helvetica-medium-r-14.0"
+fgColor index 9
+bgColor index 0
+useDisplayBg
+value {
+  "rad"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 20
+y 250
+w 325
+h 20
+font "helvetica-medium-r-18.0"
+fontAlign "center"
+fgColor index 20
+bgColor index 0
+useDisplayBg
+visPv "$(U):GIRD_MOVE_ERR"
+visMin "1"
+visMax "2"
+value {
+  "CAM POSITIONS OUT OF BOUNDS"
+}
+endObjectProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 355
+y 260
+w 109
+h 21
+font "helvetica-medium-r-18.0"
+fgColor index 35
+bgColor index 34
+useDisplayBg
+visPv "$(U):CAMSMOVINGM"
+visMin "1"
+visMax "2"
+value {
+  "CAM Moving"
+}
+autoSize
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 435
+y 295
+w 180
+h 25
+fgColor index 14
+bgColor index 6
+topShadowColor index 0
+botShadowColor index 49
+font "helvetica-medium-r-14.0"
+buttonLabel "Independent CAM motors"
+numPvs 4
+numDsps 2
+displayFileName {
+  0 "xxCamMotors.edl"
+  1 "xxLinearPotentiometers.edl"
+}
+menuLabel {
+  0 "CAM motors"
+  1 "Linear Pots"
+}
+symbols {
+  0 "U=$(U)"
+  1 "U=$(U)"
+}
+endObjectProperties
+
+# (Shell Command)
+object shellCmdClass
+beginObjectProperties
+major 4
+minor 3
+release 0
+x 500
+y 260
+w 115
+h 25
+fgColor index 14
+bgColor index 6
+topShadowColor index 0
+botShadowColor index 14
+font "helvetica-medium-r-10.0"
+buttonLabel "Calibrate CAM motors"
+numCmds 1
+command {
+  0 "/u/cd/zoven/workspace/scripts/bash/calibrateCAMmotors.sh"
+}
+endObjectProperties
+

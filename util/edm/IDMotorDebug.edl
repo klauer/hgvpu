@@ -1,0 +1,104 @@
+4 0 1
+beginScreenProperties
+major 4
+minor 0
+release 1
+x 255
+y 59
+w 400
+h 100
+font "helvetica-medium-r-18.0"
+ctlFont "helvetica-medium-r-8.0"
+btnFont "helvetica-medium-r-18.0"
+fgColor index 14
+bgColor index 55
+textColor index 14
+ctlFgColor1 index 30
+ctlFgColor2 index 32
+ctlBgColor1 index 34
+ctlBgColor2 index 35
+topShadowColor index 37
+botShadowColor index 44
+snapToGrid
+gridSize 5
+endScreenProperties
+
+# (Static Text)
+object activeXTextClass
+beginObjectProperties
+major 4
+minor 1
+release 1
+x 23
+y 8
+w 251
+h 25
+font "helvetica-medium-r-8.0"
+fgColor index 14
+bgColor index 0
+useDisplayBg
+value {
+  "2 Axis(STI) Motor Debug Screen"
+}
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 11
+y 47
+w 170
+h 25
+fgColor index 14
+bgColor index 55
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-10.0"
+buttonLabel "Upstream"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all.edl"
+}
+menuLabel {
+  0 "Upstream"
+}
+symbols {
+  0 "P=$(DEV):,M=:USMotor"
+}
+icon
+endObjectProperties
+
+# (Related Display)
+object relatedDisplayClass
+beginObjectProperties
+major 4
+minor 4
+release 0
+x 207
+y 47
+w 170
+h 25
+fgColor index 14
+bgColor index 55
+topShadowColor index 2
+botShadowColor index 12
+font "helvetica-medium-r-10.0"
+buttonLabel "Downstream"
+numPvs 4
+numDsps 1
+displayFileName {
+  0 "motorx_all_mc.edl"
+}
+menuLabel {
+  0 "Downstream"
+}
+symbols {
+  0 "P=$(DEV):,M=:DSMotor"
+}
+icon
+endObjectProperties
+

@@ -16,7 +16,7 @@ option -c;       /* don't wait for all channels to connect */
 
 %%# define	TIMEOUT		10
 
-long	camCalAbort;
+int32_t camCalAbort;
 assign	camCalAbort "{S}:CALABORT";
 monitor camCalAbort;
 
@@ -63,25 +63,25 @@ assign	calCam5M to "{S}:CALCAM5M";
 monitor	calCam5M;
 
 /* These variables are used to disable all other motion during CAM calibration */
-long	cam1EnableCtl;
+int32_t cam1EnableCtl;
 assign	cam1EnableCtl to "{S}:CM1MOTOR.SPMG";
 
-long	cam2EnableCtl;
+int32_t cam2EnableCtl;
 assign	cam2EnableCtl to "{S}:CM2MOTOR.SPMG";
 
-long	cam3EnableCtl;
+int32_t cam3EnableCtl;
 assign	cam3EnableCtl to "{S}:CM3MOTOR.SPMG";
 
-long	cam4EnableCtl;
+int32_t cam4EnableCtl;
 assign	cam4EnableCtl to "{S}:CM4MOTOR.SPMG";
 
-long	cam5EnableCtl;
+int32_t cam5EnableCtl;
 assign	cam5EnableCtl to "{S}:CM5MOTOR.SPMG";
 
-long	trans1EnableCtl;
+int32_t trans1EnableCtl;
 assign	trans1EnableCtl to "{S}:TM1MOTOR.SPMG";
 
-long	trans2EnableCtl;
+int32_t trans2EnableCtl;
 assign	trans2EnableCtl to "{S}:TM1MOTOR.SPMG";
 
 

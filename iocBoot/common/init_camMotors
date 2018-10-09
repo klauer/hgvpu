@@ -98,27 +98,27 @@ asynSetOption("L4", -1, "crtscts", "N")
 # ========================================================================
 # Setup/Configure SmartMotor parameters
 # -------------------------------------------------------------------------
-# SmartCreateController(motorPortName,asynPortName,realAxis,virtualAxis,movingPollPeriode,idlePollPeriode)
+# SmartCreateController(motorPortName,asynPortName,realAxis,virtualAxis,movingPollPeriode,idlePollPeriode,defaultClass)
 #   motorPortName     - motor moduel port name
 #   asynPortName      - asyn port name for serial communication
 #   realAxis          - number of real axis
 #   virtualAxis       - number of virtual axis
 #   movingPollPeriode - poll periode while in motion
 #   idlePollPeriode   - poll periode while idle
+#   defaultClass      - default class for the motor (4 or 5)
 # -------------------------------------------------------------------------
 
 # CAM #1 Motor
-iocshCmd("SmartCreateController(S0,L0,1,0,100,1000)")
+iocshCmd("SmartCreateController(S0,L0,1,0,100,1000,4)")
 
 # CAM #2 motor
-iocshCmd("SmartCreateController(S1,L1,1,0,100,1000)")
+iocshCmd("SmartCreateController(S1,L1,1,0,100,1000,4)")
 
 # CAM #3 motor
-iocshCmd("SmartCreateController(S2,L2,1,0,100,1000)")
+iocshCmd("SmartCreateController(S2,L2,1,0,100,1000,4)")
 
 # CAM #4 motor
-iocshCmd("SmartCreateController(S3,L3,1,0,100,1000)")
+iocshCmd("SmartCreateController(S3,L3,1,0,100,1000,4)")
 
 # CAM #5 motor
-iocshCmd("SmartCreateController(S4,L4,1,0,100,1000)")
-
+iocshCmd("SmartCreateController(S4,L4,1,0,100,1000,4)")

@@ -16,8 +16,10 @@
 #include <registryFunction.h>
 #include <epicsExport.h>
 #include <recSup.h>
-#include <genSubRecord.h>
+#include <aSubRecord.h>
+/*
 #include <pinfo.h>
+*/
 
 /* r1     = radius of CAM1												*/
 /* r2     = radius of CAM2												*/
@@ -44,101 +46,101 @@
 /* VALE   = phi5 = calculated new position for moving CAM5				*/
 
 /*
-	r1		= *(double *)pgsub->a;
-	r2		= *(double *)pgsub->b;
-	r3		= *(double *)pgsub->c;
-	r4		= *(double *)pgsub->d;
-	r5		= *(double *)pgsub->e;
-	X1		= *(double *)pgsub->f;
-	X23		= *(double *)pgsub->g;
-	beta1	= *(double *)pgsub->h;
-	beta2	= *(double *)pgsub->i;
-	beta3	= *(double *)pgsub->j;
-	beta4	= *(double *)pgsub->k;
-	beta5	= *(double *)pgsub->l;
-	Xus		= *(double *)pgsub->m;
-	Yus		= *(double *)pgsub->n;
-	Xds		= *(double *)pgsub->o;
-	Yds		= *(double *)pgsub->p;
-	gammaRoll	= *(double *)pgsub->q;
+	r1		= *(double *)pasub->a;
+	r2		= *(double *)pasub->b;
+	r3		= *(double *)pasub->c;
+	r4		= *(double *)pasub->d;
+	r5		= *(double *)pasub->e;
+	X1		= *(double *)pasub->f;
+	X23		= *(double *)pasub->g;
+	beta1	= *(double *)pasub->h;
+	beta2	= *(double *)pasub->i;
+	beta3	= *(double *)pasub->j;
+	beta4	= *(double *)pasub->k;
+	beta5	= *(double *)pasub->l;
+	Xus		= *(double *)pasub->m;
+	Yus		= *(double *)pasub->n;
+	Xds		= *(double *)pasub->o;
+	Yds		= *(double *)pasub->p;
+	gammaRoll	= *(double *)pasub->q;
 */
 #define	CONV	57.29577951308232087721;
 
-long	calcCMxInit(struct genSubRecord *pgsub)
+long	calcCMxInit(struct aSubRecord *pasub)
 {
 	return(0);
 }
 
-long	calcCM1(struct genSubRecord *pgsub)
+long	calcCM1(struct aSubRecord *pasub)
 {
-	double	r1		= *(double *)pgsub->a;
-	double	X1		= *(double *)pgsub->f;
-	double	Yus		= *(double *)pgsub->n;
-	double	gammaRoll	= *(double *)pgsub->q;
+	double	r1		= *(double *)pasub->a;
+	double	X1		= *(double *)pasub->f;
+	double	Yus		= *(double *)pasub->n;
+	double	gammaRoll	= *(double *)pasub->q;
 		
 	double	phi1 = asin((Yus + gammaRoll * X1) / r1);
 	phi1 = phi1 * CONV;
-	*(double *)pgsub->vala = phi1;
+	*(double *)pasub->vala = phi1;
 
 return(0);
 }
 
-long	calcCM2(struct genSubRecord *pgsub)
+long	calcCM2(struct aSubRecord *pasub)
 {
-	double	r2		= *(double *)pgsub->b;
-	double	X23		= *(double *)pgsub->g;
-	double	beta2	        = *(double *)pgsub->i;
-	double	Xus		= *(double *)pgsub->m;
-	double	Yus		= *(double *)pgsub->n;
-	double	gammaRoll	= *(double *)pgsub->q;
+	double	r2		= *(double *)pasub->b;
+	double	X23		= *(double *)pasub->g;
+	double	beta2	= *(double *)pasub->i;
+	double	Xus		= *(double *)pasub->m;
+	double	Yus		= *(double *)pasub->n;
+	double	gammaRoll	= *(double *)pasub->q;
 	
 	double	phi2 = asin(((Yus - gammaRoll * X23) * cos(beta2) + (Xus * sin(beta2))) / r2);
 	phi2 = phi2 * CONV;
-	*(double *)pgsub->valb = phi2;
+	*(double *)pasub->valb = phi2;
 
 return(0);
 }
 
-long	calcCM3(struct genSubRecord *pgsub)
+long	calcCM3(struct aSubRecord *pasub)
 {
-	double	r3		= *(double *)pgsub->c;
-	double	X23		= *(double *)pgsub->g;
-	double	beta3	        = *(double *)pgsub->j;
-	double	Xus		= *(double *)pgsub->m;
-	double	Yus		= *(double *)pgsub->n;
-	double	gammaRoll	= *(double *)pgsub->q;
+	double	r3		= *(double *)pasub->c;
+	double	X23		= *(double *)pasub->g;
+	double	beta3	= *(double *)pasub->j;
+	double	Xus		= *(double *)pasub->m;
+	double	Yus		= *(double *)pasub->n;
+	double	gammaRoll	= *(double *)pasub->q;
 	
 	double	phi3 = asin(((Yus - gammaRoll * X23) * cos(beta3) - (Xus * sin(beta3))) / r3);
 	phi3 = phi3 * CONV;
-	*(double *)pgsub->valc = phi3;
+	*(double *)pasub->valc = phi3;
 
 return(0);
 }
 
-long	calcCM4(struct genSubRecord *pgsub)
+long	calcCM4(struct aSubRecord *pasub)
 {
-	double	r4		= *(double *)pgsub->d;
-	double	beta4	        = *(double *)pgsub->k;
-	double	Xds		= *(double *)pgsub->o;
-	double	Yds		= *(double *)pgsub->p;
+	double	r4		= *(double *)pasub->d;
+	double	beta4	= *(double *)pasub->k;
+	double	Xds		= *(double *)pasub->o;
+	double	Yds		= *(double *)pasub->p;
 	
 	double	phi4 = asin(((Yds * cos(beta4)) + (Xds * sin(beta4))) / r4);
 	phi4 = phi4 * CONV;
-	*(double *)pgsub->vald = phi4;
+	*(double *)pasub->vald = phi4;
 
 return(0);
 }
 
-long	calcCM5(struct genSubRecord *pgsub)
+long	calcCM5(struct aSubRecord *pasub)
 {
-	double	r5		= *(double *)pgsub->e;
-	double	beta5	        = *(double *)pgsub->l;
-	double	Xds		= *(double *)pgsub->o;
-	double	Yds		= *(double *)pgsub->p;
+	double	r5		= *(double *)pasub->e;
+	double	beta5   = *(double *)pasub->l;
+	double	Xds		= *(double *)pasub->o;
+	double	Yds		= *(double *)pasub->p;
 	
 	double	phi5 = asin(((Yds * cos(beta5)) - (Xds * sin(beta5))) / r5);
 	phi5 = phi5 * CONV;
-	*(double *)pgsub->vale = phi5;
+	*(double *)pasub->vale = phi5;
 
 return(0);
 }
